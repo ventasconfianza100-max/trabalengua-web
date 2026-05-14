@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { api, formatCLP, resolveImage } from "../lib/api";
 import { ChevronLeft, Search, X } from "lucide-react";
 import { ProductQuickShopDialog } from "../components/ProductQuickShopDialog";
+import { STOCK } from "../data/stock";
 
 const SIZES = ["4", "6", "8", "10", "12", "14", "16", "S", "M", "L", "XL"];
 
@@ -105,12 +106,14 @@ const AMANCAY_PRODUCT_TEMPLATES = [
   },
 ];
 
-const createSizes = (price) =>
-  SIZES.map((size) => ({
+const createSizes = (price, slug, type_key) => {
+  const schoolStock = STOCK[slug]?.[type_key] || {};
+  return SIZES.map((size) => ({
     size,
-    stock: 5,
+    stock: schoolStock[size] ?? 0,
     price,
   }));
+};
 
 const getDefaultData = (slug) => {
   const school = DEFAULT_SCHOOLS.find((s) => s.slug === slug);
@@ -122,7 +125,13 @@ const getDefaultData = (slug) => {
       ? AMANCAY_PRODUCT_TEMPLATES
       : PRODUCT_TEMPLATES;
 
-  const products = templates.map((product) => ({
+  // Only include products that have at least some stock defined for this school
+  const schoolStock = STOCK[slug] || {};
+  const filteredTemplates = slug === "escuela-amancay"
+    ? templates
+    : templates.filter((p) => schoolStock[p.type_key] !== undefined);
+
+  const products = filteredTemplates.map((product) => ({
     id: `${school.slug}-${product.type_key}`,
     school_id: school.id,
     school_slug: school.slug,
@@ -130,7 +139,7 @@ const getDefaultData = (slug) => {
     type_key: product.type_key,
     name: product.name,
     image_url: product.image_url,
-    sizes: createSizes(product.base_price),
+    sizes: createSizes(product.base_price, slug, product.type_key),
     base_price: product.base_price,
   }));
 
@@ -368,12 +377,6 @@ const SchoolPage = () => {
                       alt={p.name}
                       className={`w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 ${totalStock === 0 ? "opacity-55" : ""}`}
                     />
-
-                    {p.dynamic_stock && (
-                      <div className="absolute top-3 right-3 bg-[#FF4D4D] text-white text-[9px] font-bold uppercase tracking-widest px-2 py-1">
-                        Stock combinado
-                      </div>
-                    )}
                   </div>
 
                   <div className="mt-4 flex items-baseline justify-between gap-2">
