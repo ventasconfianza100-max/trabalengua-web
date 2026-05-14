@@ -1,0 +1,116 @@
+{
+  "project_name": "Trabalengua Escolares",
+  "theme": "light",
+  "archetype": "Archetype 4 (Swiss & High-Contrast)",
+  "core_philosophy": "Minimalista, elegante, claro, rápido, intuitivo y profesional. No web recargada. Priorizar claridad, velocidad, facilidad de uso y confianza. Diseño centrado en mobile-first con un flujo de compra sin fricciones.",
+  "colors": {
+    "background": {
+      "default": "#FFFFFF",
+      "surface": "#F9FAFB",
+      "surface_alt": "#F3F4F6",
+      "overlay": "rgba(0, 0, 0, 0.4)"
+    },
+    "text": {
+      "primary": "#0A0A0A",
+      "secondary": "#4B5563",
+      "muted": "#9CA3AF",
+      "inverse": "#FFFFFF"
+    },
+    "brand": {
+      "primary": "#FF4D4D",
+      "primary_hover": "#E63E3E",
+      "primary_muted": "rgba(255, 77, 77, 0.1)"
+    },
+    "utility": {
+      "border": "#E5E7EB",
+      "border_focus": "#0A0A0A",
+      "success": "#10B981",
+      "error": "#EF4444"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Outfit, sans-serif",
+      "body": "Manrope, sans-serif"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-semibold",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-semibold",
+      "h3": "text-xl sm:text-2xl font-medium",
+      "body": "text-base leading-relaxed text-gray-800",
+      "body_small": "text-sm text-gray-600",
+      "label": "text-xs font-bold uppercase tracking-[0.15em] text-gray-500"
+    }
+  },
+  "layout_and_spacing": {
+    "philosophy": "Generous spacing. Allow the school names and product photos to act as the primary visual anchors.",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "grids": {
+      "schools_grid": "Bento Grid: grid-cols-1 md:grid-cols-12 gap-6. Colegio Talca MUST span 12 cols (or 8 cols with image) to be the hero/featured item. Other schools span 4 cols each.",
+      "product_grid": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8. High visual impact per item."
+    },
+    "spacing_scale": {
+      "section_y": "py-16 md:py-24",
+      "component_gap": "gap-8 md:gap-12"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#FF4D4D] text-white hover:bg-[#E63E3E] transition-colors px-6 py-3 rounded-none font-medium text-sm tracking-wide",
+      "secondary": "bg-transparent text-[#0A0A0A] border border-[#0A0A0A] hover:bg-gray-50 transition-colors px-6 py-3 rounded-none font-medium text-sm tracking-wide",
+      "ghost": "text-gray-600 hover:text-[#0A0A0A] transition-colors hover:bg-gray-100 px-4 py-2"
+    },
+    "cards": {
+      "product": "Group element with image overflow hidden, flat layout (no shadow by default). Subdued 1px border (#E5E7EB) on hover. Title and price left-aligned underneath.",
+      "school": "Flat bento card, bg-white, 1px border border-gray-200. Hover: border-gray-400, subtle translate-y-[-2px]."
+    },
+    "navigation": {
+      "header": "Sticky header with backdrop-blur-xl and bg-white/80. Minimal links. Cart icon with absolute positioned badge for item count.",
+      "cart": "Slide-over drawer (Shadcn Sheet) from the right. Clear order summary, edit quantities, primary checkout button."
+    },
+    "product_detail": {
+      "size_selector": "Grid of small rectangular buttons (grid-cols-4 or 5). Selected state: bg-black text-white. Unselected: border-gray-200 text-gray-700 hover:border-black."
+    },
+    "admin_panel": {
+      "style": "Strict, dense, function-first (Archetype 4). High contrast table layouts (border-collapse). Flat UI without card shadows. Left aligned navigation sidebar."
+    }
+  },
+  "interactions": {
+    "hover": "Subtle border color darkening or simple background shifts. No heavy bouncing or 3D effects.",
+    "transitions": "transition-all duration-200 ease-in-out",
+    "focus": "focus:outline-none focus:ring-2 focus:ring-[#FF4D4D] focus:ring-offset-2"
+  },
+  "assets": {
+    "logo": {
+      "url": "https://customer-assets.emergentagent.com/job_943ebc25-bc5f-4d6e-b906-83667be0dcb5/artifacts/akmnrxla_logo%20trabalengua.png",
+      "description": "Trabalengua Escolares main logo (Black cursive 'tl.' with coral/red dot accent)."
+    },
+    "images": {
+      "hero_background": {
+        "url": "https://images.pexels.com/photos/19573674/pexels-photo-19573674.jpeg",
+        "description": "Elegant facade of a school building (Colegio Talca placeholder), to be used with a white/transparent or black/30 overlay."
+      },
+      "products": {
+        "buzo": "https://images.unsplash.com/photo-1632232963035-bc14755747c9",
+        "polera": "https://images.unsplash.com/photo-1721134574801-2b0833d3b6a4",
+        "polar": "https://images.pexels.com/photos/12246169/pexels-photo-12246169.jpeg",
+        "generic_fabric": "https://images.unsplash.com/photo-1600294421265-c354b772e790"
+      }
+    }
+  },
+  "icons": {
+    "library": "lucide-react",
+    "style": "stroke-width 1.5, simple and unadorned (Cart, Chevron, Menu, User, X)"
+  },
+  "testing": {
+    "attributes": "ALL interactive elements MUST include a data-testid attribute in kebab-case (e.g., data-testid='add-to-cart-btn', data-testid='school-select-talca')."
+  },
+  "instructions_to_main_agent": [
+    "Use Outfit for Headings and Manrope for Body.",
+    "Ensure Colegio Talca is visually dominant on the home page (larger image, spans more columns).",
+    "Keep sizes distinct: 4, 6, 8, 10, 12, 14, 16, S, M, L, XL (total 11).",
+    "Implement the 'bank transfer' workflow at Checkout, not a credit card gateway.",
+    "Do NOT use generic border-radius (rounded-xl) heavily; keep shapes sharp (rounded-none or max rounded-sm) to match the elegant minimal vibe.",
+    "Apply data-testid to every interactive component."
+  ]
+}

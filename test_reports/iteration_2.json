@@ -1,0 +1,27 @@
+{
+  "summary": "Iteration 2 testing for delivery, trash workflow, bordados/contacto pages, WhatsApp float, admin dashboard chart + school filter. All 21 backend pytest tests passed (100%). Full frontend e2e verified: header without Admin link, floating WhatsApp button on all public pages & hidden on /admin/*, discreet footer admin link, Bordados page with wa.me prefilled message, Contacto page with maps/instagram/hours, checkout delivery selector (pickup $0 / delivery $4.990) with live total recompute and proper note switching, big total card, live customer data preview, items summary, bank details (RUT 78.286.443.2, Mercado Pago, Cuenta Vista, 1025957476), confirmation page, admin 4-tab dashboard with stock bar chart + stat cards, school filter affects both Dashboard chart AND Productos list, Pedidos trash icon soft-deletes to Papelera, Papelera offers Restaurar and Definitivo. Counts badge updates correctly.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Tab buttons in AdminDashboard (Dashboard/Productos/Pedidos/Papelera) do NOT have data-testid attributes (only trash/restore testids exist: order-delete-*, order-restore-*, order-permanent-*, tab-trash). Add data-testid=admin-tab-{dashboard|products|orders|trash} + admin-school-filter + admin-stock-chart to improve test robustness (tests still passed via text locators).",
+    "Checkout delivery cards use testids delivery-pickup and delivery-delivery (not delivery-option-pickup as mentioned in the problem statement) - minor naming inconsistency but works.",
+    "Customer preview section uses data-testid=summary-customer (not customer-preview), delivery fee line uses summary-delivery-fee (not delivery-fee). These work but doc mismatch.",
+    "Hard-delete endpoint correctly returns 404 for already-deleted orders (verified). Soft-delete+restore idempotency OK.",
+    "Pre-existing: stock decrement in POST /api/orders is not atomic (race condition). Same as iteration 1.",
+    "Pre-existing: JWT_SECRET falls back to 'dev-secret'. Same as iteration 1."
+  ],
+  "updated_files": ["/app/backend/tests/backend_test.py"],
+  "success_rate": {"backend": "100% (21/21)", "frontend": "100%"},
+  "test_credentials": "admin@trabalengua.cl / admin123 (seeded, verified)",
+  "seed_data_creation": "Created multiple TEST_* orders via checkout (TEST_E2E delivery $34.990 to Colegio Talca, TEST_Delivery, TEST_Cliente, etc). Orders ended up: 7 active + 1 permanently deleted during hard-delete test. Stock decremented on Colegio Talca Buzo Completo size 10 and Pantalón de Buzo.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend tests at /app/backend/tests/backend_test.py (21 cases covering schools, auth, delivery pickup/delivery/invalid, trash filter, soft-delete, restore, hard-delete, 404 edges, auth-required on all admin endpoints). Testids actually used differ slightly from problem statement: checkout = delivery-pickup / delivery-delivery, pickup-note / delivery-note, summary-customer (not customer-preview), summary-delivery-fee (not delivery-fee). Admin tabs DON'T have data-testid - use text selectors 'Dashboard'/'Productos'/'Pedidos'/'Papelera'. Trash action testids: order-delete-{id}, order-restore-{id}, order-permanent-{id}. Float btn: whatsapp-float-btn (hidden on /admin/*). Footer admin: footer-admin-link. Bordados: bordados-whatsapp-btn, bordados-cta-btn, bordados-hero-image, bordados-page.",
+  "rca of the issue": "N/A - no issues found. All 19 features from the review request verified working. Backend: delivery_fee math, trash filter isolation, soft/restore/hard-delete endpoints, 401 on missing auth, 404 on non-existent IDs. Frontend: header nav clean, WhatsApp float conditional on pathname, footer discreet admin link, checkout total recomputes on delivery toggle, admin chart+filter+trash workflow."
+}

@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --brand: #FF4D4D;
+    --brand-hover: #E63E3E;
+    --ink: #0A0A0A;
+    --surface: #F9FAFB;
+    --surface-alt: #F3F4F6;
+    --border: #E5E7EB;
+    --text-secondary: #4B5563;
+    --text-muted: #9CA3AF;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    background: #ffffff;
+    color: var(--ink);
+}
+
+body {
+    margin: 0;
+    font-family: 'Manrope', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Outfit', system-ui, sans-serif;
+    letter-spacing: -0.015em;
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 4%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 4%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 4%;
+        --primary: 0 0% 4%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 0 0% 96%;
+        --secondary-foreground: 0 0% 9%;
+        --muted: 0 0% 96%;
+        --muted-foreground: 0 0% 45%;
+        --accent: 0 0% 96%;
+        --accent-foreground: 0 0% 9%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 220 13% 91%;
+        --input: 220 13% 91%;
+        --ring: 0 0% 4%;
+        --radius: 0.25rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+/* Brand button base */
+.btn-brand {
+    background: var(--brand);
+    color: #fff;
+    transition: background-color 200ms ease;
+}
+.btn-brand:hover {
+    background: var(--brand-hover);
+}
+
+/* Label style */
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+/* Subtle grid backdrop */
+.grid-backdrop {
+    background-image:
+        linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+/* Size pill */
+.size-pill {
+    border: 1px solid var(--border);
+    padding: 10px 0;
+    font-weight: 500;
+    font-size: 14px;
+    background: #fff;
+    color: var(--ink);
+    transition: all 160ms ease;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 2px;
+}
+.size-pill:hover:not(:disabled) {
+    border-color: var(--ink);
+}
+.size-pill.selected {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+}
+.size-pill:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    color: var(--text-muted);
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+.size-pill:disabled::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(
+        to bottom left,
+        transparent calc(50% - 1px),
+        #d1d5db calc(50% - 1px),
+        #d1d5db calc(50% + 1px),
+        transparent calc(50% + 1px)
+    );
+    pointer-events: none;
+}
+
+/* Reveal animation */
+@keyframes reveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+    animation: reveal 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hide number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
