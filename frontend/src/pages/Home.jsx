@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { api, resolveImage } from "../lib/api";
 import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors } from "lucide-react";
 import { ContactSection } from "../components/ContactSection";
 
@@ -44,37 +43,19 @@ const DEFAULT_SCHOOLS = [
     id: 6,
     name: "Escuela Amancay",
     slug: "escuela-amancay",
-    description: "Uniformes oficiales de la Escuela Amancay.",
+    description: "Cotonas y delantales para Escuela Amancay.",
     featured: false,
   },
 ];
 
 const Home = () => {
-  const [schools, setSchools] = useState(DEFAULT_SCHOOLS);
-  const [bordadoImage, setBordadoImage] = useState(null);
+  const [schools] = useState(DEFAULT_SCHOOLS);
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    api
-      .get("/schools")
-      .then((r) => {
-        if (r.data && r.data.length > 0) {
-          setSchools(r.data);
-        }
-      })
-      .catch(() => {});
-
-    api
-      .get("/settings")
-      .then((r) => {
-        setBordadoImage(r.data?.bordado_image_url);
-      })
-      .catch(() => {});
-  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return schools;
+
     return schools.filter(
       (s) =>
         s.name.toLowerCase().includes(q) ||
@@ -90,6 +71,7 @@ const Home = () => {
       {/* HERO */}
       <section className="relative border-b border-gray-200 overflow-hidden">
         <div className="absolute inset-0 grid-backdrop opacity-60 pointer-events-none" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative">
           <div className="grid md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7 reveal">
@@ -191,6 +173,7 @@ const Home = () => {
               size={16}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             />
+
             <input
               type="text"
               value={query}
@@ -199,6 +182,7 @@ const Home = () => {
               className="w-full border border-gray-300 pl-9 pr-9 py-3 text-sm focus:outline-none focus:border-black rounded-sm bg-white"
               data-testid="school-search-input"
             />
+
             {query && (
               <button
                 onClick={() => setQuery("")}
@@ -271,12 +255,15 @@ const Home = () => {
                 data-testid={`school-card-${s.slug}`}
               >
                 <p className="eyebrow">Colegio</p>
+
                 <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight">
                   {s.name}
                 </h3>
+
                 <p className="mt-2 text-sm text-gray-600 line-clamp-2">
                   {s.description}
                 </p>
+
                 <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium group-hover:text-[#FF4D4D] transition-colors">
                   Ver prendas <ArrowRight size={16} />
                 </div>
@@ -297,10 +284,7 @@ const Home = () => {
             <div className="grid md:grid-cols-12 items-stretch">
               <div className="md:col-span-4 aspect-[4/3] md:aspect-auto bg-gray-100 border-b md:border-b-0 md:border-r border-gray-200 overflow-hidden">
                 <img
-                  src={
-                    resolveImage(bordadoImage) ||
-                    "/images/bordados.jpg"
-                  }
+                  src="/images/bordados.jpg"
                   alt="Bordado de nombre en prenda escolar"
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   data-testid="bordados-home-image"
@@ -314,9 +298,11 @@ const Home = () => {
 
                 <div className="flex-1 min-w-0">
                   <p className="eyebrow">Servicio extra</p>
+
                   <h3 className="mt-2 font-display text-2xl md:text-3xl font-semibold tracking-tight">
                     También bordamos nombres en tus uniformes.
                   </h3>
+
                   <p className="mt-2 text-sm md:text-base text-gray-600 max-w-xl">
                     Personaliza cada prenda con el nombre de tu hijo. Terminación profesional,
                     directo desde nuestro taller.
@@ -341,6 +327,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
             <p className="eyebrow">02 — Cómo comprar</p>
+
             <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
               Tres pasos. Sin vueltas.
             </h2>
@@ -368,9 +355,11 @@ const Home = () => {
                 <span className="font-display text-5xl text-gray-200 font-semibold">
                   {step.n}
                 </span>
+
                 <h3 className="mt-3 font-display text-xl font-medium">
                   {step.t}
                 </h3>
+
                 <p className="mt-2 text-sm text-gray-600">
                   {step.d}
                 </p>
