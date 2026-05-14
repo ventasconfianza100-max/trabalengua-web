@@ -3,15 +3,18 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../components/ui/s
 import { useCart } from "../context/CartContext";
 import { formatCLP, resolveImage } from "../lib/api";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 export const CartDrawer = () => {
   const { items, open, setOpen, updateQty, removeItem, total } = useCart();
-  const navigate = useNavigate();
 
-  const goCheckout = () => {
+  const goWhatsApp = () => {
+    const lineas = items.map(
+      (it) => `• ${it.product_name} - Talla ${it.size} x${it.quantity} - ${formatCLP(it.unit_price * it.quantity)}`
+    ).join("\n");
+    const mensaje = `Hola! Quiero hacer un pedido de Trabalengua 🛍️\n\n${lineas}\n\nTotal: ${formatCLP(total)}`;
+    const url = `https://wa.me/56978838174?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
     setOpen(false);
-    navigate("/checkout");
   };
 
   return (
@@ -93,11 +96,11 @@ export const CartDrawer = () => {
                 <span className="font-display text-2xl font-semibold" data-testid="cart-total">{formatCLP(total)}</span>
               </div>
               <button
-                onClick={goCheckout}
+                onClick={goWhatsApp}
                 className="w-full btn-brand py-3.5 text-sm font-medium tracking-wide rounded-sm"
                 data-testid="cart-checkout-btn"
               >
-                Ir al checkout
+                Finalizar pedido por WhatsApp 💬
               </button>
               <p className="text-[11px] text-center text-gray-500">
                 Pago por transferencia. Confirmamos tu pedido por WhatsApp.
