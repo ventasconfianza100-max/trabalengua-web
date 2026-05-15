@@ -22,7 +22,7 @@ export const CartDrawer = () => {
       (it) => `• ${it.school_name} - ${it.product_name} - Talla ${it.size} x${it.quantity} - ${formatCLP(it.unit_price * it.quantity)}`
     ).join("\n");
 
-    const mensaje = `Hola! Quiero hacer un pedido de Trabalengua 🛍️\n\n👤 Nombre: ${nombre.trim()} ${apellido.trim()}\n📱 Teléfono: +569${telefono.trim()}\n\n${lineas}\n\nTotal: ${formatCLP(total)}`;
+    const mensaje = `Hola! Quiero hacer un pedido de Trabalengua\n\nNombre: ${nombre.trim()} ${apellido.trim()}\nTeléfono: +569${telefono.trim()}\n\n${lineas}\n\nTotal: ${formatCLP(total)}`;
     const url = `https://wa.me/56978838174?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank");
     setOpen(false);
