@@ -123,15 +123,15 @@ const SchoolPage = () => {
   return (
     <div data-testid="school-page">
       <section className="border-b border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-7">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4">
           <Link to="/" className="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-black" data-testid="back-home-link">
             <ChevronLeft size={16} /> Volver al inicio
           </Link>
-          <div className="mt-4 flex items-end justify-between flex-wrap gap-4">
+          <div className="mt-2 flex items-end justify-between flex-wrap gap-4">
             <div>
               <p className="eyebrow">Catálogo</p>
-              <h1 className="mt-2 font-display text-4xl md:text-5xl font-semibold tracking-tight">{school.name}</h1>
-              {school.description && <p className="mt-3 text-gray-600 max-w-xl">{school.description}</p>}
+              <h1 className="mt-1 font-display text-4xl md:text-5xl font-semibold tracking-tight">{school.name}</h1>
+              {school.description && <p className="mt-1 text-gray-600 max-w-xl">{school.description}</p>}
             </div>
             <p className="text-sm text-gray-500">{products.length} {products.length === 1 ? "prenda disponible" : "prendas disponibles"}</p>
           </div>
