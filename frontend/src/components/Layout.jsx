@@ -148,7 +148,7 @@ export const Header = () => {
 };
 
 export const Footer = () => (
-  <footer className="border-t border-gray-200 mt-24 bg-white" data-testid="site-footer">
+  <footer className="border-t border-gray-200 mt-24 bg-[#FFF0EE]" data-testid="site-footer">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-4 gap-10">
       <div>
         <div className="flex items-center gap-3">
@@ -200,7 +200,7 @@ export const Footer = () => (
         </ul>
       </div>
     </div>
-    <div className="border-t border-gray-100 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
+    <div className="border-t border-[#FFD5D0] py-5 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
       <p className="text-xs text-gray-500">
         © {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.
       </p>
