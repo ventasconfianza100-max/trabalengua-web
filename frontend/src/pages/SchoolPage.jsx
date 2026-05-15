@@ -185,7 +185,7 @@ const SchoolPage = () => {
                   className="group block cursor-pointer text-left rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black"
                   data-testid={`product-card-${p.type_key}`}
                 >
-                  <div className="aspect-[4/5] overflow-hidden bg-[#FFF0EE] border border-[#FFD5D0] group-hover:border-[#FF4D4D] transition-colors relative">
+                  <div className="aspect-[4/5] overflow-hidden bg-[#E8F5F0] border border-[#A8D5C2] group-hover:border-[#2ECC71] transition-colors relative">
                     <img
                       src={getProductImage(p.image_url)}
                       alt={p.name}
