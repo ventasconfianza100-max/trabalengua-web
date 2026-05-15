@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../components/ui/sheet";
 import { useCart } from "../context/CartContext";
 import { formatCLP, resolveImage } from "../lib/api";
@@ -6,15 +6,29 @@ import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 
 export const CartDrawer = () => {
   const { items, open, setOpen, updateQty, removeItem, total } = useCart();
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [error, setError] = useState("");
 
   const goWhatsApp = () => {
+    if (!nombre.trim() || !apellido.trim() || !telefono.trim()) {
+      setError("Por favor completa tu nombre, apellido y teléfono.");
+      return;
+    }
+    setError("");
+
     const lineas = items.map(
-      (it) => `• ${it.product_name} - Talla ${it.size} x${it.quantity} - ${formatCLP(it.unit_price * it.quantity)}`
+      (it) => `• ${it.school_name} - ${it.product_name} - Talla ${it.size} x${it.quantity} - ${formatCLP(it.unit_price * it.quantity)}`
     ).join("\n");
-    const mensaje = `Hola! Quiero hacer un pedido de Trabalengua 🛍️\n\n${lineas}\n\nTotal: ${formatCLP(total)}`;
+
+    const mensaje = `Hola! Quiero hacer un pedido de Trabalengua 🛍️\n\n👤 Nombre: ${nombre.trim()} ${apellido.trim()}\n📱 Teléfono: +569${telefono.trim()}\n\n${lineas}\n\nTotal: ${formatCLP(total)}`;
     const url = `https://wa.me/56978838174?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank");
     setOpen(false);
+    setNombre("");
+    setApellido("");
+    setTelefono("");
   };
 
   return (
@@ -91,10 +105,43 @@ export const CartDrawer = () => {
             </div>
 
             <div className="border-t border-gray-200 px-6 py-5 space-y-4 bg-gray-50">
+              {/* Formulario */}
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-gray-700 uppercase tracking-wide">Tus datos</p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-black rounded-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Apellido"
+                    value={apellido}
+                    onChange={(e) => setApellido(e.target.value)}
+                    className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-black rounded-sm"
+                  />
+                </div>
+                <div className="flex items-center border border-gray-300 rounded-sm overflow-hidden focus-within:border-black">
+                  <span className="px-3 py-2 text-sm text-gray-500 bg-gray-100 border-r border-gray-300">+569</span>
+                  <input
+                    type="tel"
+                    placeholder="12345678"
+                    value={telefono}
+                    onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 8))}
+                    className="flex-1 px-3 py-2 text-sm focus:outline-none bg-white"
+                  />
+                </div>
+                {error && <p className="text-xs text-red-500">{error}</p>}
+              </div>
+
               <div className="flex justify-between items-baseline">
                 <span className="text-sm text-gray-600">Total</span>
                 <span className="font-display text-2xl font-semibold" data-testid="cart-total">{formatCLP(total)}</span>
               </div>
+
               <button
                 onClick={goWhatsApp}
                 className="w-full btn-brand py-3.5 text-sm font-medium tracking-wide rounded-sm"
