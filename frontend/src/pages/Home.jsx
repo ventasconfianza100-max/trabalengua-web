@@ -141,8 +141,42 @@ const Home = () => {
       </section>
 
       {/* COLEGIOS */}
-      <section id="colegios" className="py-16 md:py-24 bg-[#F7F7F5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="colegios" className="py-16 md:py-24 bg-[#F7F7F5] relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+            <defs>
+              <pattern id="colegiosPattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+                <g transform="translate(8,8) rotate(5)">
+                  <rect x="0" y="10" width="30" height="22" fill="none" stroke="#b8c4c8" strokeWidth="1.1"/>
+                  <rect x="11" y="18" width="8" height="14" fill="none" stroke="#b8c4c8" strokeWidth="0.9"/>
+                  <rect x="2" y="13" width="6" height="6" fill="none" stroke="#b8c4c8" strokeWidth="0.8"/>
+                  <rect x="22" y="13" width="6" height="6" fill="none" stroke="#b8c4c8" strokeWidth="0.8"/>
+                  <polygon points="0,10 15,0 30,10" fill="none" stroke="#b8c4c8" strokeWidth="1.1"/>
+                  <line x1="15" y1="0" x2="15" y2="-4" stroke="#b8c4c8" strokeWidth="1"/>
+                </g>
+                <g transform="translate(78,12) rotate(-15)">
+                  <rect x="2" y="4" width="20" height="22" rx="3" fill="none" stroke="#b8c4c8" strokeWidth="1.1"/>
+                  <path d="M7,4 Q12,-2 17,4" fill="none" stroke="#b8c4c8" strokeWidth="1.1"/>
+                  <rect x="5" y="12" width="12" height="8" rx="1" fill="none" stroke="#b8c4c8" strokeWidth="0.8"/>
+                </g>
+                <g transform="translate(10,78) rotate(20)">
+                  <path d="M7,0 L0,7 L4,7 L4,20 L16,20 L16,7 L20,7 L13,0 Q10,3 7,0Z" fill="none" stroke="#b8c4c8" strokeWidth="1.1"/>
+                </g>
+                <g transform="translate(82,78) rotate(-8)">
+                  <circle cx="10" cy="18" r="9" fill="none" stroke="#b8c4c8" strokeWidth="1.1"/>
+                  <line x1="10" y1="9" x2="10" y2="2" stroke="#b8c4c8" strokeWidth="1"/>
+                  <path d="M7,2 Q10,-1 13,2" fill="none" stroke="#b8c4c8" strokeWidth="1"/>
+                </g>
+                <g transform="translate(48,48) rotate(10)">
+                  <line x1="0" y1="0" x2="0" y2="22" stroke="#b8c4c8" strokeWidth="1"/>
+                  <polygon points="0,2 14,7 0,12" fill="none" stroke="#b8c4c8" strokeWidth="1"/>
+                </g>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#colegiosPattern)" opacity="0.25"/>
+          </svg>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
             <div>
               <p className="eyebrow">01 — Colegios</p>
