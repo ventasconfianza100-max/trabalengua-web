@@ -29,8 +29,64 @@ const Home = () => {
     <div data-testid="home-page">
 
       {/* HERO */}
-      <section className="relative border-b border-gray-200 overflow-hidden bg-white">
-        <div className="absolute inset-0 grid-backdrop opacity-60 pointer-events-none" />
+      <section className="relative border-b border-gray-200 overflow-hidden bg-[#faf8f4]">
+        {/* Patrón escolar aleatorio */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+            <defs>
+              <pattern id="schoolPattern" x="0" y="0" width="180" height="180" patternUnits="userSpaceOnUse">
+                {/* Regla - rotada 15° */}
+                <g transform="translate(12,18) rotate(15)">
+                  <rect width="44" height="11" rx="2" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="8" y1="0" x2="8" y2="4" stroke="#c8b99a" strokeWidth="1"/>
+                  <line x1="16" y1="0" x2="16" y2="4" stroke="#c8b99a" strokeWidth="1"/>
+                  <line x1="24" y1="0" x2="24" y2="4" stroke="#c8b99a" strokeWidth="1"/>
+                  <line x1="32" y1="0" x2="32" y2="4" stroke="#c8b99a" strokeWidth="1"/>
+                  <line x1="40" y1="0" x2="40" y2="4" stroke="#c8b99a" strokeWidth="1"/>
+                </g>
+                {/* Lápiz - rotado -25° */}
+                <g transform="translate(100,10) rotate(-25)">
+                  <rect x="0" y="0" width="7" height="26" rx="1" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <polygon points="0,26 7,26 3.5,33" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="0" y1="5" x2="7" y2="5" stroke="#c8b99a" strokeWidth="0.8"/>
+                </g>
+                {/* Libro - rotado 8° */}
+                <g transform="translate(130,80) rotate(8)">
+                  <rect width="30" height="24" rx="2" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="15" y1="0" x2="15" y2="24" stroke="#c8b99a" strokeWidth="1"/>
+                  <line x1="3" y1="8" x2="12" y2="8" stroke="#c8b99a" strokeWidth="0.8"/>
+                  <line x1="3" y1="13" x2="12" y2="13" stroke="#c8b99a" strokeWidth="0.8"/>
+                </g>
+                {/* Tijeras - rotadas -40° */}
+                <g transform="translate(20,110) rotate(-40)">
+                  <circle cx="5" cy="5" r="5" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <circle cx="14" cy="5" r="5" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="8" y1="1" x2="22" y2="-8" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="11" y1="9" x2="22" y2="18" stroke="#c8b99a" strokeWidth="1.2"/>
+                </g>
+                {/* Reloj - sin rotación */}
+                <g transform="translate(75,130)">
+                  <circle cx="10" cy="10" r="10" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="10" y1="4" x2="10" y2="10" stroke="#c8b99a" strokeWidth="1"/>
+                  <line x1="10" y1="10" x2="15" y2="10" stroke="#c8b99a" strokeWidth="1"/>
+                </g>
+                {/* Gorra escolar - rotada 20° */}
+                <g transform="translate(130,140) rotate(20)">
+                  <ellipse cx="16" cy="8" rx="16" ry="5" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <line x1="16" y1="3" x2="16" y2="-6" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <circle cx="16" cy="-6" r="2" fill="none" stroke="#c8b99a" strokeWidth="1"/>
+                </g>
+                {/* Tintero - rotado -10° */}
+                <g transform="translate(50,55) rotate(-10)">
+                  <rect x="2" y="8" width="18" height="16" rx="3" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                  <ellipse cx="11" cy="8" rx="7" ry="3" fill="none" stroke="#c8b99a" strokeWidth="1.2"/>
+                </g>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#schoolPattern)" opacity="0.55"/>
+          </svg>
+        </div>
+        <div className="absolute inset-0 grid-backdrop opacity-30 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative">
           <div className="grid md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7 reveal">
