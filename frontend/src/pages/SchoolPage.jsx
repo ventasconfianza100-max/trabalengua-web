@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { formatCLP, resolveImage } from "../lib/api";
 import { ChevronLeft, Search, X } from "lucide-react";
 import { ProductQuickShopDialog } from "../components/ProductQuickShopDialog";
-import { STOCK } from "../data/stock";
+
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzLCfNiw7d4ihQ690DQxaGu88HGnoIh4-65O09qbDDzlI2zcBOd2OOmA9Uf3jgJfumq/exec";
 
 const SIZES = ["4", "6", "8", "10", "12", "14", "16", "S", "M", "L", "XL"];
 
@@ -31,36 +32,34 @@ const AMANCAY_PRODUCT_TEMPLATES = [
   { type_key: "cotonas_delantales", name: "Cotonas y delantales", base_price: 13990, image_url: "/images/productos/cotonas-delantales.jpg" },
 ];
 
-const createSizes = (price, slug, type_key) => {
-  const schoolStock = STOCK[slug]?.[type_key] || {};
-  return SIZES.map((size) => ({
-    size,
-    stock: schoolStock[size] ?? 0,
-    price,
-  }));
-};
-
-const getDefaultData = (slug) => {
+const buildProducts = (slug, stockData) => {
   const school = DEFAULT_SCHOOLS.find((s) => s.slug === slug);
   if (!school) return null;
 
   const templates = slug === "escuela-amancay" ? AMANCAY_PRODUCT_TEMPLATES : PRODUCT_TEMPLATES;
-  const schoolStock = STOCK[slug] || {};
+  const schoolStock = stockData[slug] || {};
   const filteredTemplates = slug === "escuela-amancay"
     ? templates
     : templates.filter((p) => schoolStock[p.type_key] !== undefined);
 
-  const products = filteredTemplates.map((product) => ({
-    id: `${school.slug}-${product.type_key}`,
-    school_id: school.id,
-    school_slug: school.slug,
-    school_name: school.name,
-    type_key: product.type_key,
-    name: product.name,
-    image_url: product.image_url,
-    sizes: createSizes(product.base_price, slug, product.type_key),
-    base_price: product.base_price,
-  }));
+  const products = filteredTemplates.map((product) => {
+    const sizeStock = schoolStock[product.type_key] || {};
+    return {
+      id: `${school.slug}-${product.type_key}`,
+      school_id: school.id,
+      school_slug: school.slug,
+      school_name: school.name,
+      type_key: product.type_key,
+      name: product.name,
+      image_url: product.image_url,
+      base_price: product.base_price,
+      sizes: SIZES.map((size) => ({
+        size,
+        stock: Number(sizeStock[size]) || 0,
+        price: product.base_price,
+      })),
+    };
+  });
 
   return { school, products };
 };
@@ -83,9 +82,17 @@ const SchoolPage = () => {
     setLoading(true);
     setQuery("");
     setActiveType("all");
-    const stockData = getDefaultData(slug);
-    setData(stockData);
-    setLoading(false);
+
+    fetch(SHEETS_URL)
+      .then((r) => r.json())
+      .then((stockData) => {
+        const built = buildProducts(slug, stockData);
+        setData(built);
+      })
+      .catch(() => {
+        setData(null);
+      })
+      .finally(() => setLoading(false));
   }, [slug]);
 
   const filtered = useMemo(() => {
