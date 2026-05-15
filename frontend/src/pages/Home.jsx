@@ -65,47 +65,47 @@ const DEFAULT_SCHOOLS = [
   },
 ];
 
+/* Caja con escudo + fondo difuminado basado en la misma imagen */
+const EscudoBox = ({ src, alt, boxClass = "h-36" }) => (
+  <div className={`${boxClass} relative overflow-hidden flex items-center justify-center border-b border-gray-100`}>
+    {/* Fondo: misma imagen escalada y muy difuminada */}
+    <img
+      src={src}
+      alt=""
+      aria-hidden
+      className="absolute inset-0 w-full h-full object-cover scale-150 blur-2xl opacity-40 pointer-events-none select-none"
+    />
+    {/* Capa blanca semitransparente para suavizar */}
+    <div className="absolute inset-0 bg-white/30 pointer-events-none" />
+    {/* Escudo real encima */}
+    <img
+      src={src}
+      alt={alt}
+      className="h-24 w-24 object-contain relative z-10 drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+      onError={(e) => { e.target.style.display = "none"; }}
+    />
+  </div>
+);
+
 const SchoolCard = ({ school }) => (
   <Link
     to={`/colegio/${school.slug}`}
     className="bg-white border border-gray-200 hover:border-[#FF4D4D] hover:-translate-y-1 transition-all group block rounded-sm overflow-hidden"
     data-testid={`school-card-${school.slug}`}
   >
-    {/* Imagen / escudo */}
-    <div className="h-36 bg-gray-50 flex items-center justify-center border-b border-gray-100 relative overflow-hidden">
-      <img
-        src={school.escudo}
-        alt={`Escudo ${school.name}`}
-        className="h-24 w-24 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
-        onError={(e) => { e.target.style.display = "none"; }}
-      />
-    </div>
-
-    {/* Info */}
+    <EscudoBox src={school.escudo} alt={`Escudo ${school.name}`} />
     <div className="p-5">
       <h3 className="font-display text-lg font-semibold tracking-tight">{school.name}</h3>
       <p className="mt-1 text-xs text-gray-500 line-clamp-2">{school.description}</p>
-
-      {/* Miniaturas de prendas */}
       {school.prendas?.length > 0 && (
         <div className="mt-4 flex gap-2">
           {school.prendas.map((p, i) => (
-            <div
-              key={i}
-              className="w-14 h-14 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0"
-              title={p.name}
-            >
-              <img
-                src={p.img}
-                alt={p.name}
-                className="w-full h-full object-cover"
-                onError={(e) => { e.target.parentElement.style.display = "none"; }}
-              />
+            <div key={i} className="w-14 h-14 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
+              <img src={p.img} alt={p.name} className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
             </div>
           ))}
         </div>
       )}
-
       <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF4D4D] group-hover:gap-2.5 transition-all">
         Ver prendas <ArrowRight size={13} />
       </div>
@@ -131,12 +131,9 @@ const Home = () => {
     return schools.filter((s) => s.name.toLowerCase().includes(q));
   }, [schools, query]);
 
-  // Cerrar dropdown al hacer click fuera
   useEffect(() => {
     const handler = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setDropdownOpen(false);
-      }
+      if (searchRef.current && !searchRef.current.contains(e.target)) setDropdownOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -269,14 +266,11 @@ const Home = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* Header + buscador */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
             <div>
               <p className="eyebrow">01 — Colegios</p>
               <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">Encuentra tu colegio.</h2>
             </div>
-
-            {/* Buscador con dropdown */}
             <div className="w-full md:w-80 relative" ref={searchRef} data-testid="school-search-wrap">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
               <input
@@ -289,16 +283,10 @@ const Home = () => {
                 data-testid="school-search-input"
               />
               {query && (
-                <button
-                  onClick={() => { setQuery(""); setDropdownOpen(false); }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black p-1 z-10"
-                  data-testid="school-search-clear"
-                >
+                <button onClick={() => { setQuery(""); setDropdownOpen(false); }} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black p-1 z-10" data-testid="school-search-clear">
                   <X size={16} />
                 </button>
               )}
-
-              {/* Dropdown */}
               {dropdownOpen && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 shadow-lg z-50 rounded-sm overflow-hidden">
                   {dropdownResults.length === 0 ? (
@@ -311,13 +299,11 @@ const Home = () => {
                         onClick={() => { setDropdownOpen(false); setQuery(""); }}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
                       >
-                        <div className="w-10 h-10 bg-gray-100 rounded-sm flex items-center justify-center flex-shrink-0 overflow-hidden">
-                          <img
-                            src={s.escudo}
-                            alt=""
-                            className="w-8 h-8 object-contain"
-                            onError={(e) => { e.target.style.display = "none"; }}
-                          />
+                        {/* Miniatura con difuminado en dropdown */}
+                        <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0 relative">
+                          <img src={s.escudo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-150 blur-lg opacity-50" />
+                          <div className="absolute inset-0 bg-white/20" />
+                          <img src={s.escudo} alt="" className="w-full h-full object-contain relative z-10 p-1" onError={(e) => { e.target.style.display = "none"; }} />
                         </div>
                         <div className="min-w-0">
                           <p className="text-sm font-medium truncate">{s.name}</p>
@@ -335,25 +321,20 @@ const Home = () => {
           {featured && (
             <Link
               to={`/colegio/${featured.slug}`}
-              className="block mb-6 border-2 border-[#8ECEF2]/50 bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm"
+              className="block mb-6 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
               data-testid={`school-card-${featured.slug}`}
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#8ECEF2]/15 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4" />
               <div className="p-8 md:p-12 flex flex-col md:flex-row md:items-center gap-8 relative">
-                {/* Escudo grande */}
-                <div className="flex-shrink-0 w-28 h-28 bg-white rounded-full border border-[#8ECEF2]/50 flex items-center justify-center shadow-sm">
-                  <img
-                    src={featured.escudo}
-                    alt={`Escudo ${featured.name}`}
-                    className="w-20 h-20 object-contain"
-                    onError={(e) => { e.target.style.display = "none"; }}
-                  />
+                {/* Escudo destacado con difuminado circular */}
+                <div className="flex-shrink-0 w-32 h-32 relative rounded-full overflow-hidden border border-[#8ECEF2]/40 shadow-sm">
+                  <img src={featured.escudo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-150 blur-2xl opacity-50 pointer-events-none" />
+                  <div className="absolute inset-0 bg-white/20 pointer-events-none" />
+                  <img src={featured.escudo} alt={`Escudo ${featured.name}`} className="w-full h-full object-contain relative z-10 p-3" onError={(e) => { e.target.style.display = "none"; }} />
                 </div>
                 <div className="flex-1">
                   <div className="inline-flex items-center gap-2 bg-[#FF4D4D] text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">Principal</div>
                   <h3 className="mt-3 font-display text-4xl md:text-5xl font-semibold tracking-tight">{featured.name}</h3>
                   <p className="mt-2 text-gray-600 max-w-md">{featured.description}</p>
-                  {/* Miniaturas */}
                   <div className="mt-4 flex gap-2">
                     {featured.prendas.map((p, i) => (
                       <div key={i} className="w-14 h-14 border border-[#8ECEF2]/60 rounded-sm bg-white overflow-hidden" title={p.name}>
@@ -369,7 +350,7 @@ const Home = () => {
             </Link>
           )}
 
-          {/* Grid resto de colegios */}
+          {/* Grid resto */}
           {filtered.length === 0 ? (
             <p className="border border-dashed border-gray-300 py-16 text-center text-gray-500 text-sm" data-testid="schools-empty">
               No encontramos colegios con "{query}".
@@ -387,11 +368,7 @@ const Home = () => {
       {/* BORDADOS STRIP */}
       <section className="border-t border-b border-gray-200 bg-white py-10 md:py-14" data-testid="bordados-strip">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link
-            to="/bordados"
-            className="group block border border-gray-200 hover:border-black transition-colors relative overflow-hidden"
-            data-testid="bordados-home-link"
-          >
+          <Link to="/bordados" className="group block border border-gray-200 hover:border-black transition-colors relative overflow-hidden" data-testid="bordados-home-link">
             <div className="grid md:grid-cols-12 items-stretch">
               <div className="md:col-span-4 aspect-[4/3] md:aspect-auto bg-gray-100 border-b md:border-b-0 md:border-r border-gray-200 overflow-hidden">
                 <img src="/images/bordados.jpg" alt="Bordado de nombre en prenda escolar" className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" data-testid="bordados-home-image" />
