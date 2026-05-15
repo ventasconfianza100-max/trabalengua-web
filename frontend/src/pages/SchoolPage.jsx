@@ -123,7 +123,7 @@ const SchoolPage = () => {
   return (
     <div data-testid="school-page">
       <section className="border-b border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-7">
           <Link to="/" className="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-black" data-testid="back-home-link">
             <ChevronLeft size={16} /> Volver al inicio
           </Link>
