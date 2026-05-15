@@ -32,18 +32,35 @@ const AMANCAY_PRODUCT_TEMPLATES = [
   { type_key: "cotonas_delantales", name: "Cotonas y delantales", base_price: 13990, image_url: "/images/productos/cotonas-delantales.jpg" },
 ];
 
-const buildProducts = (slug, stockData) => {
+const buildProducts = (slug, stockData, preciosData) => {
   const school = DEFAULT_SCHOOLS.find((s) => s.slug === slug);
   if (!school) return null;
 
   const templates = slug === "escuela-amancay" ? AMANCAY_PRODUCT_TEMPLATES : PRODUCT_TEMPLATES;
   const schoolStock = stockData[slug] || {};
+  const schoolPrecios = preciosData[slug] || {};
+
   const filteredTemplates = slug === "escuela-amancay"
     ? templates
     : templates.filter((p) => schoolStock[p.type_key] !== undefined);
 
   const products = filteredTemplates.map((product) => {
     const sizeStock = schoolStock[product.type_key] || {};
+    const sizePrecios = schoolPrecios[product.type_key] || {};
+
+    const sizes = SIZES.map((size) => {
+      const precio = Number(sizePrecios[size]) || product.base_price;
+      return {
+        size,
+        stock: Number(sizeStock[size]) || 0,
+        price: precio,
+      };
+    });
+
+    // base_price es el precio mínimo disponible
+    const precios = sizes.map((s) => s.price).filter((p) => p > 0);
+    const base_price = precios.length > 0 ? Math.min(...precios) : product.base_price;
+
     return {
       id: `${school.slug}-${product.type_key}`,
       school_id: school.id,
@@ -52,12 +69,8 @@ const buildProducts = (slug, stockData) => {
       type_key: product.type_key,
       name: product.name,
       image_url: product.image_url,
-      base_price: product.base_price,
-      sizes: SIZES.map((size) => ({
-        size,
-        stock: Number(sizeStock[size]) || 0,
-        price: product.base_price,
-      })),
+      base_price,
+      sizes,
     };
   });
 
@@ -85,13 +98,11 @@ const SchoolPage = () => {
 
     fetch(SHEETS_URL)
       .then((r) => r.json())
-      .then((stockData) => {
-        const built = buildProducts(slug, stockData);
+      .then(({ stock, precios }) => {
+        const built = buildProducts(slug, stock, precios);
         setData(built);
       })
-      .catch(() => {
-        setData(null);
-      })
+      .catch(() => setData(null))
       .finally(() => setLoading(false));
   }, [slug]);
 
