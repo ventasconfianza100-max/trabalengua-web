@@ -18,18 +18,18 @@ const DEFAULT_SCHOOLS = [
 ];
 
 const PRODUCT_TEMPLATES = [
-  { type_key: "buzo_completo", name: "Buzo Completo", base_price: 32000, image_url: "/images/productos/buzo-completo.jpg" },
-  { type_key: "pantalon_buzo", name: "Pantalón de Buzo", base_price: 18000, image_url: "/images/productos/pantalon-buzo.jpg" },
-  { type_key: "polera_buzo", name: "Polerón de buzo", base_price: 19000, image_url: "/images/productos/poleron-buzo.jpg" },
-  { type_key: "polera_corta", name: "Polera manga corta", base_price: 10500, image_url: "/images/productos/polera-corta.jpg" },
-  { type_key: "polera_larga", name: "Polera manga larga", base_price: 12000, image_url: "/images/productos/polera-larga.jpg" },
-  { type_key: "polar", name: "Polar", base_price: 21000, image_url: "/images/productos/polar.jpg" },
-  { type_key: "delantal_cotona", name: "Delantales", base_price: 13990, image_url: "/images/productos/delantal.jpg" },
-  { type_key: "cotonas", name: "Cotonas", base_price: 12990, image_url: "/images/productos/cotona.jpg" },
+  { type_key: "buzo_completo", name: "Buzo Completo", base_price: 32000, image_file: "buzo-completo.jpg" },
+  { type_key: "pantalon_buzo", name: "Pantalón de Buzo", base_price: 18000, image_file: "pantalon.jpg" },
+  { type_key: "polera_buzo", name: "Polerón de buzo", base_price: 19000, image_file: "buzo.jpg" },
+  { type_key: "polera_corta", name: "Polera manga corta", base_price: 10500, image_file: "polera.jpg" },
+  { type_key: "polera_larga", name: "Polera manga larga", base_price: 12000, image_file: "polera-manga-larga.jpg" },
+  { type_key: "polar", name: "Polar", base_price: 21000, image_file: "polar.jpg" },
+  { type_key: "delantal_cotona", name: "Delantales", base_price: 13990, image_file: "delantal.jpg" },
+  { type_key: "cotonas", name: "Cotonas", base_price: 12990, image_file: "cotona.jpg" },
 ];
 
 const AMANCAY_PRODUCT_TEMPLATES = [
-  { type_key: "cotonas_delantales", name: "Cotonas y delantales", base_price: 13990, image_url: "/images/productos/cotonas-delantales.jpg" },
+  { type_key: "cotonas_delantales", name: "Cotonas y delantales", base_price: 13990, image_file: "cotonas-delantales.jpg" },
 ];
 
 const buildProducts = (slug, stockData, preciosData) => {
@@ -57,9 +57,9 @@ const buildProducts = (slug, stockData, preciosData) => {
       };
     });
 
-    // base_price es el precio mínimo disponible
     const precios = sizes.map((s) => s.price).filter((p) => p > 0);
     const base_price = precios.length > 0 ? Math.min(...precios) : product.base_price;
+    const image_url = `/images/productos/${school.slug}/${product.image_file}`;
 
     return {
       id: `${school.slug}-${product.type_key}`,
@@ -68,7 +68,7 @@ const buildProducts = (slug, stockData, preciosData) => {
       school_name: school.name,
       type_key: product.type_key,
       name: product.name,
-      image_url: product.image_url,
+      image_url,
       base_price,
       sizes,
     };
