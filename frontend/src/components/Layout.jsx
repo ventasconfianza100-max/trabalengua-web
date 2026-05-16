@@ -6,18 +6,49 @@ import { LOGO_URL } from "../lib/api";
 import { ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, WHATSAPP_HUMAN, waLink } from "../lib/contact";
 
 const SCHOOLS = [
-  { name: "Colegio Talca", slug: "colegio-talca", escudo: "/images/escudos/colegio-talca.png", desc: "Uniforme celeste" },
-  { name: "Colegio Concepción", slug: "colegio-concepcion", escudo: "/images/escudos/colegio-concepcion.png", desc: "Uniforme oficial" },
-  { name: "Colegio Baltazar", slug: "colegio-baltazar", escudo: "/images/escudos/colegio-baltazar.png", desc: "Uniforme oficial" },
-  { name: "Colegio Montessori", slug: "colegio-montessori", escudo: "/images/escudos/colegio-montessori.png", desc: "Uniforme oficial" },
-  { name: "Escuela Carlos Spano", slug: "escuela-carlos-spano", escudo: "/images/escudos/escuela-carlos-spano.png", desc: "Uniforme oficial" },
-  { name: "Escuela Amancay", slug: "escuela-amancay", escudo: "/images/escudos/escuela-amancay.png", desc: "Cotonas y delantales" },
+  {
+    name: "Colegio Talca", slug: "colegio-talca", escudo: "/images/escudos/colegio-talca.png", desc: "Uniforme celeste",
+    prendas: ["buzo_completo", "polera_corta", "pantalon_buzo", "polera_larga", "polar", "cotonas", "delantal_cotona"],
+  },
+  {
+    name: "Colegio Concepción", slug: "colegio-concepcion", escudo: "/images/escudos/colegio-concepcion.png", desc: "Uniforme oficial",
+    prendas: ["buzo_completo", "polera_corta", "polar"],
+  },
+  {
+    name: "Colegio Baltazar", slug: "colegio-baltazar", escudo: "/images/escudos/colegio-baltazar.png", desc: "Uniforme oficial",
+    prendas: ["buzo_completo", "polera_corta", "pantalon_buzo"],
+  },
+  {
+    name: "Colegio Montessori", slug: "colegio-montessori", escudo: "/images/escudos/colegio-montessori.png", desc: "Uniforme oficial",
+    prendas: ["polera_corta", "polar"],
+  },
+  {
+    name: "Escuela Carlos Spano", slug: "escuela-carlos-spano", escudo: "/images/escudos/escuela-carlos-spano.png", desc: "Uniforme oficial",
+    prendas: ["buzo_completo", "pantalon_buzo", "polera_corta", "polar"],
+  },
+  {
+    name: "Escuela Amancay", slug: "escuela-amancay", escudo: "/images/escudos/escuela-amancay.png", desc: "Cotonas y delantales",
+    prendas: ["cotonas_delantales"],
+  },
 ];
+
+const PRENDA_NAMES = {
+  buzo_completo: "Buzo Completo",
+  pantalon_buzo: "Pantalón de Buzo",
+  polera_buzo: "Polerón de Buzo",
+  polera_corta: "Polera Manga Corta",
+  polera_larga: "Polera Manga Larga",
+  polar: "Polar",
+  delantal_cotona: "Delantales",
+  cotonas: "Cotonas",
+  cotonas_delantales: "Cotonas y Delantales",
+};
 
 export const Header = () => {
   const { count, setOpen } = useCart();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [megaOpen, setMegaOpen] = React.useState(false);
+  const [activeSchool, setActiveSchool] = React.useState(SCHOOLS[0]);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [searchOpen, setSearchOpen] = React.useState(false);
   const location = useLocation();
@@ -92,34 +123,62 @@ export const Header = () => {
 
               {megaOpen && (
                 <div
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[600px] bg-white border border-gray-200 shadow-xl rounded-sm overflow-hidden z-50"
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[700px] bg-white border border-gray-200 shadow-xl rounded-sm overflow-hidden z-50 flex"
                   onMouseLeave={() => setMegaOpen(false)}
                 >
-                  <div className="p-4 border-b border-gray-100">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold">Nuestros colegios</p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-px bg-gray-100">
+                  {/* Lista de colegios */}
+                  <div className="w-56 border-r border-gray-100 flex-shrink-0">
+                    <div className="p-3 border-b border-gray-100">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold">Colegios</p>
+                    </div>
                     {SCHOOLS.map((s) => (
-                      <Link
+                      <div
                         key={s.slug}
-                        to={`/colegio/${s.slug}`}
-                        onClick={() => setMegaOpen(false)}
-                        className="flex items-center gap-3 p-4 bg-white hover:bg-[#F7F7F5] transition-colors group"
+                        onMouseEnter={() => setActiveSchool(s)}
+                        className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors border-l-2 ${activeSchool.slug === s.slug ? "bg-[#F7F7F5] border-[#4D9EFF]" : "border-transparent hover:bg-gray-50"}`}
                       >
-                        <div className="w-12 h-12 rounded-full border border-gray-200 bg-gray-50 overflow-hidden flex-shrink-0 flex items-center justify-center">
-                          <img src={s.escudo} alt={s.name} className="w-10 h-10 object-contain group-hover:scale-105 transition-transform" onError={(e) => { e.target.style.display = "none"; }} />
+                        <img src={s.escudo} alt={s.name} className="w-8 h-8 object-contain rounded-full border border-gray-200 flex-shrink-0" onError={(e) => { e.target.style.display = "none"; }} />
+                        <div className="min-w-0">
+                          <Link
+                            to={`/colegio/${s.slug}`}
+                            onClick={() => setMegaOpen(false)}
+                            className="text-sm font-semibold text-gray-800 hover:text-[#4D9EFF] transition-colors block truncate"
+                          >
+                            {s.name}
+                          </Link>
+                          <p className="text-xs text-gray-400 truncate">{s.desc}</p>
                         </div>
-                        <div>
-                          <p className="text-sm font-semibold text-gray-800 group-hover:text-[#4D9EFF] transition-colors">{s.name}</p>
-                          <p className="text-xs text-gray-400">{s.desc}</p>
-                        </div>
-                      </Link>
+                      </div>
                     ))}
+                    <div className="p-3 border-t border-gray-100">
+                      <button onClick={goToColegios} className="text-xs font-semibold text-[#4D9EFF] hover:underline">
+                        Ver todos →
+                      </button>
+                    </div>
                   </div>
-                  <div className="p-3 border-t border-gray-100 bg-gray-50 text-center">
-                    <button onClick={goToColegios} className="text-xs font-semibold text-[#4D9EFF] hover:underline">
-                      Ver todos los colegios →
-                    </button>
+
+                  {/* Prendas del colegio activo */}
+                  <div className="flex-1 p-4">
+                    <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100">
+                      <img src={activeSchool.escudo} alt={activeSchool.name} className="w-10 h-10 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
+                      <div>
+                        <p className="text-sm font-semibold text-gray-800">{activeSchool.name}</p>
+                        <p className="text-xs text-gray-400">{activeSchool.prendas.length} prendas disponibles</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1">
+                      {activeSchool.prendas.map((prenda) => (
+                        <Link
+                          key={prenda}
+                          to={`/colegio/${activeSchool.slug}?prenda=${prenda}`}
+                          onClick={() => setMegaOpen(false)}
+                          className="flex items-center gap-2 px-3 py-2 rounded-sm hover:bg-[#F7F7F5] text-sm text-gray-700 hover:text-[#4D9EFF] transition-colors group"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#4D9EFF] flex-shrink-0 transition-colors" />
+                          {PRENDA_NAMES[prenda] || prenda}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
