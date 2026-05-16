@@ -68,14 +68,18 @@ export const Header = () => {
               }
               return (
                 <Link
-                  key={l.id}
-                  to={l.to}
-                  onClick={l.scrollTo ? handleScrollLink(l.scrollTo) : undefined}
-                  className="text-sm font-medium text-gray-700 hover:text-black transition-colors"
-                  data-testid={l.id}
-                >
-                  {l.label}
-                </Link>
+                key={l.id}
+                to={l.to}
+                onClick={l.scrollTo ? handleScrollLink(l.scrollTo) : undefined}
+                className={
+                  l.id === "nav-schools"
+                    ? "relative inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-white bg-[#4D9EFF] hover:bg-[#3A8AE6] rounded-full transition-colors shadow-[0_4px_14px_-4px_rgba(77,158,255,0.55)]"
+                    : "text-sm font-medium text-gray-700 hover:text-black transition-colors"
+                }
+                data-testid={l.id}
+              >
+                {l.label}
+              </Link>
               );
             })}
           </nav>
