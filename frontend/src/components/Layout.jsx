@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ShoppingBag, Menu, X, Sparkles, ChevronDown } from "lucide-react";
+import { ShoppingBag, Menu, X, Sparkles, ChevronDown, Search } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { LOGO_URL } from "../lib/api";
 import { ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, WHATSAPP_HUMAN, waLink } from "../lib/contact";
@@ -18,9 +18,12 @@ export const Header = () => {
   const { count, setOpen } = useCart();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [megaOpen, setMegaOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchOpen, setSearchOpen] = React.useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const megaRef = React.useRef(null);
+  const searchRef = React.useRef(null);
 
   React.useEffect(() => {
     setMobileOpen(false);
@@ -29,13 +32,16 @@ export const Header = () => {
 
   React.useEffect(() => {
     const handler = (e) => {
-      if (megaRef.current && !megaRef.current.contains(e.target)) {
-        setMegaOpen(false);
-      }
+      if (megaRef.current && !megaRef.current.contains(e.target)) setMegaOpen(false);
+      if (searchRef.current && !searchRef.current.contains(e.target)) setSearchOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  const filteredSchools = SCHOOLS.filter((s) =>
+    s.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const goToInicio = () => {
     navigate("/");
@@ -133,6 +139,48 @@ export const Header = () => {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* Buscador */}
+            <div className="relative hidden md:block" ref={searchRef}>
+              <div className="flex items-center border border-gray-300 rounded-full bg-white px-3 py-1.5 gap-2 w-44 focus-within:border-black transition-colors">
+                <Search size={14} className="text-gray-400 flex-shrink-0" />
+                <input
+                  type="text"
+                  placeholder="Buscar colegio..."
+                  value={searchQuery}
+                  onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }}
+                  onFocus={() => setSearchOpen(true)}
+                  className="text-xs bg-transparent focus:outline-none w-full text-gray-700 placeholder-gray-400"
+                />
+                {searchQuery && (
+                  <button onClick={() => { setSearchQuery(""); setSearchOpen(false); }}>
+                    <X size={12} className="text-gray-400 hover:text-black" />
+                  </button>
+                )}
+              </div>
+              {searchOpen && searchQuery && (
+                <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 shadow-lg rounded-sm overflow-hidden z-50">
+                  {filteredSchools.length === 0 ? (
+                    <p className="px-4 py-3 text-sm text-gray-500">Sin resultados</p>
+                  ) : (
+                    filteredSchools.map((s) => (
+                      <Link
+                        key={s.slug}
+                        to={`/colegio/${s.slug}`}
+                        onClick={() => { setSearchQuery(""); setSearchOpen(false); }}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
+                      >
+                        <img src={s.escudo} alt={s.name} className="w-8 h-8 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
+                        <div>
+                          <p className="text-sm font-medium">{s.name}</p>
+                          <p className="text-xs text-gray-400">{s.desc}</p>
+                        </div>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
             <button
               onClick={() => setOpen(true)}
               className="relative flex items-center gap-2 px-3 py-2 hover:bg-gray-100 transition-colors rounded-sm"
