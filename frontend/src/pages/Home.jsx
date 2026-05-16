@@ -547,26 +547,15 @@ const Home = () => {
               data-testid={`school-card-${featured.slug}`}
             >
               <div className="relative min-h-[230px] p-8 md:p-12 flex items-center overflow-hidden">
-                {/* Escudo Colegio Talca grande hacia la derecha */}
-                <div className="absolute left-[310px] md:left-[430px] lg:left-[520px] top-1/2 -translate-y-1/2 w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full overflow-hidden bg-white/40 border border-[#8ECEF2]/30 shadow-sm pointer-events-none">
-                  <img
-                    src={featured.escudo}
-                    alt=""
-                    aria-hidden
-                    className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-10 pointer-events-none"
-                  />
-
-                  <div className="absolute inset-0 bg-white/45 pointer-events-none" />
-
-                  <img
-                    src={featured.escudo}
-                    alt={`Escudo ${featured.name}`}
-                    className="relative z-10 w-full h-full object-contain p-8 drop-shadow-sm"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                    }}
-                  />
-                </div>
+                {/* Logo Colegio Talca grande, sin círculo blanco ni fondo extra */}
+                <img
+                  src={featured.escudo}
+                  alt={`Escudo ${featured.name}`}
+                  className="absolute left-[330px] md:left-[455px] lg:left-[550px] top-1/2 -translate-y-1/2 w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64 object-contain opacity-95 mix-blend-multiply pointer-events-none select-none"
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
 
                 <div className="relative z-10 flex-1 max-w-md">
                   <div className="inline-flex items-center gap-2 bg-[#FF4D4D] text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
