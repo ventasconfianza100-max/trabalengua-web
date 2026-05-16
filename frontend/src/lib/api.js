@@ -6,7 +6,6 @@ const isLocalHost =
   typeof window !== "undefined" &&
   (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
-/** Sin REACT_APP_BACKEND_URL en dev local: mismo origen + proxy (ver craco.config.js) → evita `undefined/api` y CORS. */
 const useRelativeApi = isDev && isLocalHost && !envUrl;
 
 export const BACKEND_ROOT = useRelativeApi
@@ -22,7 +21,6 @@ export const api = axios.create({
   timeout: 120000,
 });
 
-// Attach token on each request if present
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("tl_admin_token");
   if (token) {
@@ -50,7 +48,6 @@ export const resolveImage = (url) => {
   return `${base}${url}`;
 };
 
-/** Mensaje legible para toasts cuando falla axios (red, 4xx, 5xx, validación). */
 export const formatApiError = (err, fallback) => {
   const d = err?.response?.data?.detail;
   if (typeof d === "string" && d.trim()) return d;
@@ -81,5 +78,4 @@ export const formatApiError = (err, fallback) => {
   return fallback;
 };
 
-export const LOGO_URL =
-  "https://customer-assets.emergentagent.com/job_943ebc25-bc5f-4d6e-b906-83667be0dcb5/artifacts/akmnrxla_logo%20trabalengua.png";
+export const LOGO_URL = "/trabalengua-logo.png";
