@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Sparkles, Check, MessageCircle } from "lucide-react";
 import { waLink } from "../lib/contact";
-import { api, resolveImage } from "../lib/api";
 
 const BordadosPage = () => {
   const wa = waLink("Hola, quiero solicitar un bordado personalizado.");
-  const [heroImage, setHeroImage] = useState(null);
-
-  useEffect(() => {
-    api
-      .get("/settings")
-      .then((r) => setHeroImage(r.data?.bordados_hero_image_url))
-      .catch(() => {});
-  }, []);
 
   return (
     <div data-testid="bordados-page">
@@ -61,7 +52,7 @@ const BordadosPage = () => {
           <div className="md:col-span-6">
             <div className="relative aspect-[4/5] bg-gray-50 border border-gray-200 overflow-hidden">
               <img
-                src={resolveImage(heroImage) || "/images/bordados.jpg"}
+                src="/images/bordados.jpg"
                 alt="Máquina bordando un nombre sobre tela"
                 className="w-full h-full object-cover"
                 data-testid="bordados-hero-image"
