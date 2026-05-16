@@ -540,62 +540,74 @@ const Home = () => {
           </div>
 
           {/* Tarjeta destacada */}
-          {featured && (
-            <Link
-              to={`/colegio/${featured.slug}`}
-              className="block mb-6 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
-              data-testid={`school-card-${featured.slug}`}
+{featured && (
+  <Link
+    to={`/colegio/${featured.slug}`}
+    className="block mb-6 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
+    data-testid={`school-card-${featured.slug}`}
+  >
+    <div className="relative min-h-[430px] sm:min-h-[360px] md:min-h-[230px] p-8 md:p-12 flex items-center overflow-hidden">
+      
+      {/* Logo Colegio Talca responsive */}
+      <img
+        src={featured.escudo}
+        alt={`Escudo ${featured.name}`}
+        className="
+          absolute
+          left-1/2 top-[46px] -translate-x-1/2
+          w-52 h-52
+          opacity-20
+          object-contain mix-blend-multiply pointer-events-none select-none
+
+          md:left-[455px] md:top-1/2 md:-translate-y-1/2 md:translate-x-0
+          md:w-56 md:h-56 md:opacity-95
+
+          lg:left-[550px] lg:w-64 lg:h-64
+        "
+        onError={(e) => {
+          e.target.style.display = "none";
+        }}
+      />
+
+      <div className="relative z-10 flex-1 max-w-md pt-24 md:pt-0">
+        <div className="inline-flex items-center gap-2 bg-[#FF4D4D] text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
+          Principal
+        </div>
+
+        <h3 className="mt-3 font-display text-4xl md:text-5xl font-semibold tracking-tight">
+          {featured.name}
+        </h3>
+
+        <p className="mt-2 text-gray-600 max-w-md">
+          {featured.description}
+        </p>
+
+        <div className="mt-4 flex gap-2">
+          {featured.prendas.map((p, i) => (
+            <div
+              key={i}
+              className="w-14 h-14 border border-[#8ECEF2]/60 rounded-sm bg-white overflow-hidden"
+              title={p.name}
             >
-              <div className="relative min-h-[230px] p-8 md:p-12 flex items-center overflow-hidden">
-                {/* Logo Colegio Talca grande, sin círculo blanco ni fondo extra */}
-                <img
-                  src={featured.escudo}
-                  alt={`Escudo ${featured.name}`}
-                  className="absolute left-[330px] md:left-[455px] lg:left-[550px] top-1/2 -translate-y-1/2 w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64 object-contain opacity-95 mix-blend-multiply pointer-events-none select-none"
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                  }}
-                />
+              <img
+                src={p.img}
+                alt={p.name}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.parentElement.style.display = "none";
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
-                <div className="relative z-10 flex-1 max-w-md">
-                  <div className="inline-flex items-center gap-2 bg-[#FF4D4D] text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
-                    Principal
-                  </div>
-
-                  <h3 className="mt-3 font-display text-4xl md:text-5xl font-semibold tracking-tight">
-                    {featured.name}
-                  </h3>
-
-                  <p className="mt-2 text-gray-600 max-w-md">
-                    {featured.description}
-                  </p>
-
-                  <div className="mt-4 flex gap-2">
-                    {featured.prendas.map((p, i) => (
-                      <div
-                        key={i}
-                        className="w-14 h-14 border border-[#8ECEF2]/60 rounded-sm bg-white overflow-hidden"
-                        title={p.name}
-                      >
-                        <img
-                          src={p.img}
-                          alt={p.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.target.parentElement.style.display = "none";
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="relative z-10 ml-auto inline-flex items-center gap-2 text-sm font-medium group-hover:translate-x-1 transition-transform text-[#1E5C86] flex-shrink-0">
-                  Ver catálogo <ArrowRight size={18} />
-                </div>
-              </div>
-            </Link>
-          )}
+      <div className="relative z-10 ml-auto inline-flex items-center gap-2 text-sm font-medium group-hover:translate-x-1 transition-transform text-[#1E5C86] flex-shrink-0">
+        Ver catálogo <ArrowRight size={18} />
+      </div>
+    </div>
+  </Link>
+)}
 
           {/* Grid resto */}
           {filtered.length === 0 ? (
