@@ -37,6 +37,11 @@ export const Header = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  const goToInicio = () => {
+    navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const goToColegios = () => {
     setMegaOpen(false);
     if (location.pathname === "/") {
@@ -57,7 +62,7 @@ export const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
-          <Link to="/" className="flex items-center gap-3" data-testid="header-logo-link">
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3" data-testid="header-logo-link">
             <img src={LOGO_URL} alt="Trabalengua Escolares" className="h-11 w-11 rounded-full object-contain border border-gray-200 bg-white" />
             <div className="hidden sm:flex flex-col leading-tight">
               <span className="font-display text-base font-semibold tracking-tight">Trabalengua</span>
@@ -66,7 +71,7 @@ export const Header = () => {
           </Link>
 
           <nav className="hidden md:flex items-center gap-7">
-            <Link to="/" className="text-sm font-medium text-gray-700 hover:text-black transition-colors" data-testid="nav-home">Inicio</Link>
+            <button onClick={goToInicio} className="text-sm font-medium text-gray-700 hover:text-black transition-colors" data-testid="nav-home">Inicio</button>
 
             <div className="relative" ref={megaRef}>
               <button
@@ -150,7 +155,7 @@ export const Header = () => {
 
         {mobileOpen && (
           <div className="md:hidden border-t border-gray-100 py-3 flex flex-col gap-1" data-testid="mobile-menu">
-            <button onClick={() => { setMobileOpen(false); navigate("/"); }} className="px-2 py-2.5 text-sm text-left hover:bg-gray-50 rounded-sm">Inicio</button>
+            <button onClick={() => { setMobileOpen(false); goToInicio(); }} className="px-2 py-2.5 text-sm text-left hover:bg-gray-50 rounded-sm">Inicio</button>
             <div className="px-2 py-2 border-b border-gray-100">
               <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">Colegios</p>
               {SCHOOLS.map((s) => (
@@ -195,7 +200,7 @@ export const Footer = () => (
       <div>
         <p className="eyebrow">Secciones</p>
         <ul className="mt-3 space-y-2 text-sm text-gray-700">
-          <li><Link to="/" className="hover:text-[#FF4D4D]">Inicio</Link></li>
+          <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-[#FF4D4D]">Inicio</Link></li>
           <li><Link to="/bordados" className="hover:text-[#FF4D4D]">Bordados</Link></li>
           <li><Link to="/contacto" className="hover:text-[#FF4D4D]">Contacto</Link></li>
           <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D]">Instagram {INSTAGRAM_HANDLE}</a></li>
