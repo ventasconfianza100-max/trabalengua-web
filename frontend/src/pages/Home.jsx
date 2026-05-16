@@ -85,7 +85,6 @@ const DEFAULT_SCHOOLS = [
 /* Caja con escudo + fondo difuminado basado en la misma imagen */
 const EscudoBox = ({ src, alt, boxClass = "h-36" }) => (
   <div className={`${boxClass} relative overflow-hidden flex items-center justify-center border-b border-gray-100 bg-white`}>
-    {/* Fondo: misma imagen escalada, pero con difuminado más sutil */}
     <img
       src={src}
       alt=""
@@ -93,10 +92,8 @@ const EscudoBox = ({ src, alt, boxClass = "h-36" }) => (
       className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-20 pointer-events-none select-none"
     />
 
-    {/* Capa blanca más presente para suavizar el fondo */}
     <div className="absolute inset-0 bg-white/55 pointer-events-none" />
 
-    {/* Escudo real encima */}
     <img
       src={src}
       alt={alt}
@@ -510,7 +507,6 @@ const Home = () => {
                         }}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
                       >
-                        {/* Miniatura con difuminado más sutil */}
                         <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0 relative bg-white">
                           <img
                             src={s.escudo}
@@ -550,29 +546,29 @@ const Home = () => {
               className="block mb-6 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
               data-testid={`school-card-${featured.slug}`}
             >
-              <div className="p-8 md:p-12 flex flex-col md:flex-row md:items-center gap-8 relative">
-                {/* Escudo destacado con difuminado circular más sutil */}
-                <div className="flex-shrink-0 w-32 h-32 relative rounded-full overflow-hidden border border-[#8ECEF2]/40 shadow-sm bg-white">
+              <div className="relative min-h-[230px] p-8 md:p-12 flex items-center overflow-hidden">
+                {/* Escudo Colegio Talca grande hacia la derecha */}
+                <div className="absolute left-[310px] md:left-[430px] lg:left-[520px] top-1/2 -translate-y-1/2 w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full overflow-hidden bg-white/40 border border-[#8ECEF2]/30 shadow-sm pointer-events-none">
                   <img
                     src={featured.escudo}
                     alt=""
                     aria-hidden
-                    className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-20 pointer-events-none"
+                    className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-10 pointer-events-none"
                   />
 
-                  <div className="absolute inset-0 bg-white/50 pointer-events-none" />
+                  <div className="absolute inset-0 bg-white/45 pointer-events-none" />
 
                   <img
                     src={featured.escudo}
                     alt={`Escudo ${featured.name}`}
-                    className="w-full h-full object-contain relative z-10 p-3 drop-shadow-sm"
+                    className="relative z-10 w-full h-full object-contain p-8 drop-shadow-sm"
                     onError={(e) => {
                       e.target.style.display = "none";
                     }}
                   />
                 </div>
 
-                <div className="flex-1">
+                <div className="relative z-10 flex-1 max-w-md">
                   <div className="inline-flex items-center gap-2 bg-[#FF4D4D] text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
                     Principal
                   </div>
@@ -605,7 +601,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                <div className="inline-flex items-center gap-2 text-sm font-medium group-hover:translate-x-1 transition-transform text-[#1E5C86] flex-shrink-0">
+                <div className="relative z-10 ml-auto inline-flex items-center gap-2 text-sm font-medium group-hover:translate-x-1 transition-transform text-[#1E5C86] flex-shrink-0">
                   Ver catálogo <ArrowRight size={18} />
                 </div>
               </div>
