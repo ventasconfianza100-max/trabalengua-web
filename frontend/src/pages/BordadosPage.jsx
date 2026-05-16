@@ -61,7 +61,7 @@ const BordadosPage = () => {
           <div className="md:col-span-6">
             <div className="relative aspect-[4/5] bg-gray-50 border border-gray-200 overflow-hidden">
               <img
-                src={resolveImage(heroImage) || "https://images.unsplash.com/photo-1631947430066-48c30d57b943?w=1200&q=80"}
+                src={resolveImage(heroImage) || "/images/bordados.jpg"}
                 alt="Máquina bordando un nombre sobre tela"
                 className="w-full h-full object-cover"
                 data-testid="bordados-hero-image"
