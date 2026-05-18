@@ -108,41 +108,48 @@ const EscudoBox = ({ src, alt, boxClass = "h-36" }) => (
 const SchoolCard = ({ school }) => (
   <Link
     to={`/colegio/${school.slug}`}
-    className="bg-white border border-gray-200 hover:border-[#FF4D4D] hover:-translate-y-1 transition-all group block rounded-sm overflow-hidden"
+    className="bg-white border border-gray-200 hover:border-[#FF4D4D] transition-all group block rounded-sm overflow-hidden"
     data-testid={`school-card-${school.slug}`}
   >
-    <EscudoBox src={school.escudo} alt={`Escudo ${school.name}`} />
+    {/* MÓVIL: fila horizontal compacta */}
+    <div className="flex sm:hidden items-center gap-3 px-4 py-3">
+      <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-sm overflow-hidden">
+        <img
+          src={school.escudo}
+          alt={school.name}
+          className="w-full h-full object-contain p-1"
+          onError={(e) => { e.target.style.display = "none"; }}
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h3 className="font-display text-sm font-semibold leading-tight truncate">{school.name}</h3>
+        <p className="text-[11px] text-gray-500 truncate mt-0.5">{school.description}</p>
+      </div>
+      <div className="flex items-center gap-1 text-[#FF4D4D] flex-shrink-0">
+        <span className="text-xs font-semibold">Ver</span>
+        <ArrowRight size={13} />
+      </div>
+    </div>
 
-    <div className="p-5">
-      <h3 className="font-display text-lg font-semibold tracking-tight">{school.name}</h3>
-
-      <p className="mt-1 text-xs text-gray-500 line-clamp-2">
-        {school.description}
-      </p>
-
-      {school.prendas?.length > 0 && (
-        <div className="mt-4 flex gap-2">
-          {school.prendas.map((p, i) => (
-            <div
-              key={i}
-              className="w-14 h-14 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0"
-              title={p.name}
-            >
-              <img
-                src={p.img}
-                alt={p.name}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.parentElement.style.display = "none";
-                }}
-              />
-            </div>
-          ))}
+    {/* DESKTOP: tarjeta vertical original */}
+    <div className="hidden sm:block">
+      <EscudoBox src={school.escudo} alt={`Escudo ${school.name}`} />
+      <div className="p-5">
+        <h3 className="font-display text-lg font-semibold tracking-tight">{school.name}</h3>
+        <p className="mt-1 text-xs text-gray-500 line-clamp-2">{school.description}</p>
+        {school.prendas?.length > 0 && (
+          <div className="mt-4 flex gap-2">
+            {school.prendas.map((p, i) => (
+              <div key={i} className="w-14 h-14 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
+                <img src={p.img} alt={p.name} className="w-full h-full object-cover"
+                  onError={(e) => { e.target.parentElement.style.display = "none"; }} />
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF4D4D] group-hover:gap-2.5 transition-all">
+          Ver prendas <ArrowRight size={13} />
         </div>
-      )}
-
-      <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF4D4D] group-hover:gap-2.5 transition-all">
-        Ver prendas <ArrowRight size={13} />
       </div>
     </div>
   </Link>
@@ -552,56 +559,49 @@ const Home = () => {
     className="block mb-4 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
     data-testid={`school-card-${featured.slug}`}
   >
-    <div className="relative min-h-[320px] sm:min-h-[260px] md:min-h-[190px] p-6 md:p-8 flex items-center overflow-hidden">
-      
+    <div className="relative min-h-[160px] sm:min-h-[260px] md:min-h-[190px] p-4 sm:p-6 md:p-8 flex items-center overflow-hidden">
+
       {/* Logo Colegio Talca responsive */}
       <img
         src={featured.escudo}
         alt={`Escudo ${featured.name}`}
         className="
-          absolute
-          left-1/2 top-[46px] -translate-x-1/2
-          w-52 h-52
-          opacity-20
+          absolute right-4 top-1/2 -translate-y-1/2
+          w-24 h-24 opacity-15
           object-contain mix-blend-multiply pointer-events-none select-none
-
+          sm:left-1/2 sm:right-auto sm:top-[46px] sm:-translate-x-1/2 sm:translate-y-0 sm:w-52 sm:h-52 sm:opacity-20
           md:left-[455px] md:top-1/2 md:-translate-y-1/2 md:translate-x-0
           md:w-56 md:h-56 md:opacity-95
-
           lg:left-[550px] lg:w-64 lg:h-64
         "
-        onError={(e) => {
-          e.target.style.display = "none";
-        }}
+        onError={(e) => { e.target.style.display = "none"; }}
       />
 
-      <div className="relative z-10 flex-1 max-w-md pt-24 md:pt-0">
+      <div className="relative z-10 flex-1 max-w-md pt-0 sm:pt-24 md:pt-0">
         <div className="inline-flex items-center gap-2 bg-[#FF4D4D] text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
           Principal
         </div>
 
-        <h3 className="mt-3 font-display text-4xl md:text-5xl font-semibold tracking-tight">
+        <h3 className="mt-2 font-display text-2xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
           {featured.name}
         </h3>
 
-        <p className="mt-2 text-gray-600 max-w-md">
+        <p className="mt-1 text-sm sm:text-base text-gray-600 max-w-md hidden sm:block">
           {featured.description}
         </p>
 
-        <div className="mt-4 flex gap-2">
+        <div className="mt-3 flex gap-2">
           {featured.prendas.map((p, i) => (
             <div
               key={i}
-              className="w-14 h-14 border border-[#8ECEF2]/60 rounded-sm bg-white overflow-hidden"
+              className="w-10 h-10 sm:w-14 sm:h-14 border border-[#8ECEF2]/60 rounded-sm bg-white overflow-hidden"
               title={p.name}
             >
               <img
                 src={p.img}
                 alt={p.name}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.parentElement.style.display = "none";
-                }}
+                onError={(e) => { e.target.parentElement.style.display = "none"; }}
               />
             </div>
           ))}
