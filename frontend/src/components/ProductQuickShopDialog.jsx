@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -96,7 +96,7 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
         data-testid="quick-shop-dialog"
       >
         <div className="grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:max-h-[min(85vh,800px)]">
-          <div className="aspect-[4/5] max-h-[42vh] sm:max-h-none sm:h-auto sm:min-h-[280px] bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden">
+          <div className="aspect-[4/5] max-h-[42vh] sm:aspect-auto sm:h-full sm:min-h-[280px] bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden">
             <img
               src={getProductImage(product.image_url)}
               alt={product.name}
@@ -210,14 +210,6 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
               >
                 Ir al checkout
               </button>
-              <Link
-                to={`/producto/${product.id}`}
-                onClick={() => onOpenChange(false)}
-                className="block text-center text-sm text-gray-600 underline underline-offset-4 hover:text-black"
-                data-testid="quick-shop-full-page-link"
-              >
-                Ver ficha completa
-              </Link>
             </div>
 
             <div className="mt-6 pt-4 border-t border-gray-200 grid grid-cols-2 gap-3 text-xs text-gray-600">
