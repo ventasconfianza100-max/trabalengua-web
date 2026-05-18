@@ -368,7 +368,7 @@ const Home = () => {
       </section>
 
       {/* COLEGIOS */}
-      <section id="colegios" className="py-16 md:py-24 bg-[#F7F7F5] relative overflow-hidden">
+      <section id="colegios" className="py-8 md:py-12 bg-[#F7F7F5] relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <svg
             width="100%"
@@ -448,7 +448,7 @@ const Home = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
             <div>
               <p className="eyebrow">01 — Colegios</p>
               <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
@@ -543,10 +543,10 @@ const Home = () => {
 {featured && (
   <Link
     to={`/colegio/${featured.slug}`}
-    className="block mb-6 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
+    className="block mb-4 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
     data-testid={`school-card-${featured.slug}`}
   >
-    <div className="relative min-h-[430px] sm:min-h-[360px] md:min-h-[230px] p-8 md:p-12 flex items-center overflow-hidden">
+    <div className="relative min-h-[320px] sm:min-h-[260px] md:min-h-[190px] p-6 md:p-8 flex items-center overflow-hidden">
       
       {/* Logo Colegio Talca responsive */}
       <img
@@ -618,7 +618,7 @@ const Home = () => {
               No encontramos colegios con "{query}".
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {others.map((s) => (
                 <SchoolCard key={s.id} school={s} />
               ))}
