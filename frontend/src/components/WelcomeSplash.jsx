@@ -3,97 +3,93 @@ import { useEffect, useState } from "react";
 const STORAGE_KEY = "tw_welcomed";
 
 export function WelcomeSplash() {
-  const [phase, setPhase] = useState("in"); // "in" | "visible" | "out" | "done"
+  const [visible, setVisible] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     if (sessionStorage.getItem(STORAGE_KEY)) {
-      setPhase("done");
+      setDone(true);
       return;
     }
     sessionStorage.setItem(STORAGE_KEY, "1");
 
-    const fadeIn = setTimeout(() => setPhase("visible"), 80);
-    const fadeOut = setTimeout(() => setPhase("out"), 2200);
-    const unmount = setTimeout(() => setPhase("done"), 2850);
+    // Trigger enter animation on next frame
+    const t1 = requestAnimationFrame(() => setVisible(true));
+    const t2 = setTimeout(() => setLeaving(true), 2000);
+    const t3 = setTimeout(() => setDone(true), 2600);
 
     return () => {
-      clearTimeout(fadeIn);
-      clearTimeout(fadeOut);
-      clearTimeout(unmount);
+      cancelAnimationFrame(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, []);
 
-  if (phase === "done") return null;
-
-  const opacity = phase === "in" ? 0 : phase === "out" ? 0 : 1;
-  const translateY = phase === "in" ? 8 : 0;
+  if (done) return null;
 
   return (
     <div
-      onClick={() => setPhase("done")}
       style={{
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        backgroundColor: "#FF4D4D",
+        backgroundColor: "#ffffff",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "20px",
-        cursor: "pointer",
-        opacity,
-        transition: phase === "out"
-          ? "opacity 0.55s cubic-bezier(0.4,0,1,1)"
-          : "opacity 0.45s cubic-bezier(0.16,1,0.3,1)",
-        userSelect: "none",
+        opacity: leaving ? 0 : visible ? 1 : 0,
+        transition: leaving
+          ? "opacity 0.55s ease-in"
+          : "opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        pointerEvents: leaving ? "none" : "auto",
       }}
+      onClick={() => { setLeaving(true); setTimeout(() => setDone(true), 560); }}
     >
-      {/* Logo */}
       <div
         style={{
-          transform: `translateY(${translateY}px)`,
-          transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "16px",
+          gap: "12px",
+          transform: visible && !leaving ? "translateY(0)" : "translateY(10px)",
+          transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
+        {/* Logo */}
         <img
           src="/trabalengua-logo.png"
-          alt="Trabalengua"
+          alt=""
           style={{
-            width: "72px",
-            height: "72px",
+            width: "64px",
+            height: "64px",
             objectFit: "contain",
-            filter: "brightness(0) invert(1)",
+            marginBottom: "8px",
           }}
         />
 
         {/* Eyebrow */}
-        <p
+        <span
           style={{
             fontFamily: "'Manrope', system-ui, sans-serif",
-            fontSize: "11px",
-            fontWeight: 600,
-            letterSpacing: "0.18em",
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.7)",
-            margin: 0,
+            color: "#FF4D4D",
           }}
         >
-          Bienvenido a
-        </p>
+          Bienvenido
+        </span>
 
-        {/* Brand name */}
+        {/* Brand */}
         <h1
           style={{
             fontFamily: "'Outfit', system-ui, sans-serif",
-            fontSize: "clamp(2.4rem, 8vw, 4rem)",
+            fontSize: "clamp(2.2rem, 7vw, 3.5rem)",
             fontWeight: 700,
-            letterSpacing: "-0.025em",
-            color: "#ffffff",
+            letterSpacing: "-0.02em",
+            color: "#0A0A0A",
             margin: 0,
             lineHeight: 1,
           }}
@@ -105,41 +101,28 @@ export function WelcomeSplash() {
         <p
           style={{
             fontFamily: "'Outfit', system-ui, sans-serif",
-            fontSize: "15px",
+            fontSize: "14px",
             fontWeight: 400,
-            letterSpacing: "0.01em",
-            color: "rgba(255,255,255,0.75)",
+            color: "#9CA3AF",
             margin: 0,
+            letterSpacing: "0.01em",
           }}
         >
           Uniformes Escolares
         </p>
+
+        {/* Red accent line */}
+        <div
+          style={{
+            marginTop: "12px",
+            width: visible && !leaving ? "40px" : "0px",
+            height: "2px",
+            backgroundColor: "#FF4D4D",
+            borderRadius: "1px",
+            transition: "width 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+          }}
+        />
       </div>
-
-      {/* Divider line */}
-      <div
-        style={{
-          width: "32px",
-          height: "1px",
-          backgroundColor: "rgba(255,255,255,0.35)",
-          marginTop: "8px",
-        }}
-      />
-
-      {/* Dismiss hint */}
-      <p
-        style={{
-          fontFamily: "'Manrope', system-ui, sans-serif",
-          fontSize: "11px",
-          fontWeight: 500,
-          letterSpacing: "0.1em",
-          color: "rgba(255,255,255,0.45)",
-          margin: 0,
-          textTransform: "uppercase",
-        }}
-      >
-        Toca para continuar
-      </p>
     </div>
   );
 }
