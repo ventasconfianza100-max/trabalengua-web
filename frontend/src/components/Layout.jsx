@@ -284,48 +284,48 @@ export const Header = () => {
 };
 
 export const Footer = () => (
-  <footer className="border-t border-gray-200 bg-[#FFF0EE]" data-testid="site-footer">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid md:grid-cols-4 gap-8">
+  <footer className="bg-[#111111]" data-testid="site-footer">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid md:grid-cols-4 gap-6">
       <div>
-        <div className="flex items-center gap-3">
-          <img src={LOGO_URL} alt="" className="h-10 w-10 rounded-full border border-gray-200" />
+        <div className="flex items-center gap-2.5">
+          <img src={LOGO_URL} alt="" className="h-8 w-8 rounded-full border border-white/10" />
           <div>
-            <p className="font-display font-semibold">Trabalengua SPA</p>
-            <p className="text-xs text-gray-500 uppercase tracking-widest">Uniformes Escolares</p>
+            <p className="font-display font-semibold text-white text-sm">Trabalengua SPA</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest">Uniformes Escolares</p>
           </div>
         </div>
-        <p className="mt-4 text-sm text-gray-600 max-w-xs">Uniformes escolares y bordados personalizados en Talca.</p>
+        <p className="mt-3 text-xs text-white/50 max-w-xs leading-relaxed">Uniformes escolares y bordados personalizados en Talca.</p>
       </div>
       <div>
-        <p className="eyebrow">Colegios</p>
-        <ul className="mt-3 space-y-2 text-sm text-gray-700">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">Colegios</p>
+        <ul className="mt-2.5 space-y-1.5 text-sm text-white/60">
           {SCHOOLS.map((s) => (
-            <li key={s.slug}><Link to={`/colegio/${s.slug}`} className="hover:text-[#FF4D4D]">{s.name}</Link></li>
+            <li key={s.slug}><Link to={`/colegio/${s.slug}`} className="hover:text-[#FF4D4D] transition-colors">{s.name}</Link></li>
           ))}
         </ul>
       </div>
       <div>
-        <p className="eyebrow">Secciones</p>
-        <ul className="mt-3 space-y-2 text-sm text-gray-700">
-          <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-[#FF4D4D]">Inicio</Link></li>
-          <li><Link to="/bordados" className="hover:text-[#FF4D4D]">Bordados</Link></li>
-          <li><Link to="/contacto" className="hover:text-[#FF4D4D]">Contacto</Link></li>
-          <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D]">Instagram {INSTAGRAM_HANDLE}</a></li>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">Secciones</p>
+        <ul className="mt-2.5 space-y-1.5 text-sm text-white/60">
+          <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-[#FF4D4D] transition-colors">Inicio</Link></li>
+          <li><Link to="/bordados" className="hover:text-[#FF4D4D] transition-colors">Bordados</Link></li>
+          <li><Link to="/contacto" className="hover:text-[#FF4D4D] transition-colors">Contacto</Link></li>
+          <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D] transition-colors">Instagram {INSTAGRAM_HANDLE}</a></li>
         </ul>
       </div>
       <div>
-        <p className="eyebrow">Contacto</p>
-        <ul className="mt-3 space-y-2 text-sm text-gray-700">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">Contacto</p>
+        <ul className="mt-2.5 space-y-1.5 text-sm text-white/60">
           <li>{ADDRESS}</li>
-          <li><a href={waLink()} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D]">WhatsApp {WHATSAPP_HUMAN}</a></li>
+          <li><a href={waLink()} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D] transition-colors">WhatsApp {WHATSAPP_HUMAN}</a></li>
           <li>trabalenguaescolares@gmail.com</li>
           <li>RUT: 78.286.443.2</li>
         </ul>
       </div>
     </div>
-    <div className="border-t border-[#FFD5D0] py-4 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
-      <p className="text-xs text-gray-500">© {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.</p>
-      <Link to="/admin/login" className="text-[10px] uppercase tracking-[0.2em] text-gray-300 hover:text-gray-500 transition-colors" data-testid="footer-admin-link">· admin ·</Link>
+    <div className="border-t border-white/8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
+      <p className="text-[11px] text-white/30">© {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.</p>
+      <Link to="/admin/login" className="text-[10px] uppercase tracking-[0.2em] text-white/15 hover:text-white/40 transition-colors" data-testid="footer-admin-link">· admin ·</Link>
     </div>
   </footer>
 );
