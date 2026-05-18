@@ -15,11 +15,11 @@ export const ContactSection = ({ compact = false }) => {
   return (
     <section
       id="contacto"
-      className={`border-t border-gray-200 bg-white ${compact ? "py-12" : "py-16 md:py-24"}`}
+      className={`border-t border-gray-200 bg-white ${compact ? "py-8" : "py-8 md:py-12"}`}
       data-testid="contact-section"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-10">
+        <div className="mb-6">
           <p className="eyebrow">03 — Contacto & Ubicación</p>
           <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
             Visítanos en Talca.

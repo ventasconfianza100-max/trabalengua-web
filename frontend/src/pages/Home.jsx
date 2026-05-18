@@ -677,9 +677,9 @@ const Home = () => {
       </section>
 
       {/* HOW */}
-      <section className="border-b border-gray-200 bg-[#F7F7F5] py-16 md:py-20">
+      <section className="border-b border-gray-200 bg-[#F7F7F5] py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
+          <div className="mb-6">
             <p className="eyebrow">02 — Cómo comprar</p>
 
             <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">

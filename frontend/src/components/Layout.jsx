@@ -284,8 +284,8 @@ export const Header = () => {
 };
 
 export const Footer = () => (
-  <footer className="border-t border-gray-200 mt-24 bg-[#FFF0EE]" data-testid="site-footer">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-4 gap-10">
+  <footer className="border-t border-gray-200 bg-[#FFF0EE]" data-testid="site-footer">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid md:grid-cols-4 gap-8">
       <div>
         <div className="flex items-center gap-3">
           <img src={LOGO_URL} alt="" className="h-10 w-10 rounded-full border border-gray-200" />
@@ -323,7 +323,7 @@ export const Footer = () => (
         </ul>
       </div>
     </div>
-    <div className="border-t border-[#FFD5D0] py-5 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
+    <div className="border-t border-[#FFD5D0] py-4 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
       <p className="text-xs text-gray-500">© {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.</p>
       <Link to="/admin/login" className="text-[10px] uppercase tracking-[0.2em] text-gray-300 hover:text-gray-500 transition-colors" data-testid="footer-admin-link">· admin ·</Link>
     </div>
