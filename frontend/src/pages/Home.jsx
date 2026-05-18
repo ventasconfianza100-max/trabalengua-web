@@ -660,7 +660,7 @@ const Home = () => {
 
       {/* BORDADOS STRIP */}
       <section
-        className="border-t border-b border-gray-200 bg-white py-10 md:py-4 relative overflow-hidden"
+        className="border-t border-b border-gray-200 bg-[#FFF5F5] py-10 md:py-4 relative overflow-hidden"
         data-testid="bordados-strip"
       >
         {/* Decorative stitch line top */}
@@ -704,7 +704,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/bordados"
-            className="group block border border-gray-200 hover:border-black transition-colors relative overflow-hidden"
+            className="group block border border-[#FF4D4D]/25 hover:border-[#FF4D4D]/60 transition-colors relative overflow-hidden bg-[#FFF5F5]"
             data-testid="bordados-home-link"
           >
             {/* MÓVIL: horizontal compacto */}
@@ -738,8 +738,8 @@ const Home = () => {
                   data-testid="bordados-home-image"
                 />
               </div>
-              <div className="md:col-span-9 px-6 py-4 flex flex-row items-center gap-5 bg-gradient-to-r from-white via-white to-[#FF4D4D]/5">
-                <div className="shrink-0 h-9 w-9 rounded-full bg-[#FF4D4D]/10 text-[#FF4D4D] flex items-center justify-center">
+              <div className="md:col-span-9 px-6 py-4 flex flex-row items-center gap-5 bg-transparent">
+                <div className="shrink-0 h-9 w-9 rounded-full bg-[#FF4D4D]/20 text-[#FF4D4D] flex items-center justify-center">
                   <Scissors size={15} strokeWidth={1.75} />
                 </div>
                 <div className="flex-1 min-w-0">
