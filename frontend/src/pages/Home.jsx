@@ -707,8 +707,30 @@ const Home = () => {
             className="group block border border-gray-200 hover:border-black transition-colors relative overflow-hidden"
             data-testid="bordados-home-link"
           >
-            <div className="grid md:grid-cols-12 items-stretch">
-              <div className="md:col-span-4 aspect-[4/3] md:aspect-auto bg-gray-100 border-b md:border-b-0 md:border-r border-gray-200 overflow-hidden">
+            {/* MÓVIL: horizontal compacto */}
+            <div className="flex md:hidden items-stretch">
+              <div className="w-28 flex-shrink-0 overflow-hidden">
+                <img
+                  src="/images/bordados.jpg"
+                  alt="Bordado de nombre en prenda escolar"
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                  data-testid="bordados-home-image-mobile"
+                />
+              </div>
+              <div className="flex-1 p-4 flex flex-col justify-center gap-2 bg-gradient-to-r from-white to-[#FF4D4D]/5">
+                <p className="eyebrow text-[9px]">Servicio extra</p>
+                <h3 className="font-display text-base font-semibold tracking-tight leading-tight">
+                  También bordamos nombres en tus uniformes.
+                </h3>
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF4D4D]">
+                  Conocer servicio <ArrowRight size={13} />
+                </div>
+              </div>
+            </div>
+
+            {/* DESKTOP: layout original */}
+            <div className="hidden md:grid md:grid-cols-12 items-stretch">
+              <div className="md:col-span-4 md:aspect-auto bg-gray-100 border-r border-gray-200 overflow-hidden">
                 <img
                   src="/images/bordados.jpg"
                   alt="Bordado de nombre en prenda escolar"
@@ -716,28 +738,21 @@ const Home = () => {
                   data-testid="bordados-home-image"
                 />
               </div>
-
-              <div className="md:col-span-8 p-6 md:p-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 bg-gradient-to-r from-white via-white to-[#FF4D4D]/5">
+              <div className="md:col-span-8 p-10 flex flex-row items-center gap-10 bg-gradient-to-r from-white via-white to-[#FF4D4D]/5">
                 <div className="shrink-0 h-12 w-12 rounded-full bg-[#FF4D4D]/10 text-[#FF4D4D] flex items-center justify-center">
                   <Scissors size={20} strokeWidth={1.75} />
                 </div>
-
                 <div className="flex-1 min-w-0">
                   <p className="eyebrow">Servicio extra</p>
-
-                  <h3 className="mt-2 font-display text-2xl md:text-3xl font-semibold tracking-tight">
+                  <h3 className="mt-2 font-display text-3xl font-semibold tracking-tight">
                     También bordamos nombres en tus uniformes.
                   </h3>
-
-                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-xl">
-                    Personaliza cada prenda con el nombre de tu hijo. Terminación
-                    profesional, directo desde nuestro taller.
+                  <p className="mt-2 text-base text-gray-600 max-w-xl">
+                    Personaliza cada prenda con el nombre de tu hijo. Terminación profesional, directo desde nuestro taller.
                   </p>
                 </div>
-
                 <div className="inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap group-hover:text-[#FF4D4D] transition-colors">
-                  Conocer servicio{" "}
-                  <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                  Conocer servicio <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
             </div>
