@@ -18,15 +18,34 @@ export const ContactSection = ({ compact = false }) => {
       className={`border-t border-gray-200 bg-white ${compact ? "py-8" : "py-8 md:py-12"} relative overflow-hidden`}
       data-testid="contact-section"
     >
-      {/* Decorative dot grid top-right */}
-      <div className="absolute top-0 right-0 w-64 h-48 pointer-events-none select-none opacity-[0.35]"
-        style={{
-          backgroundImage: "radial-gradient(circle, #e5e7eb 1px, transparent 1px)",
-          backgroundSize: "18px 18px",
-          maskImage: "linear-gradient(to bottom-left, white 30%, transparent 80%)",
-          WebkitMaskImage: "linear-gradient(to bottom-left, white 30%, transparent 80%)",
-        }}
-      />
+      {/* Location pin + clock pattern */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+          <defs>
+            <pattern id="contactPattern" x="0" y="0" width="90" height="90" patternUnits="userSpaceOnUse">
+              {/* Location pin */}
+              <g transform="translate(8,6)">
+                <path d="M10,0 C4.5,0 0,4.5 0,10 C0,17 10,26 10,26 C10,26 20,17 20,10 C20,4.5 15.5,0 10,0 Z" fill="none" stroke="#b8c4c8" strokeWidth="1.1" />
+                <circle cx="10" cy="10" r="3.5" fill="none" stroke="#b8c4c8" strokeWidth="1" />
+              </g>
+              {/* Clock */}
+              <g transform="translate(58,50)">
+                <circle cx="10" cy="10" r="10" fill="none" stroke="#b8c4c8" strokeWidth="1.1" />
+                <line x1="10" y1="4" x2="10" y2="10" stroke="#b8c4c8" strokeWidth="1" strokeLinecap="round" />
+                <line x1="10" y1="10" x2="15" y2="13" stroke="#b8c4c8" strokeWidth="1" strokeLinecap="round" />
+              </g>
+              {/* Small pin */}
+              <g transform="translate(62,8) scale(0.6)">
+                <path d="M10,0 C4.5,0 0,4.5 0,10 C0,17 10,26 10,26 C10,26 20,17 20,10 C20,4.5 15.5,0 10,0 Z" fill="none" stroke="#b8c4c8" strokeWidth="1.3" />
+                <circle cx="10" cy="10" r="3.5" fill="none" stroke="#b8c4c8" strokeWidth="1.1" />
+              </g>
+              {/* Dot */}
+              <circle cx="38" cy="72" r="1.8" fill="none" stroke="#b8c4c8" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#contactPattern)" opacity="0.25" />
+        </svg>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="mb-6">

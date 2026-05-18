@@ -642,6 +642,39 @@ const Home = () => {
         <div className="absolute top-0 left-0 right-0 h-[3px] pointer-events-none"
           style={{ backgroundImage: "repeating-linear-gradient(90deg, #FF4D4D 0, #FF4D4D 8px, transparent 8px, transparent 16px)", opacity: 0.25 }}
         />
+        {/* Cross-stitch + needle pattern */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+            <defs>
+              <pattern id="bordadosPattern" x="0" y="0" width="90" height="90" patternUnits="userSpaceOnUse">
+                {/* Cross-stitch X */}
+                <g transform="translate(10,10)">
+                  <line x1="0" y1="0" x2="12" y2="12" stroke="#e8c0bc" strokeWidth="1.1" strokeLinecap="round" />
+                  <line x1="12" y1="0" x2="0" y2="12" stroke="#e8c0bc" strokeWidth="1.1" strokeLinecap="round" />
+                </g>
+                {/* Needle with eye */}
+                <g transform="translate(55,15) rotate(-35)">
+                  <line x1="0" y1="0" x2="0" y2="28" stroke="#e8c0bc" strokeWidth="1.2" strokeLinecap="round" />
+                  <ellipse cx="0" cy="4" rx="2.5" ry="1.5" fill="none" stroke="#e8c0bc" strokeWidth="1" />
+                  <line x1="-1.5" y1="28" x2="0" y2="32" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                  <line x1="1.5" y1="28" x2="0" y2="32" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                </g>
+                {/* Running stitch */}
+                <g transform="translate(8,65)">
+                  <line x1="0" y1="0" x2="7" y2="0" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                  <line x1="11" y1="0" x2="18" y2="0" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                  <line x1="22" y1="0" x2="29" y2="0" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                </g>
+                {/* Small cross-stitch X bottom-right */}
+                <g transform="translate(62,60)">
+                  <line x1="0" y1="0" x2="8" y2="8" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                  <line x1="8" y1="0" x2="0" y2="8" stroke="#e8c0bc" strokeWidth="1" strokeLinecap="round" />
+                </g>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#bordadosPattern)" opacity="0.25" />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
@@ -689,6 +722,29 @@ const Home = () => {
 
       {/* HOW */}
       <section className="border-b border-gray-200 bg-[#F7F7F5] py-8 md:py-12 relative overflow-hidden">
+        {/* Checkmark + arrow process pattern */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+            <defs>
+              <pattern id="howPattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+                {/* Checkmark in circle */}
+                <g transform="translate(8,8)">
+                  <circle cx="10" cy="10" r="9" fill="none" stroke="#b8c4c8" strokeWidth="1.1" />
+                  <polyline points="5,10 9,14 15,7" fill="none" stroke="#b8c4c8" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+                {/* Arrow right */}
+                <g transform="translate(52,46)">
+                  <line x1="0" y1="6" x2="16" y2="6" stroke="#b8c4c8" strokeWidth="1.1" strokeLinecap="round" />
+                  <polyline points="11,1 16,6 11,11" fill="none" stroke="#b8c4c8" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+                {/* Small dot */}
+                <circle cx="20" cy="62" r="2" fill="none" stroke="#b8c4c8" strokeWidth="1" />
+                <circle cx="60" cy="18" r="2" fill="none" stroke="#b8c4c8" strokeWidth="1" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#howPattern)" opacity="0.25" />
+          </svg>
+        </div>
         {/* Decorative large background number */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none hidden lg:block">
           <span className="font-display text-[160px] font-semibold text-gray-100 leading-none tracking-tight pr-8">
