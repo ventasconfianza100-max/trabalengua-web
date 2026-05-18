@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors } from "lucide-react";
+import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors, GraduationCap, SlidersHorizontal, Banknote } from "lucide-react";
 import { ContactSection } from "../components/ContactSection";
 
 const DEFAULT_SCHOOLS = [
@@ -454,6 +454,12 @@ const Home = () => {
               <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
                 Encuentra tu colegio.
               </h2>
+              {/* Decorative accent line */}
+              <div className="mt-3 flex items-center gap-2">
+                <span className="w-8 h-[2px] bg-[#FF4D4D] rounded-full" />
+                <span className="w-3 h-[2px] bg-gray-300 rounded-full" />
+                <span className="w-1.5 h-[2px] bg-gray-200 rounded-full" />
+              </div>
             </div>
 
             <div
@@ -629,9 +635,14 @@ const Home = () => {
 
       {/* BORDADOS STRIP */}
       <section
-        className="border-t border-b border-gray-200 bg-white py-10 md:py-14"
+        className="border-t border-b border-gray-200 bg-white py-10 md:py-14 relative overflow-hidden"
         data-testid="bordados-strip"
       >
+        {/* Decorative stitch line top */}
+        <div className="absolute top-0 left-0 right-0 h-[3px] pointer-events-none"
+          style={{ backgroundImage: "repeating-linear-gradient(90deg, #FF4D4D 0, #FF4D4D 8px, transparent 8px, transparent 16px)", opacity: 0.25 }}
+        />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/bordados"
@@ -677,48 +688,59 @@ const Home = () => {
       </section>
 
       {/* HOW */}
-      <section className="border-b border-gray-200 bg-[#F7F7F5] py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <p className="eyebrow">02 — Cómo comprar</p>
+      <section className="border-b border-gray-200 bg-[#F7F7F5] py-8 md:py-12 relative overflow-hidden">
+        {/* Decorative large background number */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none hidden lg:block">
+          <span className="font-display text-[160px] font-semibold text-gray-100 leading-none tracking-tight pr-8">
+            3
+          </span>
+        </div>
 
-            <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
-              Tres pasos. Sin vueltas.
-            </h2>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="mb-6 flex items-end gap-4">
+            <div>
+              <p className="eyebrow">02 — Cómo comprar</p>
+              <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
+                Tres pasos. Sin vueltas.
+              </h2>
+            </div>
+            {/* Decorative step dots */}
+            <div className="hidden md:flex items-center gap-1.5 pb-1 ml-2">
+              {[0,1,2].map(i => (
+                <span key={i} className={`rounded-full ${i === 0 ? "w-2.5 h-2.5 bg-[#FF4D4D]" : "w-2 h-2 bg-gray-300"}`} />
+              ))}
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-px bg-gray-200 border border-gray-200">
+          <div className="grid md:grid-cols-3 relative">
+            {/* Desktop connector line */}
+            <div className="absolute hidden md:block top-8 left-[calc(33.33%+1rem)] right-[calc(33.33%+1rem)] h-px border-t border-dashed border-gray-300 z-10" />
+
             {[
-              {
-                n: "01",
-                t: "Elige tu colegio",
-                d: "Selecciona el colegio correspondiente a tu familia.",
-              },
-              {
-                n: "02",
-                t: "Revisa talla y stock",
-                d: "Ve la disponibilidad exacta por talla y agrega al carrito.",
-              },
-              {
-                n: "03",
-                t: "Paga por transferencia",
-                d: "Completa tus datos y recibe las instrucciones de pago.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="bg-white p-8">
-                <span className="font-display text-5xl text-gray-200 font-semibold">
-                  {step.n}
-                </span>
+              { n: "01", t: "Elige tu colegio",      d: "Selecciona el colegio correspondiente a tu familia.",               icon: GraduationCap },
+              { n: "02", t: "Revisa talla y stock",   d: "Ve la disponibilidad exacta por talla y agrega al carrito.",        icon: SlidersHorizontal },
+              { n: "03", t: "Paga por transferencia", d: "Completa tus datos y recibe las instrucciones de pago.",            icon: Banknote },
+            ].map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.n} className={`bg-white p-8 border border-gray-200 ${i > 0 ? "border-l-0" : ""} relative`}>
+                  {/* Icon badge */}
+                  <div className="w-10 h-10 bg-[#FF4D4D]/8 border border-[#FF4D4D]/20 flex items-center justify-center mb-4">
+                    <Icon size={18} strokeWidth={1.5} className="text-[#FF4D4D]" />
+                  </div>
 
-                <h3 className="mt-3 font-display text-xl font-medium">
-                  {step.t}
-                </h3>
+                  <span className="font-display text-5xl text-gray-100 font-semibold leading-none">
+                    {step.n}
+                  </span>
 
-                <p className="mt-2 text-sm text-gray-600">
-                  {step.d}
-                </p>
-              </div>
-            ))}
+                  <h3 className="mt-3 font-display text-xl font-medium">{step.t}</h3>
+                  <p className="mt-2 text-sm text-gray-600">{step.d}</p>
+
+                  {/* Step indicator dot */}
+                  <div className="absolute top-8 right-6 w-2 h-2 rounded-full bg-gray-200" />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

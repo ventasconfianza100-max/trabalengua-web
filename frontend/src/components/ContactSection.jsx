@@ -15,14 +15,28 @@ export const ContactSection = ({ compact = false }) => {
   return (
     <section
       id="contacto"
-      className={`border-t border-gray-200 bg-white ${compact ? "py-8" : "py-8 md:py-12"}`}
+      className={`border-t border-gray-200 bg-white ${compact ? "py-8" : "py-8 md:py-12"} relative overflow-hidden`}
       data-testid="contact-section"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Decorative dot grid top-right */}
+      <div className="absolute top-0 right-0 w-64 h-48 pointer-events-none select-none opacity-[0.35]"
+        style={{
+          backgroundImage: "radial-gradient(circle, #e5e7eb 1px, transparent 1px)",
+          backgroundSize: "18px 18px",
+          maskImage: "linear-gradient(to bottom-left, white 30%, transparent 80%)",
+          WebkitMaskImage: "linear-gradient(to bottom-left, white 30%, transparent 80%)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="mb-6">
           <p className="eyebrow">03 — Contacto & Ubicación</p>
-          <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
+          <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight flex items-center gap-3">
             Visítanos en Talca.
+            {/* Decorative pin accent */}
+            <span className="hidden sm:inline-flex items-center justify-center w-8 h-8 bg-[#FF4D4D]/8 border border-[#FF4D4D]/20 shrink-0">
+              <MapPin size={15} strokeWidth={1.5} className="text-[#FF4D4D]" />
+            </span>
           </h2>
           <p className="mt-3 text-gray-600 max-w-xl">
             Te esperamos en nuestra tienda. Para consultas adicionales escríbenos por WhatsApp y te respondemos al instante.
