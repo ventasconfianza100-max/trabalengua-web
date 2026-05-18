@@ -83,7 +83,7 @@ const DEFAULT_SCHOOLS = [
 ];
 
 /* Caja con escudo + fondo difuminado basado en la misma imagen */
-const EscudoBox = ({ src, alt, boxClass = "h-36" }) => (
+const EscudoBox = ({ src, alt, boxClass = "h-28" }) => (
   <div className={`${boxClass} relative overflow-hidden flex items-center justify-center border-b border-gray-100 bg-white`}>
     <img
       src={src}
@@ -97,7 +97,7 @@ const EscudoBox = ({ src, alt, boxClass = "h-36" }) => (
     <img
       src={src}
       alt={alt}
-      className="h-24 w-24 object-contain relative z-10 drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
+      className="h-20 w-20 object-contain relative z-10 drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
       onError={(e) => {
         e.target.style.display = "none";
       }}
@@ -134,20 +134,20 @@ const SchoolCard = ({ school }) => (
     {/* DESKTOP: tarjeta vertical original */}
     <div className="hidden sm:block">
       <EscudoBox src={school.escudo} alt={`Escudo ${school.name}`} />
-      <div className="p-5">
-        <h3 className="font-display text-lg font-semibold tracking-tight">{school.name}</h3>
-        <p className="mt-1 text-xs text-gray-500 line-clamp-2">{school.description}</p>
+      <div className="p-4">
+        <h3 className="font-display text-base font-semibold tracking-tight">{school.name}</h3>
+        <p className="mt-0.5 text-xs text-gray-500 line-clamp-2">{school.description}</p>
         {school.prendas?.length > 0 && (
-          <div className="mt-4 flex gap-2">
+          <div className="mt-3 flex gap-1.5">
             {school.prendas.map((p, i) => (
-              <div key={i} className="w-14 h-14 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
+              <div key={i} className="w-11 h-11 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
                 <img src={p.img} alt={p.name} className="w-full h-full object-cover"
                   onError={(e) => { e.target.parentElement.style.display = "none"; }} />
               </div>
             ))}
           </div>
         )}
-        <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF4D4D] group-hover:gap-2.5 transition-all">
+        <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF4D4D] group-hover:gap-2.5 transition-all">
           Ver prendas <ArrowRight size={13} />
         </div>
       </div>
@@ -400,7 +400,7 @@ const Home = () => {
       </section>
 
       {/* COLEGIOS */}
-      <section id="colegios" className="py-8 md:py-12 bg-[#F7F7F5] relative overflow-hidden">
+      <section id="colegios" className="py-8 md:py-8 bg-[#F7F7F5] relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <svg
             width="100%"
@@ -480,7 +480,7 @@ const Home = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
             <div>
               <p className="eyebrow">01 — Colegios</p>
               <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
@@ -584,7 +584,7 @@ const Home = () => {
     className="block mb-4 border-2 border-[#8ECEF2]/50 hover:border-[#8ECEF2] transition-colors group relative overflow-hidden rounded-sm bg-gradient-to-br from-[#E6F4FB] via-[#F0F9FE] to-white"
     data-testid={`school-card-${featured.slug}`}
   >
-    <div className="relative min-h-[160px] sm:min-h-[260px] md:min-h-[190px] p-4 sm:p-6 md:p-8 flex items-center overflow-hidden">
+    <div className="relative min-h-[160px] sm:min-h-[260px] md:min-h-[160px] p-4 sm:p-6 md:p-6 flex items-center overflow-hidden">
 
       {/* Logo Colegio Talca responsive */}
       <img
@@ -607,7 +607,7 @@ const Home = () => {
           Principal
         </div>
 
-        <h3 className="mt-2 font-display text-2xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
+        <h3 className="mt-2 font-display text-2xl sm:text-4xl md:text-4xl font-semibold tracking-tight">
           {featured.name}
         </h3>
 
