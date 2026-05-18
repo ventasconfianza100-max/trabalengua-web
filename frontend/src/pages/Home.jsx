@@ -287,41 +287,87 @@ const Home = () => {
 
         <div className="absolute inset-0 grid-backdrop opacity-30 pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative">
-          <div className="grid md:grid-cols-12 gap-10 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 relative">
+
+          {/* MÓVIL: layout compacto con imagen al lado */}
+          <div className="flex gap-4 items-start md:hidden">
+            {/* Texto izquierda */}
+            <div className="flex-1 min-w-0 reveal">
+              <div className="inline-flex items-center gap-1.5 border border-gray-200 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-600">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D4D]" />
+                Temporada escolar
+              </div>
+              <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight leading-[1.05]">
+                Uniformes<br />
+                <span className="italic font-light text-gray-500">simples,</span>{" "}
+                <span className="italic font-light text-gray-500">claros</span><br />
+                y listos para{" "}
+                <span className="text-[#FF4D4D]">retirar</span>.
+              </h1>
+              <div className="mt-4 flex flex-col gap-2">
+                <a
+                  href="#colegios"
+                  onClick={(e) => { e.preventDefault(); document.getElementById("colegios")?.scrollIntoView({ behavior: "smooth" }); }}
+                  className="inline-flex items-center justify-center gap-2 btn-brand px-4 py-2.5 text-sm font-medium rounded-sm"
+                  data-testid="hero-browse-schools-mobile"
+                >
+                  Ver colegios <ArrowRight size={14} />
+                </a>
+                <Link
+                  to="/colegio/colegio-talca"
+                  className="inline-flex items-center justify-center gap-2 border border-black px-4 py-2.5 text-sm font-medium rounded-sm"
+                  data-testid="hero-talca-cta-mobile"
+                >
+                  Colegio Talca
+                </Link>
+              </div>
+              <div className="mt-4 flex flex-col gap-1.5 text-xs text-gray-600">
+                <div className="flex items-center gap-1.5"><Truck size={13} /> Retiro inmediato</div>
+                <div className="flex items-center gap-1.5"><ShieldCheck size={13} /> Pago seguro</div>
+                <div className="flex items-center gap-1.5"><Sparkles size={13} /> Tallas 4 al XL</div>
+              </div>
+            </div>
+
+            {/* Imagen derecha pequeña */}
+            <div className="w-36 flex-shrink-0">
+              <div className="aspect-[3/4] bg-gray-50 border border-gray-200 relative overflow-hidden rounded-sm">
+                <img
+                  src="/images/hero-uniformes.jpg"
+                  alt="Uniformes escolares Trabalengua"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-2 right-2 bg-[#FF4D4D] text-white px-2 py-0.5 text-[8px] font-bold uppercase tracking-[0.15em]">
+                  2026
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* DESKTOP: layout original */}
+          <div className="hidden md:grid md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7 reveal">
               <div className="inline-flex items-center gap-2 border border-gray-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D4D]" />
                 Temporada escolar
               </div>
-
               <h1 className="mt-6 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05]">
                 Uniformes escolares <br />
                 <span className="italic font-light text-gray-500">simples,</span>{" "}
                 <span className="italic font-light text-gray-500">claros</span> y listos
                 para <span className="text-[#FF4D4D]">retirar</span>.
               </h1>
-
               <p className="mt-6 text-base md:text-lg text-gray-600 max-w-xl leading-relaxed">
-                Elige tu colegio, revisa el stock por talla y paga por transferencia. Un
-                proceso sencillo, sin complicaciones.
+                Elige tu colegio, revisa el stock por talla y paga por transferencia. Un proceso sencillo, sin complicaciones.
               </p>
-
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#colegios"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document
-                      .getElementById("colegios")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                  }}
+                  onClick={(e) => { e.preventDefault(); document.getElementById("colegios")?.scrollIntoView({ behavior: "smooth" }); }}
                   className="inline-flex items-center gap-2 btn-brand px-6 py-3 text-sm font-medium tracking-wide rounded-sm"
                   data-testid="hero-browse-schools"
                 >
                   Ver colegios <ArrowRight size={16} />
                 </a>
-
                 <Link
                   to="/colegio/colegio-talca"
                   className="inline-flex items-center gap-2 border border-black px-6 py-3 text-sm font-medium tracking-wide hover:bg-black hover:text-white transition-colors rounded-sm"
@@ -330,41 +376,20 @@ const Home = () => {
                   Ir a Colegio Talca
                 </Link>
               </div>
-
               <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-gray-600">
-                <div className="flex items-center gap-2">
-                  <Truck size={16} /> Retiro inmediato
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <ShieldCheck size={16} /> Pago seguro
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Sparkles size={16} /> Tallas 4 al XL
-                </div>
+                <div className="flex items-center gap-2"><Truck size={16} /> Retiro inmediato</div>
+                <div className="flex items-center gap-2"><ShieldCheck size={16} /> Pago seguro</div>
+                <div className="flex items-center gap-2"><Sparkles size={16} /> Tallas 4 al XL</div>
               </div>
             </div>
 
             <div className="md:col-span-5 relative">
-              <div
-                className="aspect-[4/5] bg-gray-50 border border-gray-200 relative overflow-hidden"
-                data-testid="hero-image-frame"
-              >
-                <img
-                  src="/images/hero-uniformes.jpg"
-                  alt="Uniformes escolares Trabalengua"
-                  className="w-full h-full object-cover"
-                  data-testid="hero-image"
-                />
-
+              <div className="aspect-[4/5] bg-gray-50 border border-gray-200 relative overflow-hidden" data-testid="hero-image-frame">
+                <img src="/images/hero-uniformes.jpg" alt="Uniformes escolares Trabalengua" className="w-full h-full object-cover" data-testid="hero-image" />
                 <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-gray-200 px-3 py-2">
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500">
-                    Est. Escolar
-                  </p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500">Est. Escolar</p>
                   <p className="font-display text-sm font-semibold">trabalengua.tl</p>
                 </div>
-
                 <div className="absolute bottom-4 right-4 bg-[#FF4D4D] text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                   Temporada 2026
                 </div>
