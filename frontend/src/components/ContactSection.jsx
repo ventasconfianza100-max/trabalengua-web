@@ -15,7 +15,7 @@ export const ContactSection = ({ compact = false }) => {
   return (
     <section
       id="contacto"
-      className={`border-t border-gray-200 bg-white ${compact ? "py-8" : "py-8 md:py-12"} relative overflow-hidden`}
+      className={`border-t border-gray-200 bg-white ${compact ? "py-8" : "py-8 md:py-8"} relative overflow-hidden`}
       data-testid="contact-section"
     >
       {/* Location pin + clock pattern */}
@@ -50,15 +50,15 @@ export const ContactSection = ({ compact = false }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
         {/* Header */}
-        <div className="mb-4 md:mb-6">
+        <div className="mb-4">
           <p className="eyebrow">03 — Contacto & Ubicación</p>
-          <h2 className="mt-2 font-display text-2xl md:text-4xl font-semibold tracking-tight flex items-center gap-3">
+          <h2 className="mt-1.5 font-display text-2xl md:text-3xl font-semibold tracking-tight flex items-center gap-3">
             Visítanos en Talca.
             <span className="hidden sm:inline-flex items-center justify-center w-8 h-8 bg-[#FF4D4D]/8 border border-[#FF4D4D]/20 shrink-0">
               <MapPin size={15} strokeWidth={1.5} className="text-[#FF4D4D]" />
             </span>
           </h2>
-          <p className="mt-1 md:mt-3 text-sm md:text-base text-gray-600 max-w-xl">
+          <p className="mt-1 text-sm text-gray-600 max-w-xl">
             Te esperamos en nuestra tienda. Escríbenos por WhatsApp para consultas.
           </p>
         </div>
@@ -137,32 +137,32 @@ export const ContactSection = ({ compact = false }) => {
           <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer"
             className="md:col-span-7 border border-gray-200 overflow-hidden group relative block bg-gray-50 hover:border-black transition-colors"
             data-testid="map-card">
-            <div className="aspect-[16/10] w-full">
+            <div className="aspect-[16/9] w-full">
               <iframe title="Mapa Trabalengua Escolares" src={MAPS_EMBED_URL}
                 className="w-full h-full border-0" loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
             </div>
-            <div className="p-5 border-t border-gray-200 bg-white flex items-center justify-between">
+            <div className="p-4 border-t border-gray-200 bg-white flex items-center justify-between">
               <div className="min-w-0">
                 <p className="eyebrow">Dirección</p>
-                <p className="mt-1 font-display text-lg font-medium truncate">{ADDRESS}</p>
+                <p className="mt-0.5 font-display text-base font-medium truncate">{ADDRESS}</p>
               </div>
               <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-600 group-hover:text-[#FF4D4D] transition-colors shrink-0">
                 Ver en Maps <ArrowUpRight size={14} />
               </span>
             </div>
           </a>
-          <div className="md:col-span-5 grid grid-cols-1 gap-6">
-            <div className="border border-gray-200 p-6 bg-gray-50" data-testid="hours-card">
+          <div className="md:col-span-5 grid grid-cols-1 gap-4">
+            <div className="border border-gray-200 p-4 bg-gray-50" data-testid="hours-card">
               <div className="flex items-start gap-3">
-                <div className="h-10 w-10 bg-white border border-gray-200 flex items-center justify-center shrink-0">
-                  <Clock size={18} strokeWidth={1.5} />
+                <div className="h-9 w-9 bg-white border border-gray-200 flex items-center justify-center shrink-0">
+                  <Clock size={16} strokeWidth={1.5} />
                 </div>
                 <div className="flex-1">
                   <p className="eyebrow">Horario de atención</p>
-                  <ul className="mt-3 divide-y divide-gray-200">
+                  <ul className="mt-2 divide-y divide-gray-200">
                     {HOURS.map((h) => (
-                      <li key={h.day} className="flex items-center justify-between py-2 text-sm">
+                      <li key={h.day} className="flex items-center justify-between py-1.5 text-sm">
                         <span className="text-gray-700">{h.day}</span>
                         <span className="font-medium">{h.time}</span>
                       </li>
@@ -172,34 +172,34 @@ export const ContactSection = ({ compact = false }) => {
               </div>
             </div>
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-              className="border border-gray-200 p-6 bg-white hover:border-black transition-colors group flex items-center gap-4"
+              className="border border-gray-200 p-4 bg-white hover:border-black transition-colors group flex items-center gap-3"
               data-testid="instagram-card">
-              <div className="h-12 w-12 bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center shrink-0">
-                <Instagram size={20} strokeWidth={1.8} />
+              <div className="h-10 w-10 bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center shrink-0">
+                <Instagram size={18} strokeWidth={1.8} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="eyebrow">Síguenos</p>
-                <p className="mt-0.5 font-display text-lg font-medium">{INSTAGRAM_HANDLE}</p>
+                <p className="mt-0.5 font-display text-base font-medium">{INSTAGRAM_HANDLE}</p>
               </div>
-              <ArrowUpRight size={18} className="text-gray-400 group-hover:text-[#FF4D4D] transition-colors" />
+              <ArrowUpRight size={16} className="text-gray-400 group-hover:text-[#FF4D4D] transition-colors" />
             </a>
             <a href={waLink("Hola Trabalengua, tengo una consulta.")} target="_blank" rel="noopener noreferrer"
-              className="border border-[#25D366]/40 p-6 bg-[#F2FBF5] hover:bg-[#E8F7EE] hover:border-[#25D366] transition-colors group flex items-center gap-4"
+              className="border border-[#25D366]/40 p-4 bg-[#F2FBF5] hover:bg-[#E8F7EE] hover:border-[#25D366] transition-colors group flex items-center gap-3"
               data-testid="whatsapp-contact-card">
-              <div className="h-12 w-12 bg-[#25D366] text-white flex items-center justify-center shrink-0 rounded-full shadow-sm">
-                <MessageCircle size={20} strokeWidth={1.8} />
+              <div className="h-10 w-10 bg-[#25D366] text-white flex items-center justify-center shrink-0 rounded-full shadow-sm">
+                <MessageCircle size={18} strokeWidth={1.8} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-[#1b7a3a]">Consultas</p>
-                <p className="mt-0.5 font-display text-lg font-medium text-[#0A0A0A]">Escríbenos por WhatsApp</p>
+                <p className="mt-0.5 font-display text-base font-medium text-[#0A0A0A]">Escríbenos por WhatsApp</p>
                 <p className="text-xs text-gray-600 mt-0.5">{WHATSAPP_HUMAN}</p>
               </div>
-              <ArrowUpRight size={18} className="text-[#1b7a3a] group-hover:text-[#116b2d] transition-colors" />
+              <ArrowUpRight size={16} className="text-[#1b7a3a] group-hover:text-[#116b2d] transition-colors" />
             </a>
           </div>
         </div>
 
-        <div className="hidden md:flex mt-6 items-center gap-2 text-xs text-gray-500">
+        <div className="hidden md:flex mt-4 items-center gap-2 text-xs text-gray-500">
           <MapPin size={14} /> Delivery disponible únicamente dentro de Talca.
         </div>
       </div>
