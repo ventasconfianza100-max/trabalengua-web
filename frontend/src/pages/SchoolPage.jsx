@@ -215,6 +215,7 @@ const SchoolPage = () => {
   const [quickShop, setQuickShop] = useState(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
     setLoading(true);
     setQuery("");
     setActiveType("all");
