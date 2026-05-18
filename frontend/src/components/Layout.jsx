@@ -284,7 +284,7 @@ export const Header = () => {
 };
 
 export const Footer = () => (
-  <footer className="bg-gradient-to-br from-[#5c2020] to-[#2d1010]" data-testid="site-footer">
+  <footer className="bg-gradient-to-br from-[#922828] to-[#5c1818]" data-testid="site-footer">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid md:grid-cols-4 gap-6">
       <div>
         <div className="flex items-center gap-2.5">
