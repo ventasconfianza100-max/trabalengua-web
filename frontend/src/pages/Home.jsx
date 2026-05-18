@@ -761,7 +761,7 @@ const Home = () => {
       </section>
 
       {/* HOW */}
-      <section className="border-b border-gray-200 bg-[#F7F7F5] py-8 md:py-12 relative overflow-hidden">
+      <section className="border-b border-gray-200 bg-[#F2FBF5] py-8 md:py-6 relative overflow-hidden">
         {/* Checkmark + arrow process pattern */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
@@ -793,7 +793,7 @@ const Home = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="mb-6 flex items-end gap-4">
+          <div className="mb-4 flex items-end gap-4">
             <div>
               <p className="eyebrow">02 — Cómo comprar</p>
               <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
@@ -803,7 +803,7 @@ const Home = () => {
             {/* Decorative step dots */}
             <div className="hidden md:flex items-center gap-1.5 pb-1 ml-2">
               {[0,1,2].map(i => (
-                <span key={i} className={`rounded-full ${i === 0 ? "w-2.5 h-2.5 bg-[#FF4D4D]" : "w-2 h-2 bg-gray-300"}`} />
+                <span key={i} className={`rounded-full ${i === 0 ? "w-2.5 h-2.5 bg-emerald-500" : "w-2 h-2 bg-emerald-200"}`} />
               ))}
             </div>
           </div>
@@ -841,14 +841,14 @@ const Home = () => {
             ].map((step, i) => {
               const Icon = step.icon;
               return (
-                <div key={step.n} className={`bg-white p-8 border border-gray-200 ${i > 0 ? "border-l-0" : ""} relative`}>
-                  <div className="w-10 h-10 bg-[#FF4D4D]/8 border border-[#FF4D4D]/20 flex items-center justify-center mb-4">
-                    <Icon size={18} strokeWidth={1.5} className="text-[#FF4D4D]" />
+                <div key={step.n} className={`bg-white/70 p-5 border border-emerald-100 ${i > 0 ? "border-l-0" : ""} relative`}>
+                  <div className="w-9 h-9 bg-emerald-500/8 border border-emerald-500/20 flex items-center justify-center mb-3">
+                    <Icon size={16} strokeWidth={1.5} className="text-emerald-600" />
                   </div>
-                  <span className="font-display text-5xl text-gray-100 font-semibold leading-none">{step.n}</span>
-                  <h3 className="mt-3 font-display text-xl font-medium">{step.t}</h3>
-                  <p className="mt-2 text-sm text-gray-600">{step.d}</p>
-                  <div className="absolute top-8 right-6 w-2 h-2 rounded-full bg-gray-200" />
+                  <span className="font-display text-4xl text-emerald-100 font-semibold leading-none">{step.n}</span>
+                  <h3 className="mt-2 font-display text-lg font-medium">{step.t}</h3>
+                  <p className="mt-1 text-sm text-gray-600">{step.d}</p>
+                  <div className="absolute top-6 right-5 w-2 h-2 rounded-full bg-emerald-100" />
                 </div>
               );
             })}
