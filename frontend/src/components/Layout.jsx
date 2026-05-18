@@ -285,7 +285,47 @@ export const Header = () => {
 
 export const Footer = () => (
   <footer className="bg-gradient-to-br from-[#922828] to-[#5c1818]" data-testid="site-footer">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 grid md:grid-cols-4 gap-5">
+
+    {/* MÓVIL: layout ultra-compacto */}
+    <div className="md:hidden px-4 py-4">
+      {/* Logo + descripción en una fila */}
+      <div className="flex items-center gap-2.5 mb-3">
+        <img src={LOGO_URL} alt="" className="h-7 w-7 rounded-full border border-white/20 flex-shrink-0" />
+        <div>
+          <p className="font-display font-semibold text-white text-xs">Trabalengua SPA</p>
+          <p className="text-[9px] text-white/50 uppercase tracking-widest">Uniformes Escolares · Talca</p>
+        </div>
+      </div>
+
+      {/* Links en 2 columnas */}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-3">
+        <div>
+          <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40 mb-1.5">Colegios</p>
+          <ul className="space-y-1 text-[11px] text-white font-light">
+            {SCHOOLS.map((s) => (
+              <li key={s.slug}><Link to={`/colegio/${s.slug}`} className="hover:text-[#FF4D4D] transition-colors">{s.name}</Link></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40 mb-1.5">Secciones</p>
+          <ul className="space-y-1 text-[11px] text-white font-light mb-3">
+            <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-[#FF4D4D] transition-colors">Inicio</Link></li>
+            <li><Link to="/bordados" className="hover:text-[#FF4D4D] transition-colors">Bordados</Link></li>
+            <li><Link to="/contacto" className="hover:text-[#FF4D4D] transition-colors">Contacto</Link></li>
+            <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D] transition-colors">Instagram</a></li>
+          </ul>
+          <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40 mb-1.5 mt-2">Contacto</p>
+          <ul className="space-y-1 text-[11px] text-white font-light">
+            <li><a href={waLink()} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D] transition-colors">WhatsApp {WHATSAPP_HUMAN}</a></li>
+            <li className="text-white/60">{ADDRESS}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {/* DESKTOP: layout original */}
+    <div className="hidden md:grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:grid-cols-4 gap-5">
       <div>
         <div className="flex items-center gap-2">
           <img src={LOGO_URL} alt="" className="h-7 w-7 rounded-full border border-white/20" />
@@ -323,7 +363,8 @@ export const Footer = () => (
         </ul>
       </div>
     </div>
-    <div className="border-t border-white/15 py-2.5 px-6 max-w-7xl mx-auto">
+
+    <div className="border-t border-white/15 py-2 px-4 md:px-6 max-w-7xl mx-auto">
       <p className="text-[10px] text-white/40 text-center">© {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.</p>
     </div>
   </footer>
