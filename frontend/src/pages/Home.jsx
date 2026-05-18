@@ -280,7 +280,7 @@ const Home = () => {
 
         <div className="absolute inset-0 grid-backdrop opacity-30 pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative">
           <div className="grid md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7 reveal">
               <div className="inline-flex items-center gap-2 border border-gray-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600">
