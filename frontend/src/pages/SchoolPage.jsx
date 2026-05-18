@@ -359,7 +359,7 @@ const SchoolPage = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
         {filtered.length === 0 ? (
           <div
             className="border border-dashed border-gray-300 py-16 text-center"
@@ -382,7 +382,7 @@ const SchoolPage = () => {
           </div>
         ) : (
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"
             data-testid="products-grid"
           >
             {filtered.map((p) => {
@@ -416,18 +416,18 @@ const SchoolPage = () => {
                     />
                   </div>
 
-                  <div className="mt-4 flex items-baseline justify-between gap-2">
+                  <div className="mt-2.5 flex items-start justify-between gap-1">
                     <div className="min-w-0 flex-1">
-                      <p className="text-[11px] uppercase tracking-widest text-gray-500">
+                      <p className="text-[10px] uppercase tracking-widest text-gray-500 hidden sm:block">
                         {school.name}
                       </p>
 
-                      <h3 className="font-display text-lg font-medium">
+                      <h3 className="font-display text-sm sm:text-lg font-medium leading-tight">
                         {p.name}
                       </h3>
 
                       <p
-                        className="mt-2 flex items-center gap-2 text-xs text-gray-600"
+                        className="mt-1 flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-600"
                         data-testid={`product-card-stock-${p.type_key}`}
                       >
                         <span
@@ -436,17 +436,19 @@ const SchoolPage = () => {
                           }`}
                           aria-hidden
                         />
-
-                        <span>
+                        <span className="hidden sm:inline">
                           {totalStock > 0
                             ? "Stock disponible para retiro inmediato"
                             : "Sin stock disponible"}
+                        </span>
+                        <span className="sm:hidden">
+                          {totalStock > 0 ? "Disponible" : "Sin stock"}
                         </span>
                       </p>
                     </div>
 
                     <span
-                      className="font-semibold shrink-0"
+                      className="font-semibold shrink-0 text-sm sm:text-base"
                       data-testid={`product-price-${p.type_key}`}
                     >
                       {formatCLP(p.base_price)}
