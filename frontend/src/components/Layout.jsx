@@ -288,25 +288,25 @@ export const Footer = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid md:grid-cols-4 gap-6">
       <div>
         <div className="flex items-center gap-2.5">
-          <img src={LOGO_URL} alt="" className="h-8 w-8 rounded-full border border-white/10" />
+          <img src={LOGO_URL} alt="" className="h-8 w-8 rounded-full border border-white/20" />
           <div>
             <p className="font-display font-semibold text-white text-sm">Trabalengua SPA</p>
-            <p className="text-[10px] text-white/40 uppercase tracking-widest">Uniformes Escolares</p>
+            <p className="text-[10px] text-white/60 uppercase tracking-widest">Uniformes Escolares</p>
           </div>
         </div>
-        <p className="mt-3 text-xs text-white/50 max-w-xs leading-relaxed">Uniformes escolares y bordados personalizados en Talca.</p>
+        <p className="mt-3 text-xs text-white/70 max-w-xs leading-relaxed">Uniformes escolares y bordados personalizados en Talca.</p>
       </div>
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">Colegios</p>
-        <ul className="mt-2.5 space-y-1.5 text-sm text-white/60">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50 mb-2.5">Colegios</p>
+        <ul className="space-y-1.5 text-sm text-white font-light">
           {SCHOOLS.map((s) => (
             <li key={s.slug}><Link to={`/colegio/${s.slug}`} className="hover:text-[#FF4D4D] transition-colors">{s.name}</Link></li>
           ))}
         </ul>
       </div>
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">Secciones</p>
-        <ul className="mt-2.5 space-y-1.5 text-sm text-white/60">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50 mb-2.5">Secciones</p>
+        <ul className="space-y-1.5 text-sm text-white font-light">
           <li><Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-[#FF4D4D] transition-colors">Inicio</Link></li>
           <li><Link to="/bordados" className="hover:text-[#FF4D4D] transition-colors">Bordados</Link></li>
           <li><Link to="/contacto" className="hover:text-[#FF4D4D] transition-colors">Contacto</Link></li>
@@ -314,8 +314,8 @@ export const Footer = () => (
         </ul>
       </div>
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">Contacto</p>
-        <ul className="mt-2.5 space-y-1.5 text-sm text-white/60">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50 mb-2.5">Contacto</p>
+        <ul className="space-y-1.5 text-sm text-white font-light">
           <li>{ADDRESS}</li>
           <li><a href={waLink()} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF4D4D] transition-colors">WhatsApp {WHATSAPP_HUMAN}</a></li>
           <li>trabalenguaescolares@gmail.com</li>
@@ -323,9 +323,9 @@ export const Footer = () => (
         </ul>
       </div>
     </div>
-    <div className="border-t border-white/8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
-      <p className="text-[11px] text-white/30">© {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.</p>
-      <Link to="/admin/login" className="text-[10px] uppercase tracking-[0.2em] text-white/15 hover:text-white/40 transition-colors" data-testid="footer-admin-link">· admin ·</Link>
+    <div className="border-t border-white/15 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 px-6 max-w-7xl mx-auto">
+      <p className="text-[11px] text-white/50">© {new Date().getFullYear()} Trabalengua Escolares. Todos los derechos reservados.</p>
+      <Link to="/admin/login" className="text-[10px] uppercase tracking-[0.2em] text-white/25 hover:text-white/60 transition-colors" data-testid="footer-admin-link">· admin ·</Link>
     </div>
   </footer>
 );
