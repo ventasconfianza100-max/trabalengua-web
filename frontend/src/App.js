@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import { Header, Footer } from "./components/Layout";
 import { CartDrawer } from "./components/CartDrawer";
 import { WhatsAppFloat } from "./components/WhatsAppFloat";
+import { WelcomeSplash } from "./components/WelcomeSplash";
 import { Toaster } from "sonner";
 import Home from "./pages/Home";
 import SchoolPage from "./pages/SchoolPage";
@@ -84,6 +85,7 @@ const Shell = () => {
 function App() {
   return (
     <div className="App">
+      <WelcomeSplash />
       <CartProvider>
         <BrowserRouter>
           <Shell />
