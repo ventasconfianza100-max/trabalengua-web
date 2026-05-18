@@ -660,7 +660,7 @@ const Home = () => {
 
       {/* BORDADOS STRIP */}
       <section
-        className="border-t border-b border-gray-200 bg-white py-10 md:py-8 relative overflow-hidden"
+        className="border-t border-b border-gray-200 bg-white py-10 md:py-4 relative overflow-hidden"
         data-testid="bordados-strip"
       >
         {/* Decorative stitch line top */}
@@ -730,7 +730,7 @@ const Home = () => {
 
             {/* DESKTOP: layout original */}
             <div className="hidden md:grid md:grid-cols-12 items-stretch">
-              <div className="md:col-span-4 md:aspect-auto bg-gray-100 border-r border-gray-200 overflow-hidden">
+              <div className="md:col-span-3 h-36 bg-gray-100 border-r border-gray-200 overflow-hidden">
                 <img
                   src="/images/bordados.jpg"
                   alt="Bordado de nombre en prenda escolar"
@@ -738,21 +738,21 @@ const Home = () => {
                   data-testid="bordados-home-image"
                 />
               </div>
-              <div className="md:col-span-8 p-6 flex flex-row items-center gap-6 bg-gradient-to-r from-white via-white to-[#FF4D4D]/5">
-                <div className="shrink-0 h-10 w-10 rounded-full bg-[#FF4D4D]/10 text-[#FF4D4D] flex items-center justify-center">
-                  <Scissors size={17} strokeWidth={1.75} />
+              <div className="md:col-span-9 px-6 py-4 flex flex-row items-center gap-5 bg-gradient-to-r from-white via-white to-[#FF4D4D]/5">
+                <div className="shrink-0 h-9 w-9 rounded-full bg-[#FF4D4D]/10 text-[#FF4D4D] flex items-center justify-center">
+                  <Scissors size={15} strokeWidth={1.75} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="eyebrow">Servicio extra</p>
-                  <h3 className="mt-1 font-display text-2xl font-semibold tracking-tight">
+                  <h3 className="mt-0.5 font-display text-xl font-semibold tracking-tight">
                     También bordamos nombres en tus uniformes.
                   </h3>
-                  <p className="mt-1 text-sm text-gray-600 max-w-xl">
+                  <p className="mt-0.5 text-xs text-gray-500 max-w-xl">
                     Personaliza cada prenda con el nombre de tu hijo. Terminación profesional, directo desde nuestro taller.
                   </p>
                 </div>
-                <div className="inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap group-hover:text-[#FF4D4D] transition-colors">
-                  Conocer servicio <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                <div className="inline-flex items-center gap-1.5 text-sm font-medium whitespace-nowrap group-hover:text-[#FF4D4D] transition-colors">
+                  Conocer servicio <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
             </div>
