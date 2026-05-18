@@ -808,31 +808,46 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 relative">
-            {/* Desktop connector line */}
-            <div className="absolute hidden md:block top-8 left-[calc(33.33%+1rem)] right-[calc(33.33%+1rem)] h-px border-t border-dashed border-gray-300 z-10" />
-
+          {/* MÓVIL: pasos compactos horizontales */}
+          <div className="flex md:hidden flex-col gap-2">
             {[
-              { n: "01", t: "Elige tu colegio",      d: "Selecciona el colegio correspondiente a tu familia.",               icon: GraduationCap },
-              { n: "02", t: "Revisa talla y stock",   d: "Ve la disponibilidad exacta por talla y agrega al carrito.",        icon: SlidersHorizontal },
-              { n: "03", t: "Paga por transferencia", d: "Completa tus datos y recibe las instrucciones de pago.",            icon: Banknote },
+              { n: "01", t: "Elige tu colegio",        d: "Selecciona el colegio de tu familia.",                                                           icon: GraduationCap },
+              { n: "02", t: "Revisa talla y stock",     d: "Ve la disponibilidad exacta por talla y agrega al carrito.",                                     icon: SlidersHorizontal },
+              { n: "03", t: "Envíanos tu pedido por WhatsApp", d: "Escríbenos con tu nombre y pedido, y te enviamos las instrucciones de pago para procesarlo.", icon: Banknote },
+            ].map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.n} className="bg-white border border-gray-200 p-4 flex items-start gap-4">
+                  <div className="w-9 h-9 bg-[#FF4D4D]/8 border border-[#FF4D4D]/20 flex items-center justify-center flex-shrink-0">
+                    <Icon size={16} strokeWidth={1.5} className="text-[#FF4D4D]" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="font-display text-xl text-gray-100 font-semibold leading-none block">{step.n}</span>
+                    <h3 className="font-display text-sm font-semibold mt-0.5">{step.t}</h3>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{step.d}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* DESKTOP: cards horizontales original */}
+          <div className="hidden md:grid md:grid-cols-3 relative">
+            <div className="absolute top-8 left-[calc(33.33%+1rem)] right-[calc(33.33%+1rem)] h-px border-t border-dashed border-gray-300 z-10" />
+            {[
+              { n: "01", t: "Elige tu colegio",              d: "Selecciona el colegio correspondiente a tu familia.",                                                         icon: GraduationCap },
+              { n: "02", t: "Revisa talla y stock",           d: "Ve la disponibilidad exacta por talla y agrega al carrito.",                                                  icon: SlidersHorizontal },
+              { n: "03", t: "Envíanos tu pedido por WhatsApp", d: "Escríbenos con tu nombre y pedido, y te enviamos las instrucciones de pago para comenzar a procesarlo.",      icon: Banknote },
             ].map((step, i) => {
               const Icon = step.icon;
               return (
                 <div key={step.n} className={`bg-white p-8 border border-gray-200 ${i > 0 ? "border-l-0" : ""} relative`}>
-                  {/* Icon badge */}
                   <div className="w-10 h-10 bg-[#FF4D4D]/8 border border-[#FF4D4D]/20 flex items-center justify-center mb-4">
                     <Icon size={18} strokeWidth={1.5} className="text-[#FF4D4D]" />
                   </div>
-
-                  <span className="font-display text-5xl text-gray-100 font-semibold leading-none">
-                    {step.n}
-                  </span>
-
+                  <span className="font-display text-5xl text-gray-100 font-semibold leading-none">{step.n}</span>
                   <h3 className="mt-3 font-display text-xl font-medium">{step.t}</h3>
                   <p className="mt-2 text-sm text-gray-600">{step.d}</p>
-
-                  {/* Step indicator dot */}
                   <div className="absolute top-8 right-6 w-2 h-2 rounded-full bg-gray-200" />
                 </div>
               );
