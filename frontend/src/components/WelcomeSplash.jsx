@@ -3,33 +3,37 @@ import { useEffect, useState } from "react";
 const STORAGE_KEY = "tw_welcomed";
 
 export function WelcomeSplash() {
-  const [visible, setVisible] = useState(false);
+  // Synchronous init — no re-render gap, no flicker
+  const [show] = useState(() => !sessionStorage.getItem(STORAGE_KEY));
+  const [contentIn, setContentIn] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem(STORAGE_KEY)) {
-      setDone(true);
-      return;
-    }
+    if (!show) return;
     sessionStorage.setItem(STORAGE_KEY, "1");
 
-    // Trigger enter animation on next frame
-    const t1 = requestAnimationFrame(() => setVisible(true));
-    const t2 = setTimeout(() => setLeaving(true), 2000);
-    const t3 = setTimeout(() => setDone(true), 2600);
+    const raf = requestAnimationFrame(() => setContentIn(true));
+    const t1 = setTimeout(() => setLeaving(true), 2000);
+    const t2 = setTimeout(() => setDone(true), 2580);
 
     return () => {
-      cancelAnimationFrame(t1);
+      cancelAnimationFrame(raf);
+      clearTimeout(t1);
       clearTimeout(t2);
-      clearTimeout(t3);
     };
-  }, []);
+  }, [show]);
 
-  if (done) return null;
+  if (!show || done) return null;
+
+  const dismiss = () => {
+    setLeaving(true);
+    setTimeout(() => setDone(true), 560);
+  };
 
   return (
     <div
+      onClick={dismiss}
       style={{
         position: "fixed",
         inset: 0,
@@ -38,33 +42,34 @@ export function WelcomeSplash() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        opacity: leaving ? 0 : visible ? 1 : 0,
-        transition: leaving
-          ? "opacity 0.55s ease-in"
-          : "opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        // Overlay starts fully opaque — no flicker
+        opacity: leaving ? 0 : 1,
+        transition: leaving ? "opacity 0.55s ease-in" : "none",
         pointerEvents: leaving ? "none" : "auto",
       }}
-      onClick={() => { setLeaving(true); setTimeout(() => setDone(true), 560); }}
     >
+      {/* Inner content slides + fades in */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "12px",
-          transform: visible && !leaving ? "translateY(0)" : "translateY(10px)",
-          transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+          gap: "10px",
+          opacity: contentIn ? 1 : 0,
+          transform: contentIn ? "translateY(0)" : "translateY(12px)",
+          transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        {/* Logo */}
+        {/* Logo circular */}
         <img
           src="/trabalengua-logo.png"
-          alt=""
+          alt="Trabalengua"
           style={{
-            width: "64px",
-            height: "64px",
-            objectFit: "contain",
-            marginBottom: "8px",
+            width: "72px",
+            height: "72px",
+            objectFit: "cover",
+            borderRadius: "50%",
+            marginBottom: "10px",
           }}
         />
 
@@ -82,7 +87,7 @@ export function WelcomeSplash() {
           Bienvenido
         </span>
 
-        {/* Brand */}
+        {/* Brand name */}
         <h1
           style={{
             fontFamily: "'Outfit', system-ui, sans-serif",
@@ -105,21 +110,20 @@ export function WelcomeSplash() {
             fontWeight: 400,
             color: "#9CA3AF",
             margin: 0,
-            letterSpacing: "0.01em",
           }}
         >
           Uniformes Escolares
         </p>
 
-        {/* Red accent line */}
+        {/* Animated red line */}
         <div
           style={{
-            marginTop: "12px",
-            width: visible && !leaving ? "40px" : "0px",
+            marginTop: "14px",
+            width: contentIn ? "40px" : "0px",
             height: "2px",
             backgroundColor: "#FF4D4D",
             borderRadius: "1px",
-            transition: "width 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+            transition: "width 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s",
           }}
         />
       </div>
