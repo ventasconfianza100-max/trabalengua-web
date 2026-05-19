@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors, GraduationCap, SlidersHorizontal, Banknote } from "lucide-react";
+import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors, GraduationCap, SlidersHorizontal, Banknote, LayoutGrid, List } from "lucide-react";
 import { ContactSection } from "../components/ContactSection";
 
 const DEFAULT_SCHOOLS = [
@@ -159,6 +159,7 @@ const Home = () => {
   const [schools] = useState(DEFAULT_SCHOOLS);
   const [query, setQuery] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'list'
   const searchRef = useRef(null);
 
   const filtered = useMemo(() => {
@@ -481,12 +482,12 @@ const Home = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
+            {/* Título */}
             <div>
               <p className="eyebrow">01 — Colegios</p>
               <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold tracking-tight">
                 Encuentra tu colegio.
               </h2>
-              {/* Decorative accent line */}
               <div className="mt-3 flex items-center gap-2">
                 <span className="w-8 h-[2px] bg-[#FF4D4D] rounded-full" />
                 <span className="w-3 h-[2px] bg-gray-300 rounded-full" />
@@ -494,86 +495,74 @@ const Home = () => {
               </div>
             </div>
 
-            <div
-              className="w-full md:w-80 relative"
-              ref={searchRef}
-              data-testid="school-search-wrap"
-            >
-              <Search
-                size={16}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10"
-              />
-
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setDropdownOpen(true);
-                }}
-                onFocus={() => setDropdownOpen(true)}
-                placeholder="Busca tu colegio..."
-                className="w-full border border-gray-300 pl-9 pr-9 py-3 text-sm focus:outline-none focus:border-black rounded-sm bg-white"
-                data-testid="school-search-input"
-              />
-
-              {query && (
+            {/* Controles derecha */}
+            <div className="flex items-center gap-2">
+              {/* Toggle grid/lista — solo desktop */}
+              <div className="hidden md:flex items-center border border-gray-200 bg-white rounded-sm overflow-hidden">
                 <button
-                  onClick={() => {
-                    setQuery("");
-                    setDropdownOpen(false);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black p-1 z-10"
-                  data-testid="school-search-clear"
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 transition-colors ${viewMode === "grid" ? "bg-black text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                  title="Vista cuadrícula"
                 >
-                  <X size={16} />
+                  <LayoutGrid size={15} />
                 </button>
-              )}
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 transition-colors ${viewMode === "list" ? "bg-black text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                  title="Vista lista"
+                >
+                  <List size={15} />
+                </button>
+              </div>
 
-              {dropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 shadow-lg z-50 rounded-sm overflow-hidden">
-                  {dropdownResults.length === 0 ? (
-                    <p className="px-4 py-3 text-sm text-gray-500">Sin resultados</p>
-                  ) : (
-                    dropdownResults.map((s) => (
-                      <Link
-                        key={s.id}
-                        to={`/colegio/${s.slug}`}
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          setQuery("");
-                        }}
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
-                      >
-                        <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0 relative bg-white">
-                          <img
-                            src={s.escudo}
-                            alt=""
-                            aria-hidden
-                            className="absolute inset-0 w-full h-full object-cover scale-125 blur-md opacity-20"
-                          />
-
-                          <div className="absolute inset-0 bg-white/50" />
-
-                          <img
-                            src={s.escudo}
-                            alt=""
-                            className="w-full h-full object-contain relative z-10 p-1"
-                            onError={(e) => {
-                              e.target.style.display = "none";
-                            }}
-                          />
-                        </div>
-
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium truncate">{s.name}</p>
-                          <p className="text-xs text-gray-400 truncate">{s.description}</p>
-                        </div>
-                      </Link>
-                    ))
-                  )}
-                </div>
-              )}
+              {/* Buscador */}
+              <div className="w-full md:w-72 relative" ref={searchRef} data-testid="school-search-wrap">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => { setQuery(e.target.value); setDropdownOpen(true); }}
+                  onFocus={() => setDropdownOpen(true)}
+                  placeholder="Busca tu colegio..."
+                  className="w-full border border-gray-300 pl-9 pr-9 py-3 text-sm focus:outline-none focus:border-black rounded-sm bg-white"
+                  data-testid="school-search-input"
+                />
+                {query && (
+                  <button
+                    onClick={() => { setQuery(""); setDropdownOpen(false); }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black p-1 z-10"
+                    data-testid="school-search-clear"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+                {dropdownOpen && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 shadow-lg z-50 rounded-sm overflow-hidden">
+                    {dropdownResults.length === 0 ? (
+                      <p className="px-4 py-3 text-sm text-gray-500">Sin resultados</p>
+                    ) : (
+                      dropdownResults.map((s) => (
+                        <Link
+                          key={s.id}
+                          to={`/colegio/${s.slug}`}
+                          onClick={() => { setDropdownOpen(false); setQuery(""); }}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
+                        >
+                          <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0 relative bg-white">
+                            <img src={s.escudo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-125 blur-md opacity-20" />
+                            <div className="absolute inset-0 bg-white/50" />
+                            <img src={s.escudo} alt="" className="w-full h-full object-contain relative z-10 p-1" onError={(e) => { e.target.style.display = "none"; }} />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium truncate">{s.name}</p>
+                            <p className="text-xs text-gray-400 truncate">{s.description}</p>
+                          </div>
+                        </Link>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -640,7 +629,7 @@ const Home = () => {
   </Link>
 )}
 
-          {/* Grid resto */}
+          {/* Grid / Lista resto */}
           {filtered.length === 0 ? (
             <p
               className="border border-dashed border-gray-300 py-16 text-center text-gray-500 text-sm"
@@ -648,6 +637,40 @@ const Home = () => {
             >
               No encontramos colegios con "{query}".
             </p>
+          ) : viewMode === "list" ? (
+            /* Vista lista — solo desktop (en móvil SchoolCard ya usa fila horizontal) */
+            <div className="flex flex-col divide-y divide-gray-200 border border-gray-200 bg-white rounded-sm overflow-hidden">
+              {others.map((s) => (
+                <Link
+                  key={s.id}
+                  to={`/colegio/${s.slug}`}
+                  className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors group"
+                  data-testid={`school-card-${s.slug}`}
+                >
+                  <div className="w-11 h-11 flex-shrink-0 relative overflow-hidden rounded-sm bg-white border border-gray-100">
+                    <img src={s.escudo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-20" />
+                    <div className="absolute inset-0 bg-white/50" />
+                    <img src={s.escudo} alt={s.name} className="w-full h-full object-contain relative z-10 p-1 group-hover:scale-105 transition-transform duration-300" onError={(e) => { e.target.style.display = "none"; }} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-display text-sm font-semibold truncate">{s.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{s.description}</p>
+                  </div>
+                  {s.prendas?.length > 0 && (
+                    <div className="hidden lg:flex gap-1.5 flex-shrink-0">
+                      {s.prendas.map((p, i) => (
+                        <div key={i} className="w-9 h-9 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden">
+                          <img src={p.img} alt={p.name} className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1 text-xs font-semibold text-[#FF4D4D] flex-shrink-0 group-hover:gap-2 transition-all">
+                    Ver prendas <ArrowRight size={13} />
+                  </div>
+                </Link>
+              ))}
+            </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {others.map((s) => (
