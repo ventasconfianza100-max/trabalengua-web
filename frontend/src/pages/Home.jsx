@@ -159,7 +159,7 @@ const Home = () => {
   const [schools] = useState(DEFAULT_SCHOOLS);
   const [query, setQuery] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'list'
+  const [viewMode, setViewMode] = useState("list"); // 'grid' | 'list'
   const searchRef = useRef(null);
 
   const filtered = useMemo(() => {
