@@ -103,8 +103,8 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
               className="w-full h-full object-cover object-top"
             />
             {/* Icono decorativo sutil en la zona blanca inferior */}
-            <div className="absolute bottom-0 left-0 right-0 h-2/5 flex items-end justify-center pb-5 pointer-events-none select-none">
-              <ShoppingBag size={96} strokeWidth={0.6} className="text-gray-400 opacity-[0.12]" />
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center pointer-events-none select-none">
+              <ShoppingBag size={72} strokeWidth={0.6} className="text-gray-400 opacity-[0.15]" />
             </div>
           </div>
 
