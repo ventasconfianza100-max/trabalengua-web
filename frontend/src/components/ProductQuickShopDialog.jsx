@@ -100,7 +100,7 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
             <img
               src={getProductImage(product.image_url)}
               alt={product.name}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover object-top"
             />
           </div>
 
