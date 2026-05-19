@@ -95,12 +95,12 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
         className="max-w-2xl w-[calc(100vw-1.5rem)] max-h-[min(90vh,860px)] overflow-y-auto p-0 gap-0 border-gray-200 sm:rounded-lg"
         data-testid="quick-shop-dialog"
       >
-        <div className="grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:max-h-[min(85vh,800px)]">
-          <div className="aspect-[4/5] max-h-[42vh] sm:aspect-auto sm:h-full sm:min-h-[280px] bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden">
+        <div className="grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:max-h-[min(85vh,800px)] sm:items-start">
+          <div className="aspect-[4/5] max-h-[42vh] sm:max-h-none sm:aspect-[4/5] sm:self-start bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden">
             <img
               src={getProductImage(product.image_url)}
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
 
