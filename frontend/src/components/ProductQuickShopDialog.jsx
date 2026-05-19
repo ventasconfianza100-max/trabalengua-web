@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { formatCLP, resolveImage } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
-import { Check, X } from "lucide-react";
+import { Check, X, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
 const getProductImage = (imageUrl) => {
@@ -96,12 +96,16 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
         data-testid="quick-shop-dialog"
       >
         <div className="grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:max-h-[min(85vh,800px)] sm:items-start">
-          <div className="aspect-[4/5] max-h-[42vh] sm:max-h-none sm:aspect-[4/5] sm:self-start bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden">
+          <div className="aspect-[4/5] max-h-[42vh] sm:max-h-none sm:aspect-[4/5] sm:self-start bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden relative">
             <img
               src={getProductImage(product.image_url)}
               alt={product.name}
               className="w-full h-full object-cover object-top"
             />
+            {/* Icono decorativo sutil en la zona blanca inferior */}
+            <div className="absolute bottom-0 left-0 right-0 h-2/5 flex items-end justify-center pb-5 pointer-events-none select-none">
+              <ShoppingBag size={96} strokeWidth={0.6} className="text-gray-400 opacity-[0.12]" />
+            </div>
           </div>
 
           <div className="p-5 sm:p-6 flex flex-col min-h-0 sm:overflow-y-auto">
