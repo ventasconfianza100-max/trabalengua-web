@@ -70,7 +70,7 @@ const PRODUCT_TEMPLATES = [
     type_key: "polera_corta",
     name: "Polera manga corta",
     base_price: 10500,
-    image_file: "polera.jpg",
+    image_file: "polera-corta.jpg",
   },
   {
     type_key: "polera_larga",
@@ -411,9 +411,7 @@ const SchoolPage = () => {
                     <img
                       src={getProductImage(p.image_url)}
                       alt={p.name}
-                      className={`w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 ${
-                        totalStock === 0 ? "opacity-55" : ""
-                      }`}
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                     />
                   </div>
 
