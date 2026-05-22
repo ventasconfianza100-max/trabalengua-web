@@ -26,8 +26,8 @@ const DEFAULT_SCHOOLS = [
     escudo: "/images/escudos/colegio-concepcion.png",
     prendas: [
       { name: "Buzo", img: "/images/productos/colegio-concepcion/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/colegio-concepcion/polera.jpg" },
-      { name: "Pantalón", img: "/images/productos/colegio-concepcion/pantalon.jpg" },
+      { name: "Polera", img: "/images/productos/colegio-concepcion/polera-corta.jpg" },
+      { name: "Polar", img: "/images/productos/colegio-concepcion/polar.jpg" },
     ],
   },
   {
@@ -39,7 +39,7 @@ const DEFAULT_SCHOOLS = [
     escudo: "/images/escudos/colegio-baltazar.png",
     prendas: [
       { name: "Buzo", img: "/images/productos/colegio-baltazar/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/colegio-baltazar/polera.jpg" },
+      { name: "Polera", img: "/images/productos/colegio-baltazar/polera-corta.jpg" },
       { name: "Pantalón", img: "/images/productos/colegio-baltazar/pantalon.jpg" },
     ],
   },
@@ -51,9 +51,8 @@ const DEFAULT_SCHOOLS = [
     featured: false,
     escudo: "/images/escudos/colegio-montessori.png",
     prendas: [
-      { name: "Buzo", img: "/images/productos/colegio-montessori/buzo-completo.jpg" },
       { name: "Polera", img: "/images/productos/colegio-montessori/polera.jpg" },
-      { name: "Pantalón", img: "/images/productos/colegio-montessori/pantalon.jpg" },
+      { name: "Polar", img: "/images/productos/colegio-montessori/polar.jpg" },
     ],
   },
   {
@@ -65,7 +64,7 @@ const DEFAULT_SCHOOLS = [
     escudo: "/images/escudos/escuela-carlos-spano.png",
     prendas: [
       { name: "Buzo", img: "/images/productos/escuela-carlos-spano/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/escuela-carlos-spano/polera.jpg" },
+      { name: "Polera", img: "/images/productos/escuela-carlos-spano/polera-corta.jpg" },
       { name: "Pantalón", img: "/images/productos/escuela-carlos-spano/pantalon.jpg" },
     ],
   },
@@ -105,7 +104,12 @@ const EscudoBox = ({ src, alt, boxClass = "h-28" }) => (
   </div>
 );
 
-const SchoolCard = ({ school }) => (
+const getPreviewPrendas = (school) => (school.prendas || []).slice(0, 3);
+
+const SchoolCard = ({ school }) => {
+  const previewPrendas = getPreviewPrendas(school);
+
+  return (
   <Link
     to={`/colegio/${school.slug}`}
     className="bg-white border border-gray-200 hover:border-[#FF4D4D] transition-all group block rounded-sm overflow-hidden"
@@ -125,6 +129,16 @@ const SchoolCard = ({ school }) => (
         <h3 className="font-display text-sm font-semibold leading-tight truncate">{school.name}</h3>
         <p className="text-[11px] text-gray-500 truncate mt-0.5">{school.description}</p>
       </div>
+      {previewPrendas.length > 0 && (
+        <div className="hidden min-[420px]:flex gap-1 flex-shrink-0">
+          {previewPrendas.map((p, i) => (
+            <div key={i} className="w-8 h-8 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden" title={p.name}>
+              <img src={p.img} alt={p.name} className="w-full h-full object-cover"
+                onError={(e) => { e.target.parentElement.style.display = "none"; }} />
+            </div>
+          ))}
+        </div>
+      )}
       <div className="flex items-center gap-1 text-[#FF4D4D] flex-shrink-0">
         <span className="text-xs font-semibold">Ver</span>
         <ArrowRight size={13} />
@@ -137,9 +151,9 @@ const SchoolCard = ({ school }) => (
       <div className="p-4">
         <h3 className="font-display text-base font-semibold tracking-tight">{school.name}</h3>
         <p className="mt-0.5 text-xs text-gray-500 line-clamp-2">{school.description}</p>
-        {school.prendas?.length > 0 && (
+        {previewPrendas.length > 0 && (
           <div className="mt-3 flex gap-1.5">
-            {school.prendas.map((p, i) => (
+            {previewPrendas.map((p, i) => (
               <div key={i} className="w-11 h-11 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
                 <img src={p.img} alt={p.name} className="w-full h-full object-cover"
                   onError={(e) => { e.target.parentElement.style.display = "none"; }} />
@@ -153,7 +167,8 @@ const SchoolCard = ({ school }) => (
       </div>
     </div>
   </Link>
-);
+  );
+};
 
 const Home = () => {
   const [schools] = useState(DEFAULT_SCHOOLS);
@@ -605,7 +620,7 @@ const Home = () => {
         </p>
 
         <div className="mt-3 flex gap-2">
-          {featured.prendas.map((p, i) => (
+          {getPreviewPrendas(featured).map((p, i) => (
             <div
               key={i}
               className="w-10 h-10 sm:w-14 sm:h-14 border border-[#8ECEF2]/60 rounded-sm bg-white overflow-hidden"
@@ -656,9 +671,9 @@ const Home = () => {
                     <p className="font-display text-sm font-semibold truncate">{s.name}</p>
                     <p className="text-xs text-gray-500 truncate">{s.description}</p>
                   </div>
-                  {s.prendas?.length > 0 && (
+                  {getPreviewPrendas(s).length > 0 && (
                     <div className="hidden lg:flex gap-1.5 flex-shrink-0">
-                      {s.prendas.map((p, i) => (
+                      {getPreviewPrendas(s).map((p, i) => (
                         <div key={i} className="w-9 h-9 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden">
                           <img src={p.img} alt={p.name} className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
                         </div>
