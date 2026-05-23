@@ -71,6 +71,9 @@ const PRODUCT_TEMPLATES = [
     name: "Polera manga corta",
     base_price: 10500,
     image_file: "polera-corta.jpg",
+    image_files_by_school: {
+      "colegio-montessori": "polera.jpg",
+    },
   },
   {
     type_key: "polera_larga",
@@ -142,7 +145,9 @@ const buildProducts = (slug, stockData, preciosData) => {
     const base_price =
       precios.length > 0 ? Math.min(...precios) : product.base_price;
 
-    const image_url = `/images/productos/${school.slug}/${product.image_file}`;
+    const imageFile =
+      product.image_files_by_school?.[school.slug] || product.image_file;
+    const image_url = `/images/productos/${school.slug}/${imageFile}`;
 
     return {
       id: `${school.slug}-${product.type_key}`,
