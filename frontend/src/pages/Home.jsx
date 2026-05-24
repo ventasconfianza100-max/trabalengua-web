@@ -51,7 +51,7 @@ const DEFAULT_SCHOOLS = [
     featured: false,
     escudo: "/images/escudos/colegio-montessori.png",
     prendas: [
-      { name: "Polera", img: "/images/productos/colegio-montessori/polera.jpg" },
+      { name: "Polera", img: "/images/productos/colegio-montessori/polera-corta.png" },
       { name: "Polar", img: "/images/productos/colegio-montessori/polar.jpg" },
     ],
   },

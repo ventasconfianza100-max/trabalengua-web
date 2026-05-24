@@ -74,7 +74,7 @@ const PRODUCT_TEMPLATES = [
     image_files_by_school: {
       "colegio-concepcion": "polera-corta.png",
       "colegio-talca": "polera.jpg",
-      "colegio-montessori": "polera.jpg",
+      "colegio-montessori": "polera-corta.png",
     },
   },
   {
