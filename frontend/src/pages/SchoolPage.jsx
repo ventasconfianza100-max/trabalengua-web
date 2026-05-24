@@ -72,6 +72,7 @@ const PRODUCT_TEMPLATES = [
     base_price: 10500,
     image_file: "polera-corta.jpg",
     image_files_by_school: {
+      "colegio-concepcion": "polera-corta.png",
       "colegio-talca": "polera.jpg",
       "colegio-montessori": "polera.jpg",
     },

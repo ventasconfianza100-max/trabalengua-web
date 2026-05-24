@@ -26,7 +26,7 @@ const DEFAULT_SCHOOLS = [
     escudo: "/images/escudos/colegio-concepcion.png",
     prendas: [
       { name: "Buzo", img: "/images/productos/colegio-concepcion/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/colegio-concepcion/polera-corta.jpg" },
+      { name: "Polera", img: "/images/productos/colegio-concepcion/polera-corta.png" },
       { name: "Polar", img: "/images/productos/colegio-concepcion/polar.jpg" },
     ],
   },
