@@ -25,9 +25,7 @@ const DEFAULT_SCHOOLS = [
     featured: false,
     escudo: "/images/escudos/colegio-concepcion.png",
     prendas: [
-      { name: "Buzo", img: "/images/productos/colegio-concepcion/buzo-completo.jpg" },
       { name: "Polera", img: "/images/productos/colegio-concepcion/polera-corta.png" },
-      { name: "Polar", img: "/images/productos/colegio-concepcion/polar.jpg" },
     ],
   },
   {
@@ -37,11 +35,7 @@ const DEFAULT_SCHOOLS = [
     description: "Uniformes oficiales del Colegio Baltazar.",
     featured: false,
     escudo: "/images/escudos/colegio-baltazar.png",
-    prendas: [
-      { name: "Buzo", img: "/images/productos/colegio-baltazar/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/colegio-baltazar/polera-corta.jpg" },
-      { name: "Pantalón", img: "/images/productos/colegio-baltazar/pantalon.jpg" },
-    ],
+    prendas: [],
   },
   {
     id: 4,
@@ -52,7 +46,6 @@ const DEFAULT_SCHOOLS = [
     escudo: "/images/escudos/colegio-montessori.png",
     prendas: [
       { name: "Polera", img: "/images/productos/colegio-montessori/polera-corta.png" },
-      { name: "Polar", img: "/images/productos/colegio-montessori/polar.jpg" },
     ],
   },
   {
@@ -75,9 +68,7 @@ const DEFAULT_SCHOOLS = [
     description: "Cotonas y delantales para Escuela Amancay.",
     featured: false,
     escudo: "/images/escudos/escuela-amancay.png",
-    prendas: [
-      { name: "Cotona", img: "/images/productos/escuela-amancay/cotonas-delantales.jpg" },
-    ],
+    prendas: [],
   },
 ];
 
