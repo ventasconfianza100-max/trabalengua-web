@@ -10,11 +10,11 @@ const DEFAULT_SCHOOLS = [
     slug: "colegio-talca",
     description: "Nuestro colegio principal. Uniformes con calidad y detalle.",
     featured: true,
-    escudo: "/images/escudos/colegio-talca.png",
+    escudo: "/images/escudos/colegio-talca.webp",
     prendas: [
-      { name: "Buzo", img: "/images/productos/colegio-talca/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/colegio-talca/polera.jpg" },
-      { name: "Pantalón", img: "/images/productos/colegio-talca/pantalon.jpg" },
+      { name: "Buzo", img: "/images/previews/colegio-talca-buzo-completo.webp" },
+      { name: "Polera", img: "/images/previews/colegio-talca-polera.webp" },
+      { name: "Pantalón", img: "/images/previews/colegio-talca-pantalon.webp" },
     ],
   },
   {
@@ -23,9 +23,9 @@ const DEFAULT_SCHOOLS = [
     slug: "colegio-concepcion",
     description: "Uniformes oficiales del Colegio Concepción.",
     featured: false,
-    escudo: "/images/escudos/colegio-concepcion.png",
+    escudo: "/images/escudos/colegio-concepcion.webp",
     prendas: [
-      { name: "Polera", img: "/images/productos/colegio-concepcion/polera-corta.png" },
+      { name: "Polera", img: "/images/previews/colegio-concepcion-polera-corta.webp" },
     ],
   },
   {
@@ -34,7 +34,7 @@ const DEFAULT_SCHOOLS = [
     slug: "colegio-baltazar",
     description: "Uniformes oficiales del Colegio Baltazar.",
     featured: false,
-    escudo: "/images/escudos/colegio-baltazar.png",
+    escudo: "/images/escudos/colegio-baltazar.webp",
     prendas: [],
   },
   {
@@ -43,9 +43,9 @@ const DEFAULT_SCHOOLS = [
     slug: "colegio-montessori",
     description: "Uniformes oficiales del Colegio Montessori.",
     featured: false,
-    escudo: "/images/escudos/colegio-montessori.png",
+    escudo: "/images/escudos/colegio-montessori.webp",
     prendas: [
-      { name: "Polera", img: "/images/productos/colegio-montessori/polera-corta.png" },
+      { name: "Polera", img: "/images/previews/colegio-montessori-polera-corta.webp" },
     ],
   },
   {
@@ -54,11 +54,11 @@ const DEFAULT_SCHOOLS = [
     slug: "escuela-carlos-spano",
     description: "Uniformes oficiales de la Escuela Carlos Spano.",
     featured: false,
-    escudo: "/images/escudos/escuela-carlos-spano.png",
+    escudo: "/images/escudos/escuela-carlos-spano.webp",
     prendas: [
-      { name: "Buzo", img: "/images/productos/escuela-carlos-spano/buzo-completo.jpg" },
-      { name: "Polera", img: "/images/productos/escuela-carlos-spano/polera-corta.jpg" },
-      { name: "Pantalón", img: "/images/productos/escuela-carlos-spano/pantalon.jpg" },
+      { name: "Buzo", img: "/images/previews/escuela-carlos-spano-buzo-completo.webp" },
+      { name: "Polera", img: "/images/previews/escuela-carlos-spano-polera-corta.webp" },
+      { name: "Pantalón", img: "/images/previews/escuela-carlos-spano-pantalon.webp" },
     ],
   },
   {
@@ -67,7 +67,7 @@ const DEFAULT_SCHOOLS = [
     slug: "escuela-amancay",
     description: "Cotonas y delantales para Escuela Amancay.",
     featured: false,
-    escudo: "/images/escudos/escuela-amancay.png",
+    escudo: "/images/escudos/escuela-amancay.webp",
     prendas: [],
   },
 ];
@@ -124,7 +124,7 @@ const SchoolCard = ({ school }) => {
         <div className="hidden min-[420px]:flex gap-1 flex-shrink-0">
           {previewPrendas.map((p, i) => (
             <div key={i} className="w-8 h-8 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden" title={p.name}>
-              <img src={p.img} alt={p.name} className="w-full h-full object-cover"
+              <img src={p.img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover"
                 onError={(e) => { e.target.parentElement.style.display = "none"; }} />
             </div>
           ))}
@@ -146,7 +146,7 @@ const SchoolCard = ({ school }) => {
           <div className="mt-3 flex gap-1.5">
             {previewPrendas.map((p, i) => (
               <div key={i} className="w-11 h-11 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
-                <img src={p.img} alt={p.name} className="w-full h-full object-cover"
+                <img src={p.img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover"
                   onError={(e) => { e.target.parentElement.style.display = "none"; }} />
               </div>
             ))}
@@ -339,7 +339,7 @@ const Home = () => {
             <div className="w-36 flex-shrink-0">
               <div className="aspect-[3/4] bg-gray-50 border border-gray-200 relative overflow-hidden rounded-sm">
                 <img
-                  src="/images/hero-uniformes.jpg"
+                  src="/images/hero-uniformes.webp"
                   alt="Uniformes escolares Trabalengua"
                   className="w-full h-full object-cover"
                 />
@@ -392,7 +392,7 @@ const Home = () => {
 
             <div className="md:col-span-5 relative">
               <div className="aspect-[4/5] bg-gray-50 border border-gray-200 relative overflow-hidden" data-testid="hero-image-frame">
-                <img src="/images/hero-uniformes.jpg" alt="Uniformes escolares Trabalengua" className="w-full h-full object-cover" data-testid="hero-image" />
+                <img src="/images/hero-uniformes.webp" alt="Uniformes escolares Trabalengua" className="w-full h-full object-cover" data-testid="hero-image" />
                 <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-gray-200 px-3 py-2">
                   <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500">Est. Escolar</p>
                   <p className="font-display text-sm font-semibold">trabalengua.tl</p>
@@ -620,6 +620,8 @@ const Home = () => {
               <img
                 src={p.img}
                 alt={p.name}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
                 onError={(e) => { e.target.parentElement.style.display = "none"; }}
               />
@@ -666,7 +668,7 @@ const Home = () => {
                     <div className="hidden lg:flex gap-1.5 flex-shrink-0">
                       {getPreviewPrendas(s).map((p, i) => (
                         <div key={i} className="w-9 h-9 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden">
-                          <img src={p.img} alt={p.name} className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
+                          <img src={p.img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
                         </div>
                       ))}
                     </div>
@@ -740,7 +742,7 @@ const Home = () => {
             <div className="flex md:hidden items-stretch">
               <div className="w-28 flex-shrink-0 overflow-hidden">
                 <img
-                  src="/images/bordados.jpg"
+                  src="/images/bordados.webp"
                   alt="Bordado de nombre en prenda escolar"
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   data-testid="bordados-home-image-mobile"
@@ -761,7 +763,7 @@ const Home = () => {
             <div className="hidden md:grid md:grid-cols-12 items-stretch">
               <div className="md:col-span-3 h-36 bg-gray-100 border-r border-gray-200 overflow-hidden">
                 <img
-                  src="/images/bordados.jpg"
+                  src="/images/bordados.webp"
                   alt="Bordado de nombre en prenda escolar"
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   data-testid="bordados-home-image"

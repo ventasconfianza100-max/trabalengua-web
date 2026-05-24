@@ -52,7 +52,7 @@ const BordadosPage = () => {
           <div className="md:col-span-6">
             <div className="relative aspect-[4/5] bg-gray-50 border border-gray-200 overflow-hidden">
               <img
-                src="/images/bordados.jpg"
+                src="/images/bordados.webp"
                 alt="Máquina bordando un nombre sobre tela"
                 className="w-full h-full object-cover"
                 data-testid="bordados-hero-image"

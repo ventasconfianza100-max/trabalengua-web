@@ -7,27 +7,27 @@ import { ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, WHATSAPP_HUMAN, waLink } from
 
 const SCHOOLS = [
   {
-    name: "Colegio Talca", slug: "colegio-talca", escudo: "/images/escudos/colegio-talca.png", desc: "Uniforme celeste",
+    name: "Colegio Talca", slug: "colegio-talca", escudo: "/images/escudos/colegio-talca.webp", desc: "Uniforme celeste",
     prendas: ["buzo_completo", "polera_corta", "pantalon_buzo", "polera_larga", "polar", "cotonas", "delantal_cotona"],
   },
   {
-    name: "Colegio Concepción", slug: "colegio-concepcion", escudo: "/images/escudos/colegio-concepcion.png", desc: "Uniforme oficial",
+    name: "Colegio Concepción", slug: "colegio-concepcion", escudo: "/images/escudos/colegio-concepcion.webp", desc: "Uniforme oficial",
     prendas: ["buzo_completo", "polera_corta", "polar"],
   },
   {
-    name: "Colegio Baltazar", slug: "colegio-baltazar", escudo: "/images/escudos/colegio-baltazar.png", desc: "Uniforme oficial",
+    name: "Colegio Baltazar", slug: "colegio-baltazar", escudo: "/images/escudos/colegio-baltazar.webp", desc: "Uniforme oficial",
     prendas: ["buzo_completo", "polera_corta", "pantalon_buzo"],
   },
   {
-    name: "Colegio Montessori", slug: "colegio-montessori", escudo: "/images/escudos/colegio-montessori.png", desc: "Uniforme oficial",
+    name: "Colegio Montessori", slug: "colegio-montessori", escudo: "/images/escudos/colegio-montessori.webp", desc: "Uniforme oficial",
     prendas: ["polera_corta", "polar"],
   },
   {
-    name: "Escuela Carlos Spano", slug: "escuela-carlos-spano", escudo: "/images/escudos/escuela-carlos-spano.png", desc: "Uniforme oficial",
+    name: "Escuela Carlos Spano", slug: "escuela-carlos-spano", escudo: "/images/escudos/escuela-carlos-spano.webp", desc: "Uniforme oficial",
     prendas: ["buzo_completo", "pantalon_buzo", "polera_corta", "polar"],
   },
   {
-    name: "Escuela Amancay", slug: "escuela-amancay", escudo: "/images/escudos/escuela-amancay.png", desc: "Cotonas y delantales",
+    name: "Escuela Amancay", slug: "escuela-amancay", escudo: "/images/escudos/escuela-amancay.webp", desc: "Cotonas y delantales",
     prendas: ["cotonas_delantales"],
   },
 ];
