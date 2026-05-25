@@ -13,8 +13,7 @@ import { toast } from "sonner";
 
 const getProductImage = (imageUrl) => {
   if (!imageUrl) return "/images/productos/placeholder.jpg";
-  if (imageUrl.startsWith("/images/")) return imageUrl;
-  return resolveImage(imageUrl);
+  return resolveImage(imageUrl, { width: 900 });
 };
 
 export function ProductQuickShopDialog({ product, open, onOpenChange }) {
@@ -100,6 +99,8 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
             <img
               src={getProductImage(product.image_url)}
               alt={product.name}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover object-top"
             />
             {/* Icono decorativo sutil en la zona blanca inferior */}

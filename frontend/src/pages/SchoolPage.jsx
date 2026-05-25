@@ -169,8 +169,7 @@ const buildProducts = (slug, stockData, preciosData) => {
 
 const getProductImage = (imageUrl) => {
   if (!imageUrl) return "/images/productos/placeholder.jpg";
-  if (imageUrl.startsWith("/images/")) return imageUrl;
-  return resolveImage(imageUrl);
+  return resolveImage(imageUrl, { width: 700 });
 };
 
 const SchoolLoadingSkeleton = () => {
@@ -418,6 +417,8 @@ const SchoolPage = () => {
                     <img
                       src={getProductImage(p.image_url)}
                       alt={p.name}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                     />
                   </div>
