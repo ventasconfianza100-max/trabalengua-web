@@ -726,13 +726,7 @@ const ImageSettingCard = ({
     <div className="mt-5 grid md:grid-cols-2 gap-6">
       <div className={`${aspect} bg-gray-50 border border-gray-100 overflow-hidden`} data-testid={`${testPrefix}-preview`}>
         {imageUrl ? (
-          <img
-            src={resolveImage(imageUrl, { width: 360 })}
-            alt={title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover"
-          />
+          <img src={resolveImage(imageUrl)} alt={title} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">Sin imagen</div>
         )}
@@ -966,13 +960,7 @@ const ProductCard = ({ product, onUpdated }) => {
     <div className="border border-gray-200 p-4 bg-white" data-testid={`admin-product-${product.id}`}>
       <div className="flex gap-4">
         <div className="h-24 w-24 bg-gray-50 border border-gray-100 overflow-hidden shrink-0">
-          <img
-            src={resolveImage(product.image_url, { width: 360 })}
-            alt={product.name}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover"
-          />
+          <img src={resolveImage(product.image_url)} alt={product.name} className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[11px] uppercase tracking-widest text-gray-500">{product.school_name}</p>

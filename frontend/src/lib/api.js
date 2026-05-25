@@ -1,8 +1,6 @@
 import axios from "axios";
 
 const envUrl = (process.env.REACT_APP_BACKEND_URL || "").trim().replace(/\/$/, "");
-const cloudinaryCloudName = (process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || "").trim();
-const publicSiteUrl = (process.env.REACT_APP_PUBLIC_SITE_URL || "").trim().replace(/\/$/, "");
 const isDev = process.env.NODE_ENV === "development";
 const isLocalHost =
   typeof window !== "undefined" &&
@@ -40,37 +38,14 @@ export const formatCLP = (value) => {
   }).format(n);
 };
 
-const getRuntimeOrigin = () => (typeof window !== "undefined" ? window.location.origin : "");
-
-const getAbsoluteImageUrl = (url) => {
+export const resolveImage = (url) => {
+  if (!url) return "https://images.unsplash.com/photo-1600294421265-c354b772e790?w=800";
   if (url.startsWith("http")) return url;
-  if (url.startsWith("/")) {
-    const origin = publicSiteUrl || (isLocalHost ? "" : getRuntimeOrigin());
-    return origin ? `${origin}${url}` : url;
+  if (typeof window !== "undefined" && url.startsWith("/")) {
+    return `${window.location.origin}${url}`;
   }
-  const base = envUrl || publicSiteUrl || getRuntimeOrigin();
-  return `${base}${url.startsWith("/") ? "" : "/"}${url}`;
-};
-
-export const resolveImage = (url, options = {}) => {
-  const fallback = "https://images.unsplash.com/photo-1600294421265-c354b772e790?w=800";
-  const source = url || fallback;
-  const absoluteUrl = getAbsoluteImageUrl(source);
-
-  if (cloudinaryCloudName && absoluteUrl.startsWith("http")) {
-    const width = Number(options.width || 900);
-    const crop = options.crop || "limit";
-    const quality = options.quality || "auto";
-    const transforms = [`f_auto`, `q_${quality}`, `c_${crop}`, `w_${width}`, "dpr_auto"].join(",");
-
-    return `https://res.cloudinary.com/${cloudinaryCloudName}/image/fetch/${transforms}/${encodeURIComponent(absoluteUrl)}`;
-  }
-
-  if (source.startsWith("http")) return source;
-  if (typeof window !== "undefined" && source.startsWith("/")) {
-    return `${window.location.origin}${source}`;
-  }
-  return absoluteUrl;
+  const base = envUrl || (typeof window !== "undefined" ? window.location.origin : "");
+  return `${base}${url}`;
 };
 
 export const formatApiError = (err, fallback) => {

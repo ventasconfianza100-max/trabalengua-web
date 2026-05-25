@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ShoppingBag, Menu, X, Sparkles, ChevronDown, Search } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import { LOGO_URL, resolveImage } from "../lib/api";
+import { LOGO_URL } from "../lib/api";
 import { ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, WHATSAPP_HUMAN, waLink } from "../lib/contact";
 
 const SCHOOLS = [
@@ -43,8 +43,6 @@ const PRENDA_NAMES = {
   cotonas: "Cotonas",
   cotonas_delantales: "Cotonas y Delantales",
 };
-
-const schoolLogoImage = (src) => resolveImage(src, { width: 160 });
 
 export const Header = () => {
   const { count, setOpen } = useCart();
@@ -139,7 +137,7 @@ export const Header = () => {
                         onMouseEnter={() => setActiveSchool(s)}
                         className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors border-l-2 ${activeSchool.slug === s.slug ? "bg-[#F7F7F5] border-[#4D9EFF]" : "border-transparent hover:bg-gray-50"}`}
                       >
-                        <img src={schoolLogoImage(s.escudo)} alt={s.name} className="w-8 h-8 object-contain rounded-full border border-gray-200 flex-shrink-0" onError={(e) => { e.target.style.display = "none"; }} />
+                        <img src={s.escudo} alt={s.name} className="w-8 h-8 object-contain rounded-full border border-gray-200 flex-shrink-0" onError={(e) => { e.target.style.display = "none"; }} />
                         <div className="min-w-0">
                           <Link
                             to={`/colegio/${s.slug}`}
@@ -162,7 +160,7 @@ export const Header = () => {
                   {/* Prendas del colegio activo */}
                   <div className="flex-1 p-4">
                     <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100">
-                      <img src={schoolLogoImage(activeSchool.escudo)} alt={activeSchool.name} className="w-10 h-10 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
+                      <img src={activeSchool.escudo} alt={activeSchool.name} className="w-10 h-10 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
                       <div>
                         <p className="text-sm font-semibold text-gray-800">{activeSchool.name}</p>
                         <p className="text-xs text-gray-400">{activeSchool.prendas.length} prendas disponibles</p>
@@ -230,7 +228,7 @@ export const Header = () => {
                         onClick={() => { setSearchQuery(""); setSearchOpen(false); }}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
                       >
-                        <img src={schoolLogoImage(s.escudo)} alt={s.name} className="w-8 h-8 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
+                        <img src={s.escudo} alt={s.name} className="w-8 h-8 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
                         <div>
                           <p className="text-sm font-medium">{s.name}</p>
                           <p className="text-xs text-gray-400">{s.desc}</p>
@@ -269,7 +267,7 @@ export const Header = () => {
               <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">Colegios</p>
               {SCHOOLS.map((s) => (
                 <button key={s.slug} onClick={() => { setMobileOpen(false); navigate(`/colegio/${s.slug}`); }} className="flex items-center gap-2 w-full px-2 py-2 hover:bg-gray-50 rounded-sm">
-                  <img src={schoolLogoImage(s.escudo)} alt={s.name} className="w-6 h-6 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
+                  <img src={s.escudo} alt={s.name} className="w-6 h-6 object-contain rounded-full border border-gray-200" onError={(e) => { e.target.style.display = "none"; }} />
                   <span className="text-sm">{s.name}</span>
                 </button>
               ))}

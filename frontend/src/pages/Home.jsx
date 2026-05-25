@@ -2,7 +2,6 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors, GraduationCap, SlidersHorizontal, Banknote, LayoutGrid, List } from "lucide-react";
 import { ContactSection } from "../components/ContactSection";
-import { resolveImage } from "../lib/api";
 
 const DEFAULT_SCHOOLS = [
   {
@@ -77,7 +76,7 @@ const DEFAULT_SCHOOLS = [
 const EscudoBox = ({ src, alt, boxClass = "h-28" }) => (
   <div className={`${boxClass} relative overflow-hidden flex items-center justify-center border-b border-gray-100 bg-white`}>
     <img
-      src={schoolLogoImage(src)}
+      src={src}
       alt=""
       aria-hidden
       className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-20 pointer-events-none select-none"
@@ -86,7 +85,7 @@ const EscudoBox = ({ src, alt, boxClass = "h-28" }) => (
     <div className="absolute inset-0 bg-white/55 pointer-events-none" />
 
     <img
-      src={schoolLogoImage(src)}
+      src={src}
       alt={alt}
       className="h-20 w-20 object-contain relative z-10 drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
       onError={(e) => {
@@ -97,8 +96,6 @@ const EscudoBox = ({ src, alt, boxClass = "h-28" }) => (
 );
 
 const getPreviewPrendas = (school) => (school.prendas || []).slice(0, 3);
-const previewImage = (src) => resolveImage(src, { width: 240 });
-const schoolLogoImage = (src) => resolveImage(src, { width: 240 });
 
 const SchoolCard = ({ school }) => {
   const previewPrendas = getPreviewPrendas(school);
@@ -113,7 +110,7 @@ const SchoolCard = ({ school }) => {
     <div className="flex sm:hidden items-center gap-3 px-4 py-3">
       <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-sm overflow-hidden">
         <img
-          src={schoolLogoImage(school.escudo)}
+          src={school.escudo}
           alt={school.name}
           className="w-full h-full object-contain p-1"
           onError={(e) => { e.target.style.display = "none"; }}
@@ -127,7 +124,7 @@ const SchoolCard = ({ school }) => {
         <div className="hidden min-[420px]:flex gap-1 flex-shrink-0">
           {previewPrendas.map((p, i) => (
             <div key={i} className="w-8 h-8 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden" title={p.name}>
-              <img src={previewImage(p.img)} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover"
+              <img src={p.img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover"
                 onError={(e) => { e.target.parentElement.style.display = "none"; }} />
             </div>
           ))}
@@ -149,7 +146,7 @@ const SchoolCard = ({ school }) => {
           <div className="mt-3 flex gap-1.5">
             {previewPrendas.map((p, i) => (
               <div key={i} className="w-11 h-11 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden flex-shrink-0" title={p.name}>
-                <img src={previewImage(p.img)} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover"
+                <img src={p.img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover"
                   onError={(e) => { e.target.parentElement.style.display = "none"; }} />
               </div>
             ))}
@@ -342,7 +339,7 @@ const Home = () => {
             <div className="w-36 flex-shrink-0">
               <div className="aspect-[3/4] bg-gray-50 border border-gray-200 relative overflow-hidden rounded-sm">
                 <img
-                  src={resolveImage("/images/hero-uniformes.webp", { width: 520 })}
+                  src="/images/hero-uniformes.webp"
                   alt="Uniformes escolares Trabalengua"
                   className="w-full h-full object-cover"
                 />
@@ -395,7 +392,7 @@ const Home = () => {
 
             <div className="md:col-span-5 relative">
               <div className="aspect-[4/5] bg-gray-50 border border-gray-200 relative overflow-hidden" data-testid="hero-image-frame">
-                <img src={resolveImage("/images/hero-uniformes.webp", { width: 1000 })} alt="Uniformes escolares Trabalengua" className="w-full h-full object-cover" data-testid="hero-image" />
+                <img src="/images/hero-uniformes.webp" alt="Uniformes escolares Trabalengua" className="w-full h-full object-cover" data-testid="hero-image" />
                 <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-gray-200 px-3 py-2">
                   <p className="text-[9px] uppercase tracking-[0.2em] text-gray-500">Est. Escolar</p>
                   <p className="font-display text-sm font-semibold">trabalengua.tl</p>
@@ -558,9 +555,9 @@ const Home = () => {
                           className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
                         >
                           <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0 relative bg-white">
-                            <img src={schoolLogoImage(s.escudo)} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-125 blur-md opacity-20" />
+                            <img src={s.escudo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-125 blur-md opacity-20" />
                             <div className="absolute inset-0 bg-white/50" />
-                            <img src={schoolLogoImage(s.escudo)} alt="" className="w-full h-full object-contain relative z-10 p-1" onError={(e) => { e.target.style.display = "none"; }} />
+                            <img src={s.escudo} alt="" className="w-full h-full object-contain relative z-10 p-1" onError={(e) => { e.target.style.display = "none"; }} />
                           </div>
                           <div className="min-w-0">
                             <p className="text-sm font-medium truncate">{s.name}</p>
@@ -586,7 +583,7 @@ const Home = () => {
 
       {/* Logo Colegio Talca responsive */}
       <img
-        src={schoolLogoImage(featured.escudo)}
+        src={featured.escudo}
         alt={`Escudo ${featured.name}`}
         className="
           absolute right-4 top-1/2 -translate-y-1/2
@@ -621,7 +618,7 @@ const Home = () => {
               title={p.name}
             >
               <img
-                src={previewImage(p.img)}
+                src={p.img}
                 alt={p.name}
                 loading="lazy"
                 decoding="async"
@@ -659,9 +656,9 @@ const Home = () => {
                   data-testid={`school-card-${s.slug}`}
                 >
                   <div className="w-11 h-11 flex-shrink-0 relative overflow-hidden rounded-sm bg-white border border-gray-100">
-                    <img src={schoolLogoImage(s.escudo)} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-20" />
+                    <img src={s.escudo} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover scale-125 blur-xl opacity-20" />
                     <div className="absolute inset-0 bg-white/50" />
-                    <img src={schoolLogoImage(s.escudo)} alt={s.name} className="w-full h-full object-contain relative z-10 p-1 group-hover:scale-105 transition-transform duration-300" onError={(e) => { e.target.style.display = "none"; }} />
+                    <img src={s.escudo} alt={s.name} className="w-full h-full object-contain relative z-10 p-1 group-hover:scale-105 transition-transform duration-300" onError={(e) => { e.target.style.display = "none"; }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-display text-sm font-semibold truncate">{s.name}</p>
@@ -671,7 +668,7 @@ const Home = () => {
                     <div className="hidden lg:flex gap-1.5 flex-shrink-0">
                       {getPreviewPrendas(s).map((p, i) => (
                         <div key={i} className="w-9 h-9 border border-gray-200 rounded-sm bg-gray-50 overflow-hidden">
-                          <img src={previewImage(p.img)} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
+                          <img src={p.img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" onError={(e) => { e.target.parentElement.style.display = "none"; }} />
                         </div>
                       ))}
                     </div>
@@ -745,7 +742,7 @@ const Home = () => {
             <div className="flex md:hidden items-stretch">
               <div className="w-28 flex-shrink-0 overflow-hidden">
                 <img
-                  src={resolveImage("/images/bordados.webp", { width: 420 })}
+                  src="/images/bordados.webp"
                   alt="Bordado de nombre en prenda escolar"
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   data-testid="bordados-home-image-mobile"
@@ -766,7 +763,7 @@ const Home = () => {
             <div className="hidden md:grid md:grid-cols-12 items-stretch">
               <div className="md:col-span-3 h-36 bg-gray-100 border-r border-gray-200 overflow-hidden">
                 <img
-                  src={resolveImage("/images/bordados.webp", { width: 520 })}
+                  src="/images/bordados.webp"
                   alt="Bordado de nombre en prenda escolar"
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   data-testid="bordados-home-image"

@@ -61,13 +61,7 @@ export const CartDrawer = () => {
               {items.map((it) => (
                 <div key={`${it.product_id}-${it.size}`} className="flex gap-4 p-5" data-testid={`cart-item-${it.product_id}-${it.size}`}>
                   <div className="h-20 w-20 bg-gray-50 border border-gray-100 shrink-0 overflow-hidden">
-                    <img
-                      src={resolveImage(it.image_url, { width: 220 })}
-                      alt={it.product_name}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={resolveImage(it.image_url)} alt={it.product_name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-gray-500 uppercase tracking-widest">{it.school_name}</p>
