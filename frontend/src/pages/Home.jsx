@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Truck, ShieldCheck, Sparkles, Search, X, Scissors, GraduationCap, SlidersHorizontal, Banknote, LayoutGrid, List } from "lucide-react";
 import { ContactSection } from "../components/ContactSection";
+import { fetchSheets } from "./SchoolPage";
 
 const DEFAULT_SCHOOLS = [
   {
@@ -167,6 +168,12 @@ const Home = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [viewMode, setViewMode] = useState("list"); // 'grid' | 'list'
   const searchRef = useRef(null);
+
+  // Precargamos el stock/precios mientras el usuario mira el inicio, para que
+  // al hacer clic en un colegio el catálogo aparezca al instante.
+  useEffect(() => {
+    fetchSheets().catch(() => {});
+  }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

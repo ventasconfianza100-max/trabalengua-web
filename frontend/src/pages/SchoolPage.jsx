@@ -214,6 +214,30 @@ const SchoolLoadingSkeleton = () => {
   );
 };
 
+// La hoja de Google devuelve el stock y precios de TODOS los colegios en una
+// sola respuesta, pero es lenta (~2-3s). La cacheamos a nivel de módulo para
+// que solo se llame una vez por sesión: el primer colegio espera la red, los
+// siguientes se muestran al instante.
+let sheetsCache = null; // { stock, precios } una vez resuelto
+let sheetsPromise = null; // promesa en vuelo para evitar llamadas duplicadas
+
+export const fetchSheets = () => {
+  if (sheetsCache) return Promise.resolve(sheetsCache);
+  if (!sheetsPromise) {
+    sheetsPromise = fetch(SHEETS_URL)
+      .then((r) => r.json())
+      .then((json) => {
+        sheetsCache = json;
+        return json;
+      })
+      .catch((err) => {
+        sheetsPromise = null; // permite reintentar tras un fallo
+        throw err;
+      });
+  }
+  return sheetsPromise;
+};
+
 const SchoolPage = () => {
   const { slug } = useParams();
   const [data, setData] = useState(null);
@@ -224,18 +248,34 @@ const SchoolPage = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    setLoading(true);
     setQuery("");
     setActiveType("all");
 
-    fetch(SHEETS_URL)
-      .then((r) => r.json())
+    // Si ya tenemos los datos en cache, mostramos sin skeleton (instantáneo).
+    if (sheetsCache) {
+      setData(buildProducts(slug, sheetsCache.stock, sheetsCache.precios));
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+
+    fetchSheets()
       .then(({ stock, precios }) => {
-        const built = buildProducts(slug, stock, precios);
-        setData(built);
+        if (cancelled) return;
+        setData(buildProducts(slug, stock, precios));
       })
-      .catch(() => setData(null))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (!cancelled) setData(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   const filtered = useMemo(() => {
