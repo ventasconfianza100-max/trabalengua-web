@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api, formatCLP, resolveImage } from "../lib/api";
+import { FadeImage } from "../components/FadeImage";
 import { useCart } from "../context/CartContext";
 import { ChevronLeft, Check, X } from "lucide-react";
 import { toast } from "sonner";
@@ -82,7 +83,7 @@ const ProductPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 grid md:grid-cols-2 gap-10 lg:gap-20">
         <div className="aspect-[4/5] bg-gray-50 border border-gray-200 overflow-hidden">
-          <img src={resolveImage(product.image_url)} alt={product.name} className="w-full h-full object-cover" data-testid="product-image" />
+          <FadeImage src={resolveImage(product.image_url)} alt={product.name} className="w-full h-full object-cover" data-testid="product-image" />
         </div>
 
         <div className="flex flex-col">

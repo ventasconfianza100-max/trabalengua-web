@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { formatCLP, resolveImage } from "../lib/api";
 import { ChevronLeft, Search, X } from "lucide-react";
 import { ProductQuickShopDialog } from "../components/ProductQuickShopDialog";
+import { FadeImage } from "../components/FadeImage";
 
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzLCfNiw7d4ihQ690DQxaGu88HGnoIh4-65O09qbDDzlI2zcBOd2OOmA9Uf3jgJfumq/exec";
 
@@ -415,7 +416,7 @@ const SchoolPage = () => {
                   data-testid={`product-card-${p.type_key}`}
                 >
                   <div className="aspect-[4/5] overflow-hidden bg-[#E8F5F0] border border-[#A8D5C2] group-hover:border-[#2ECC71] transition-colors relative">
-                    <img
+                    <FadeImage
                       src={getProductImage(p.image_url)}
                       alt={p.name}
                       className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { formatCLP, resolveImage } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
+import { FadeImage } from "@/components/FadeImage";
 import { Check, X, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
@@ -97,7 +98,7 @@ export function ProductQuickShopDialog({ product, open, onOpenChange }) {
       >
         <div className="grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:max-h-[min(85vh,800px)] sm:items-start">
           <div className="aspect-[4/5] max-h-[42vh] sm:max-h-none sm:aspect-[4/5] sm:self-start bg-gray-50 border-b sm:border-b-0 sm:border-r border-gray-200 overflow-hidden relative">
-            <img
+            <FadeImage
               src={getProductImage(product.image_url)}
               alt={product.name}
               className="w-full h-full object-cover object-top"
