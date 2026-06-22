@@ -7,6 +7,7 @@ import { CartDrawer } from "./components/CartDrawer";
 import { WhatsAppFloat } from "./components/WhatsAppFloat";
 import { WelcomeSplash } from "./components/WelcomeSplash";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/react";
 import Home from "./pages/Home";
 import SchoolPage from "./pages/SchoolPage";
 import ProductPage from "./pages/ProductPage";
@@ -91,6 +92,7 @@ function App() {
           <Shell />
         </BrowserRouter>
       </CartProvider>
+      <Analytics />
     </div>
   );
 }
