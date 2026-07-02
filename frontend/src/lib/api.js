@@ -1,20 +1,12 @@
 import axios from "axios";
 
+// El API vive en el mismo dominio como funciones serverless de Vercel
+// (frontend/api). En desarrollo, el dev server proxya /api al puerto 8000.
 const envUrl = (process.env.REACT_APP_BACKEND_URL || "").trim().replace(/\/$/, "");
-const isDev = process.env.NODE_ENV === "development";
-const isLocalHost =
-  typeof window !== "undefined" &&
-  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
-const useRelativeApi = isDev && isLocalHost && !envUrl;
+export const BACKEND_ROOT = typeof window !== "undefined" ? window.location.origin : "";
 
-export const BACKEND_ROOT = useRelativeApi
-  ? typeof window !== "undefined"
-    ? window.location.origin
-    : ""
-  : envUrl || (typeof window !== "undefined" ? window.location.origin : "");
-
-export const API = useRelativeApi ? "/api" : `${envUrl || (typeof window !== "undefined" ? window.location.origin : "")}/api`;
+export const API = "/api";
 
 export const api = axios.create({
   baseURL: API,

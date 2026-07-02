@@ -807,11 +807,13 @@ const SettingsPanel = ({ settings, onUpdated }) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setLoading(true);
-    const fd = new FormData();
-    fd.append("file", file);
     try {
-      const { data } = await api.post(endpoint, fd, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const { data } = await api.post(endpoint, file, {
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "x-filename": encodeURIComponent(file.name),
+          "x-file-type": file.type || "image/jpeg",
+        },
       });
       onUpdated(data);
       toast.success(successMsg);
@@ -1222,11 +1224,13 @@ const ProductCard = ({ product, onUpdated }) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
     try {
-      const { data } = await api.post(`/admin/products/${product.id}/image`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const { data } = await api.post(`/admin/products/${product.id}/image`, file, {
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "x-filename": encodeURIComponent(file.name),
+          "x-file-type": file.type || "image/jpeg",
+        },
       });
       onUpdated(data);
       toast.success("Imagen actualizada");

@@ -224,8 +224,14 @@ let sheetsPromise = null; // promesa en vuelo para evitar llamadas duplicadas
 export const fetchSheets = () => {
   if (sheetsCache) return Promise.resolve(sheetsCache);
   if (!sheetsPromise) {
-    sheetsPromise = fetch(SHEETS_URL)
-      .then((r) => r.json())
+    // Fuente principal: el API en Vercel (datos en Vercel Blob). Si falla,
+    // caemos al Google Sheet original como respaldo.
+    sheetsPromise = fetch("/api/sheets")
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .catch(() => fetch(SHEETS_URL).then((r) => r.json()))
       .then((json) => {
         sheetsCache = json;
         return json;
