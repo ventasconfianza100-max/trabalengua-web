@@ -2,9 +2,9 @@ import React, { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { api, formatApiError, formatCLP } from "../lib/api";
-import { CheckCircle2, Copy, Truck, Store, Info } from "lucide-react";
+import { CheckCircle2, Copy, Truck, Store, Info, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
-import { DELIVERY_FEE } from "../lib/contact";
+import { DELIVERY_FEE, waLink } from "../lib/contact";
 
 const BANK = {
   business: "TRABALENGUA SPA",
@@ -55,6 +55,7 @@ const CheckoutPage = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("pickup");
   const [submitting, setSubmitting] = useState(false);
   const [order, setOrder] = useState(null);
+  const [apiFailed, setApiFailed] = useState(false);
   const navigate = useNavigate();
 
   const deliveryFee = deliveryMethod === "delivery" ? DELIVERY_FEE : 0;
@@ -91,10 +92,30 @@ const CheckoutPage = () => {
       clear();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      toast.error(formatApiError(err, "Error al crear el pedido"));
+      // Si el pedido no viene mal armado (4xx con detalle), es un problema del
+      // servidor o de conexión: ofrecemos completar el pedido por WhatsApp.
+      const status = err?.response?.status;
+      if (!status || status >= 500 || status === 404 || status === 405) {
+        setApiFailed(true);
+        toast.error("No pudimos registrar el pedido automáticamente. Puedes enviarlo por WhatsApp.");
+      } else {
+        toast.error(formatApiError(err, "Error al crear el pedido"));
+      }
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const whatsappOrderUrl = () => {
+    const lineas = items
+      .map((i) => `• ${i.school_name} — ${i.product_name} · Talla ${i.size} × ${i.quantity} (${formatCLP(i.unit_price * i.quantity)})`)
+      .join("\n");
+    const entrega = deliveryMethod === "delivery" ? `Delivery (+${formatCLP(DELIVERY_FEE)})` : "Retiro en tienda";
+    const mensaje =
+      `Hola! Quiero hacer un pedido de Trabalengua 🧵\n\n` +
+      `Nombre: ${form.customer_name}\nWhatsApp: ${form.whatsapp}\nEmail: ${form.email}\n\n` +
+      `${lineas}\n\nEntrega: ${entrega}\nTotal: ${formatCLP(finalTotal)}`;
+    return waLink(mensaje);
   };
 
   // Confirmation screen
@@ -146,6 +167,25 @@ const CheckoutPage = () => {
       <h1 className="mt-2 font-display text-3xl md:text-5xl font-semibold tracking-tight">
         Finaliza tu compra
       </h1>
+
+      {apiFailed && (
+        <div className="mt-6 border border-emerald-200 bg-emerald-50 p-5 md:p-6" data-testid="wa-fallback-panel">
+          <p className="font-medium text-emerald-900">Tu pedido no se pudo registrar automáticamente</p>
+          <p className="mt-1 text-sm text-emerald-800">
+            No te preocupes: envíalo por WhatsApp con un clic. El mensaje ya incluye todos los detalles de tu compra
+            y te confirmaremos por esa vía.
+          </p>
+          <a
+            href={whatsappOrderUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-3 text-sm font-semibold rounded-sm hover:brightness-95"
+            data-testid="wa-fallback-btn"
+          >
+            <MessageCircle size={16} /> Enviar pedido por WhatsApp
+          </a>
+        </div>
+      )}
 
       <div className="mt-8 md:mt-10 grid md:grid-cols-5 gap-8 md:gap-10">
         {/* LEFT: FORM */}
