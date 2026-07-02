@@ -17,6 +17,12 @@ import {
   Truck,
   Image as ImageIcon,
   Settings as SettingsIcon,
+  DollarSign,
+  TrendingUp,
+  Download,
+  MessageCircle,
+  Search,
+  Clock,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
@@ -37,6 +43,13 @@ const STATUS_OPTIONS = [
   { v: "delivered", label: "Entregado" },
   { v: "cancelled", label: "Cancelado" },
 ];
+
+const STATUS_BADGE = {
+  pending: "bg-amber-100 text-amber-700",
+  paid: "bg-blue-100 text-blue-700",
+  delivered: "bg-emerald-100 text-emerald-700",
+  cancelled: "bg-gray-200 text-gray-500",
+};
 
 const SIZES = ["4", "6", "8", "10", "12", "14", "16", "S", "M", "L", "XL"];
 
@@ -157,6 +170,84 @@ const AdminDashboard = () => {
     const outOfStock = filteredProducts.filter((p) => sumFor(p) === 0).length;
     return { totalStock, lowStock, outOfStock, productCount: filteredProducts.length };
   }, [filteredProducts, sizeFilter]);
+
+  // --- Estadísticas de ventas (pedidos activos, excluyendo cancelados) ---
+  const salesStats = useMemo(() => {
+    const valid = orders.filter((o) => o.status !== "cancelled");
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const days7 = new Date(startOfDay.getTime() - 6 * 86400000);
+    const days30 = new Date(startOfDay.getTime() - 29 * 86400000);
+
+    let today = 0, week = 0, month = 0, total = 0;
+    const byDay = new Map();
+    const productAgg = new Map();
+
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(days30.getTime() + i * 86400000);
+      byDay.set(d.toISOString().slice(0, 10), 0);
+    }
+
+    valid.forEach((o) => {
+      const d = new Date(o.created_at);
+      const amount = o.total || 0;
+      total += amount;
+      if (d >= startOfDay) today += amount;
+      if (d >= days7) week += amount;
+      if (d >= days30) {
+        month += amount;
+        const key = d.toISOString().slice(0, 10);
+        if (byDay.has(key)) byDay.set(key, byDay.get(key) + amount);
+      }
+      (o.items || []).forEach((it) => {
+        const k = `${it.school_name} · ${it.product_name}`;
+        const cur = productAgg.get(k) || { name: k, qty: 0, revenue: 0 };
+        cur.qty += it.quantity;
+        cur.revenue += (it.subtotal != null ? it.subtotal : it.unit_price * it.quantity) || 0;
+        productAgg.set(k, cur);
+      });
+    });
+
+    const dailyRevenue = Array.from(byDay.entries()).map(([date, revenue]) => ({
+      date,
+      label: new Date(date + "T12:00:00").toLocaleDateString("es-CL", { day: "2-digit", month: "short" }),
+      revenue,
+    }));
+
+    const topProducts = Array.from(productAgg.values())
+      .sort((a, b) => b.qty - a.qty)
+      .slice(0, 8);
+
+    const statusCounts = STATUS_OPTIONS.map((s) => ({
+      status: s.label,
+      v: s.v,
+      count: orders.filter((o) => o.status === s.v).length,
+    }));
+
+    const pending = orders.filter((o) => o.status === "pending").length;
+    const avgTicket = valid.length ? Math.round(total / valid.length) : 0;
+
+    return { today, week, month, total, dailyRevenue, topProducts, statusCounts, pending, avgTicket, orderCount: valid.length };
+  }, [orders]);
+
+  // Alertas de stock bajo (todas las prendas, sin filtros)
+  const lowStockAlerts = useMemo(() => {
+    const alerts = [];
+    products.forEach((p) => {
+      (p.sizes || []).forEach((s) => {
+        if (s.stock <= 3) {
+          alerts.push({
+            id: `${p.id}-${s.size}`,
+            school: p.school_name,
+            product: p.name,
+            size: s.size,
+            stock: s.stock,
+          });
+        }
+      });
+    });
+    return alerts.sort((a, b) => a.stock - b.stock).slice(0, 30);
+  }, [products]);
 
   const updateStatus = async (id, status) => {
     try {
@@ -286,13 +377,18 @@ const AdminDashboard = () => {
         )}
       </div>
 
-      <Tabs defaultValue="inventory" className="mt-6">
+      <Tabs defaultValue="dashboard" className="mt-6">
         <TabsList className="bg-gray-100 border border-gray-200 rounded-sm flex-wrap h-auto" data-testid="admin-tabs">
+          <TabsTrigger value="dashboard" className="rounded-sm gap-2" data-testid="tab-dashboard">
+            <BarChart3 size={14} /> Ventas
+            {salesStats.pending > 0 && (
+              <span className="ml-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF4D4D] text-white text-[10px] font-bold">
+                {salesStats.pending}
+              </span>
+            )}
+          </TabsTrigger>
           <TabsTrigger value="inventory" className="rounded-sm gap-2" data-testid="tab-inventory">
             <Warehouse size={14} /> Inventario
-          </TabsTrigger>
-          <TabsTrigger value="dashboard" className="rounded-sm gap-2" data-testid="tab-dashboard">
-            <BarChart3 size={14} /> Resumen
           </TabsTrigger>
           <TabsTrigger value="products" className="rounded-sm gap-2" data-testid="tab-products">
             <Package size={14} /> Productos ({filteredProducts.length})
@@ -403,32 +499,113 @@ const AdminDashboard = () => {
           />
         </TabsContent>
 
-        {/* RESUMEN */}
+        {/* VENTAS */}
         <TabsContent value="dashboard" className="mt-6 space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard label="Productos (filtro)" value={totals.productCount} />
+            <StatCard label="Ventas hoy" value={formatCLP(salesStats.today)} icon={<DollarSign size={14} />} />
+            <StatCard label="Últimos 7 días" value={formatCLP(salesStats.week)} icon={<TrendingUp size={14} />} />
+            <StatCard label="Últimos 30 días" value={formatCLP(salesStats.month)} icon={<TrendingUp size={14} />} />
             <StatCard
-              label={sizeFilter === "all" ? "Stock total" : `Stock talla ${sizeFilter}`}
-              value={totals.totalStock}
-            />
-            <StatCard
-              label={sizeFilter === "all" ? "Stock bajo (<10)" : `Stock bajo talla ${sizeFilter}`}
-              value={totals.lowStock}
-              accent={totals.lowStock > 0 ? "text-amber-600" : ""}
-            />
-            <StatCard
-              label={sizeFilter === "all" ? "Sin stock" : `Sin stock talla ${sizeFilter}`}
-              value={totals.outOfStock}
-              accent={totals.outOfStock > 0 ? "text-[#FF4D4D]" : ""}
+              label="Pedidos pendientes"
+              value={salesStats.pending}
+              icon={<Clock size={14} />}
+              accent={salesStats.pending > 0 ? "text-amber-600" : ""}
             />
           </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <StatCard label="Ventas totales" value={formatCLP(salesStats.total)} />
+            <StatCard label="Pedidos válidos" value={salesStats.orderCount} />
+            <StatCard label="Ticket promedio" value={formatCLP(salesStats.avgTicket)} />
+          </div>
 
-          <div className="border border-gray-200 bg-white p-6 text-sm text-gray-600">
-            <p className="font-medium text-gray-900">Gestión de stock</p>
-            <p className="mt-2">
-              Usa la pestaña <strong>Inventario</strong> para ver las gráficas, filtrar por colegio, prenda y talla, y
-              editar cantidades en la misma vista. Los pedidos se administran en <strong>Pedidos</strong>.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="border border-gray-200 p-4 md:p-6 bg-white" data-testid="sales-daily-chart">
+              <p className="eyebrow">Ventas por día (últimos 30 días)</p>
+              <p className="mt-1 text-xs text-gray-500">Total en pesos de pedidos no cancelados.</p>
+              <div className="mt-6 h-[280px]">
+                <ResponsiveContainer>
+                  <BarChart data={salesStats.dailyRevenue} margin={{ left: 8, right: 8, top: 8, bottom: 8 }}>
+                    <CartesianGrid strokeDasharray="2 2" stroke="#E5E7EB" vertical={false} />
+                    <XAxis dataKey="label" stroke="#6B7280" fontSize={10} tickLine={false} interval={4} />
+                    <YAxis
+                      stroke="#9CA3AF"
+                      fontSize={10}
+                      tickFormatter={(v) => (v >= 1000 ? `${Math.round(v / 1000)}k` : v)}
+                    />
+                    <Tooltip
+                      contentStyle={{ border: "1px solid #E5E7EB", borderRadius: 2, fontSize: 12 }}
+                      formatter={(v) => [formatCLP(v), "Ventas"]}
+                    />
+                    <Bar dataKey="revenue" fill="#0A0A0A" radius={[3, 3, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="border border-gray-200 p-4 md:p-6 bg-white" data-testid="top-products-card">
+              <p className="eyebrow">Productos más vendidos</p>
+              <p className="mt-1 text-xs text-gray-500">Por unidades vendidas (histórico, sin cancelados).</p>
+              {salesStats.topProducts.length === 0 ? (
+                <p className="mt-8 text-sm text-gray-500 py-12 text-center border border-dashed border-gray-200">
+                  Aún no hay ventas registradas.
+                </p>
+              ) : (
+                <div className="mt-4 divide-y divide-gray-100">
+                  {salesStats.topProducts.map((tp, i) => (
+                    <div key={tp.name} className="flex items-center justify-between py-2.5 text-sm gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="w-6 h-6 shrink-0 inline-flex items-center justify-center rounded-full bg-gray-100 text-[11px] font-bold text-gray-600">
+                          {i + 1}
+                        </span>
+                        <span className="truncate">{tp.name}</span>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="font-semibold">{tp.qty} u.</p>
+                        <p className="text-[11px] text-gray-500">{formatCLP(tp.revenue)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="border border-gray-200 p-4 md:p-6 bg-white" data-testid="status-summary-card">
+              <p className="eyebrow">Pedidos por estado</p>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                {salesStats.statusCounts.map((s) => (
+                  <div key={s.v} className="border border-gray-100 p-3 flex items-center justify-between">
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_BADGE[s.v] || "bg-gray-100 text-gray-600"}`}>
+                      {s.status}
+                    </span>
+                    <span className="font-display text-xl font-semibold">{s.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="border border-gray-200 p-4 md:p-6 bg-white" data-testid="low-stock-alerts-card">
+              <p className="eyebrow flex items-center gap-2">
+                <AlertTriangle size={13} className="text-amber-500" /> Alertas de stock crítico (≤3)
+              </p>
+              {lowStockAlerts.length === 0 ? (
+                <p className="mt-4 text-sm text-emerald-600">Todo el inventario está sobre el mínimo. ✓</p>
+              ) : (
+                <div className="mt-3 max-h-[260px] overflow-y-auto divide-y divide-gray-100">
+                  {lowStockAlerts.map((a) => (
+                    <div key={a.id} className="flex items-center justify-between py-2 text-xs gap-3">
+                      <span className="truncate">
+                        <span className="text-gray-500">{a.school}</span> · <strong>{a.product}</strong> — Talla {a.size}
+                      </span>
+                      <span className={`shrink-0 font-bold px-2 py-0.5 rounded-sm ${a.stock === 0 ? "bg-black text-white" : "bg-[#FF4D4D]/10 text-[#FF4D4D]"}`}>
+                        {a.stock === 0 ? "Agotado" : `${a.stock} u.`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </TabsContent>
 
@@ -777,17 +954,108 @@ const ImageSettingCard = ({
   </div>
 );
 
-const StatCard = ({ label, value, accent = "" }) => (
+const StatCard = ({ label, value, accent = "", icon = null }) => (
   <div className="border border-gray-200 p-4 md:p-5 bg-white">
-    <p className="eyebrow">{label}</p>
-    <p className={`font-display text-3xl font-semibold mt-2 ${accent}`}>{value}</p>
+    <p className="eyebrow flex items-center gap-1.5">{icon}{label}</p>
+    <p className={`font-display text-2xl md:text-3xl font-semibold mt-2 ${accent}`}>{value}</p>
   </div>
 );
 
+const exportOrdersCSV = (orders) => {
+  const header = ["Fecha", "N° Pedido", "Cliente", "WhatsApp", "Email", "Productos", "Entrega", "Total", "Estado"];
+  const statusLabel = (v) => STATUS_OPTIONS.find((s) => s.v === v)?.label || v;
+  const rows = orders.map((o) => [
+    new Date(o.created_at).toLocaleString("es-CL"),
+    `#${o.id.slice(0, 8).toUpperCase()}`,
+    o.customer_name,
+    o.whatsapp,
+    o.email,
+    (o.items || []).map((it) => `${it.school_name} - ${it.product_name} T.${it.size} x${it.quantity}`).join(" | "),
+    (o.delivery_method || "pickup") === "pickup" ? "Retiro" : "Delivery",
+    o.total,
+    statusLabel(o.status),
+  ]);
+  const escape = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const csv = "﻿" + [header, ...rows].map((r) => r.map(escape).join(";")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `pedidos-trabalengua-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+const waLink = (phone) => {
+  const digits = String(phone || "").replace(/\D/g, "");
+  if (!digits) return null;
+  return `https://wa.me/${digits.length <= 9 ? "56" + digits : digits}`;
+};
+
 const OrdersTable = ({ orders, onStatusChange, onDelete, onRestore, onHardDelete, emptyMsg, mode }) => {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return orders.filter((o) => {
+      if (statusFilter !== "all" && o.status !== statusFilter) return false;
+      if (!q) return true;
+      const haystack = [
+        o.customer_name,
+        o.email,
+        o.whatsapp,
+        o.id.slice(0, 8),
+        ...(o.items || []).flatMap((it) => [it.product_name, it.school_name]),
+      ].join(" ").toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [orders, search, statusFilter]);
+
   if (orders.length === 0)
     return <p className="text-gray-500 py-12 text-center border border-dashed border-gray-200" data-testid="no-orders">{emptyMsg}</p>;
   return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="relative">
+          <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar cliente, teléfono, producto..."
+            className="border border-gray-300 pl-8 pr-3 py-2 text-sm w-64 focus:outline-none focus:border-black rounded-sm"
+            data-testid="orders-search-input"
+          />
+        </div>
+        {mode === "active" && (
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-black rounded-sm"
+            data-testid="orders-status-filter"
+          >
+            <option value="all">Todos los estados</option>
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s.v} value={s.v}>{s.label}</option>
+            ))}
+          </select>
+        )}
+        <span className="text-xs text-gray-500">{filtered.length} de {orders.length} pedidos</span>
+        {mode === "active" && (
+          <button
+            onClick={() => exportOrdersCSV(filtered)}
+            className="ml-auto inline-flex items-center gap-1.5 border border-gray-300 px-3 py-2 text-xs font-medium hover:bg-gray-50 rounded-sm"
+            data-testid="orders-export-csv"
+          >
+            <Download size={13} /> Exportar CSV
+          </button>
+        )}
+      </div>
+      {filtered.length === 0 ? (
+        <p className="text-gray-500 py-12 text-center border border-dashed border-gray-200">
+          Ningún pedido coincide con la búsqueda.
+        </p>
+      ) : (
     <div className="border border-gray-200 overflow-x-auto" data-testid={`orders-table-${mode}`}>
       <table className="w-full text-sm">
         <thead className="bg-gray-50 border-b border-gray-200">
@@ -803,7 +1071,7 @@ const OrdersTable = ({ orders, onStatusChange, onDelete, onRestore, onHardDelete
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {orders.map((o) => (
+          {filtered.map((o) => (
             <tr key={o.id} data-testid={`order-row-${o.id}`}>
               <td className="p-3 text-xs text-gray-600 whitespace-nowrap align-top">
                 {new Date(o.created_at).toLocaleString("es-CL")}
@@ -813,7 +1081,21 @@ const OrdersTable = ({ orders, onStatusChange, onDelete, onRestore, onHardDelete
                 <p className="text-xs text-gray-500">#{o.id.slice(0, 8).toUpperCase()}</p>
               </td>
               <td className="p-3 align-top">
-                <p className="text-xs">{o.whatsapp}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-xs">{o.whatsapp}</p>
+                  {waLink(o.whatsapp) && (
+                    <a
+                      href={waLink(o.whatsapp)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-600 hover:text-emerald-700"
+                      title="Abrir chat de WhatsApp"
+                      data-testid={`order-wa-${o.id}`}
+                    >
+                      <MessageCircle size={14} />
+                    </a>
+                  )}
+                </div>
                 <p className="text-xs text-gray-500">{o.email}</p>
               </td>
               <td className="p-3 align-top">
@@ -887,6 +1169,8 @@ const OrdersTable = ({ orders, onStatusChange, onDelete, onRestore, onHardDelete
           ))}
         </tbody>
       </table>
+    </div>
+      )}
     </div>
   );
 };
